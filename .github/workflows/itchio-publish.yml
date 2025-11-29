@@ -1,0 +1,45 @@
+name: Publish to Itch.io
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      ITCHIO_USERNAME: urgirlkiri
+      ITCHIO_GAME: godot-itch-workflow-template
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4 
+
+      - name: Godot Export
+        id: export
+        uses: firebelley/godot-export@v5.2.1
+        with:
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.5.1-stable/Godot_v4.5.1-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.5.1-stable/Godot_v4.5.1-stable_export_templates.tpz
+          relative_project_path: ./
+          archive_output: true
+          cache: true
+
+      # - name: Debug Export Output
+      #   run: |
+      #     echo "Export directory: ${{ steps.export.outputs.archive_directory }}"
+      #     ls -la ${{ steps.export.outputs.archive_directory }}
+          
+      - name: Copy Web Build to Workspace
+        run: |
+          mkdir -p ./build
+          cp ${{ steps.export.outputs.archive_directory }}/web-build.zip ./build/
+
+      - name: Publish to Itch.io
+        uses: robpc/itchio-upload-action@v1
+        with:
+          path: ./build/web-build.zip
+          project: ${{ env.ITCHIO_USERNAME }}/${{ env.ITCHIO_GAME }}
+          channel: web
+          version: ${{ github.ref_name }}
+          api-key: ${{ secrets.ITCHIO_TOKEN }}
