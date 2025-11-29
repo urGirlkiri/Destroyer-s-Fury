@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ITCHIO_USERNAME: urgirlkiri
-      ITCHIO_GAME: godot-itch-workflow-template
+      ITCHIO_GAME: destoryers-fury
 
     steps:
       - name: Checkout source code
