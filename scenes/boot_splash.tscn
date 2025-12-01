@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cy3n8bsqtiltw"]
+[gd_scene load_steps=7 format=3 uid="uid://cy3n8bsqtiltw"]
 
 [ext_resource type="Script" uid="uid://c4mb46cyac4r" path="res://scripts/boot_splash.gd" id="1_tm2xg"]
 [ext_resource type="Texture2D" uid="uid://cwctwgw4ieo1r" path="res://assets/images/frame.png" id="3_7fg05"]
 [ext_resource type="Texture2D" uid="uid://duu2if8tod1jf" path="res://assets/images/progress.png" id="4_71hcm"]
+[ext_resource type="Texture2D" uid="uid://bbdkg7e7jqix1" path="res://assets/images/head.png" id="4_vv5pj"]
 [ext_resource type="Texture2D" uid="uid://e51ecjinfth4" path="res://assets/images/cov.png" id="5_71hcm"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7fg05"]
@@ -47,6 +48,15 @@ step = 0.0
 value = 30.0
 texture_over = ExtResource("3_7fg05")
 texture_progress = ExtResource("4_71hcm")
+
+[node name="Glowhead" type="TextureRect" parent="ProgressBar"]
+layout_mode = 0
+offset_left = -239.5
+offset_top = -365.0
+offset_right = -191.5
+offset_bottom = -337.0
+pivot_offset = Vector2(14, 14)
+texture = ExtResource("4_vv5pj")
 
 [node name="Watermark" type="TextureRect" parent="."]
 modulate = Color(0.6052741, 0.60527444, 0.6052743, 1)
