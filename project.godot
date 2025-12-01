@@ -10,9 +10,10 @@ config_version=5
 
 [application]
 
-config/name="godot-itch-workflow-template"
-run/main_scene="uid://c2g0pw5amocod"
+config/name="Destroyer's Fury"
+run/main_scene="uid://cy3n8bsqtiltw"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/use_filter=false
 config/icon="res://icon.svg"
 
 [editor_plugins]
