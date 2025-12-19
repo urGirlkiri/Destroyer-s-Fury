@@ -10,6 +10,10 @@ func _ready():
 	target = get_tree().get_first_node_in_group("Destroyer")
 	
 	linear_velocity = get_direction_to_target() * movement_speed
+	
+func _process(_delta: float) -> void:
+	if health <= 0:
+		die()
 
 func get_direction_to_target() -> Vector2:
 	if target:

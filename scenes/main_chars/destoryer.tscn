@@ -41,7 +41,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_26om0"]
 radius = 67.0
 
-[node name="Destoryer" type="StaticBody2D"]
+[node name="Destoryer" type="StaticBody2D" groups=["Destroyer"]]
 z_index = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

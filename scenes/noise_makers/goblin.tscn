@@ -1,6 +1,7 @@
-[gd_scene load_steps=44 format=3 uid="uid://c6mwmqi5mhmck"]
+[gd_scene load_steps=46 format=3 uid="uid://c6mwmqi5mhmck"]
 
 [ext_resource type="PackedScene" uid="uid://hnwqn3dquc5n" path="res://scenes/noise_makers/noise_maker.tscn" id="1_qwv5q"]
+[ext_resource type="Script" uid="uid://b07nlfkb3d5l1" path="res://scripts/goblin.gd" id="2_b5ga2"]
 [ext_resource type="Texture2D" uid="uid://bgl7ackgqtkqv" path="res://assets/sprites/goblin.png" id="2_r2jbm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwgt5"]
@@ -115,6 +116,26 @@ region = Rect2(800, 400, 200, 200)
 atlas = ExtResource("2_r2jbm")
 region = Rect2(1000, 400, 200, 200)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_r2jbm"]
+atlas = ExtResource("2_r2jbm")
+region = Rect2(0, 1000, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sy6sa"]
+atlas = ExtResource("2_r2jbm")
+region = Rect2(1200, 800, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5m70"]
+atlas = ExtResource("2_r2jbm")
+region = Rect2(1000, 800, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlct2"]
+atlas = ExtResource("2_r2jbm")
+region = Rect2(800, 800, 200, 200)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbt0d"]
+atlas = ExtResource("2_r2jbm")
+region = Rect2(600, 800, 200, 200)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_b5ga2"]
 atlas = ExtResource("2_r2jbm")
 region = Rect2(0, 1000, 200, 200)
@@ -142,26 +163,6 @@ region = Rect2(1000, 1000, 200, 200)
 [sub_resource type="AtlasTexture" id="AtlasTexture_j1s5u"]
 atlas = ExtResource("2_r2jbm")
 region = Rect2(1200, 1000, 200, 200)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r2jbm"]
-atlas = ExtResource("2_r2jbm")
-region = Rect2(0, 1000, 200, 200)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sy6sa"]
-atlas = ExtResource("2_r2jbm")
-region = Rect2(1200, 800, 200, 200)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_n5m70"]
-atlas = ExtResource("2_r2jbm")
-region = Rect2(1000, 800, 200, 200)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xlct2"]
-atlas = ExtResource("2_r2jbm")
-region = Rect2(800, 800, 200, 200)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gbt0d"]
-atlas = ExtResource("2_r2jbm")
-region = Rect2(600, 800, 200, 200)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_qwv5q"]
 animations = [{
@@ -274,6 +275,26 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_r2jbm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sy6sa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5m70")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xlct2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbt0d")
+}],
+"loop": true,
+"name": &"lookLeft",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_b5ga2")
 }, {
 "duration": 1.0,
@@ -295,34 +316,24 @@ animations = [{
 "texture": SubResource("AtlasTexture_j1s5u")
 }],
 "loop": true,
-"name": &"listenLeft",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r2jbm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sy6sa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_n5m70")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xlct2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gbt0d")
-}],
-"loop": true,
-"name": &"listenRight",
+"name": &"lookRight",
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b5ga2"]
+size = Vector2(40, 59)
+
 [node name="Goblin" instance=ExtResource("1_qwv5q")]
+script = ExtResource("2_b5ga2")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
+scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_qwv5q")
-animation = &"idle"
+animation = &"lookRight"
 autoplay = "idle"
-frame_progress = 0.96037334
+frame = 5
+frame_progress = 0.5125136
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
+position = Vector2(-1, 15)
+shape = SubResource("RectangleShape2D_b5ga2")

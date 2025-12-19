@@ -120,6 +120,7 @@ position = Vector2(1082, 518)
 
 [node name="Goblin6" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1059, 467)
+gravity_scale = 0.0
 
 [node name="Goblin7" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1031, 586)
