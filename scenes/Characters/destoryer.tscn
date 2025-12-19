@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://db51sdag4n5ka"]
+
+[ext_resource type="Texture2D" uid="uid://cemlj6ehvub7p" path="res://assets/sprites/destoryer.png" id="1_26om0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8xvg0"]
+atlas = ExtResource("1_26om0")
+region = Rect2(0, 0, 94, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0awhp"]
+atlas = ExtResource("1_26om0")
+region = Rect2(94, 0, 94, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thnmm"]
+atlas = ExtResource("1_26om0")
+region = Rect2(388, 0, 97, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjcst"]
+atlas = ExtResource("1_26om0")
+region = Rect2(485, 0, 97, 121)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4u8x8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8xvg0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0awhp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_thnmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mjcst")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_26om0"]
+radius = 67.0
+
+[node name="Destoryer" type="RigidBody2D"]
+z_index = 1
+gravity_scale = 0.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.7, 1.7)
+sprite_frames = SubResource("SpriteFrames_4u8x8")
+autoplay = "default"
+frame_progress = 0.17215775
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 5)
+shape = SubResource("CircleShape2D_26om0")

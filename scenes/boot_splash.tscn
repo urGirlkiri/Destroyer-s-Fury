@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cy3n8bsqtiltw"]
+[gd_scene load_steps=6 format=3 uid="uid://cy3n8bsqtiltw"]
 
 [ext_resource type="Script" uid="uid://c4mb46cyac4r" path="res://scripts/boot_splash.gd" id="1_tm2xg"]
 [ext_resource type="Texture2D" uid="uid://cwctwgw4ieo1r" path="res://assets/images/frame.png" id="3_7fg05"]
 [ext_resource type="Texture2D" uid="uid://duu2if8tod1jf" path="res://assets/images/progress.png" id="4_71hcm"]
 [ext_resource type="Texture2D" uid="uid://bbdkg7e7jqix1" path="res://assets/images/head.png" id="4_vv5pj"]
-[ext_resource type="Texture2D" uid="uid://e51ecjinfth4" path="res://assets/images/cov.png" id="5_71hcm"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7fg05"]
 load_path = "res://.godot/imported/boot.png-a0b4a2d66da15dc4e6e058376a344305.ctex"
@@ -57,20 +56,3 @@ offset_right = -191.5
 offset_bottom = -337.0
 pivot_offset = Vector2(14, 14)
 texture = ExtResource("4_vv5pj")
-
-[node name="Watermark" type="TextureRect" parent="."]
-modulate = Color(0.6052741, 0.60527444, 0.6052743, 1)
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -66.0
-offset_top = -70.0
-offset_right = -22.0
-offset_bottom = -27.0
-grow_horizontal = 0
-grow_vertical = 0
-texture = ExtResource("5_71hcm")
-expand_mode = 1

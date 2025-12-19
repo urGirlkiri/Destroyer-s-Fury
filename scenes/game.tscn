@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtkxfqikwcg8l"]
+
+[ext_resource type="Texture2D" uid="uid://2gedry0cgpqj" path="res://assets/images/cover.png" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://db51sdag4n5ka" path="res://scenes/Characters/destoryer.tscn" id="2_yqjtg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqjtg"]
+bg_color = Color(0.08540394, 0.10813906, 0.3698298, 0.63529414)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
+radius = 118.20744
+
+[node name="Game" type="Node2D"]
+
+[node name="BgLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="TextureRect" type="TextureRect" parent="BgLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_uwrxv")
+expand_mode = 1
+
+[node name="GameInfoLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="GameInfoLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -96.0
+offset_right = 126.5
+offset_bottom = 49.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.6378432, 0.6378432, 0.63784313, 1)
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_yqjtg")
+text = "NAP Meter"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="GameInfoLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -208.0
+offset_top = 53.0
+offset_right = 206.0
+offset_bottom = 107.0
+grow_horizontal = 2
+value = 100.0
+show_percentage = false
+
+[node name="QuietArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="QuietArea"]
+position = Vector2(591, 322)
+shape = SubResource("CircleShape2D_yqjtg")
+
+[node name="Destoryer" parent="." instance=ExtResource("2_yqjtg")]
+modulate = Color(0.89926594, 0.8992556, 0.89925796, 1)
+position = Vector2(591, 315)

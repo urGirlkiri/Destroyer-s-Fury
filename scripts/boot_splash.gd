@@ -1,6 +1,6 @@
 extends Control
 
-const MAIN_GAME_SCENE = preload("uid://c2g0pw5amocod")
+const MAIN_GAME_SCENE = preload("uid://dtkxfqikwcg8l")
 
 @export var fade_duration: float = 0.5
 
