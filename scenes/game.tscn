@@ -26,7 +26,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
-radius = 118.20744
+radius = 160.0125
 
 [node name="Game" type="Node2D"]
 

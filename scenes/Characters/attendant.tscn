@@ -1,10 +1,43 @@
-[gd_scene load_steps=31 format=3 uid="uid://duv67hnn6mr8a"]
+[gd_scene load_steps=32 format=3 uid="uid://duv67hnn6mr8a"]
 
 [ext_resource type="Texture2D" uid="uid://dywj6wc8wolqu" path="res://assets/sprites/whis.png" id="1_ainqp"]
 
+[sub_resource type="GDScript" id="GDScript_ainqp"]
+script/source = "extends CharacterBody2D
+
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+const SPEED = 300.0
+
+func _physics_process(delta: float) -> void:
+
+	var direction := Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
+	
+	if direction:
+		velocity = direction * SPEED
+	else:
+		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
+
+	update_animation(direction)
+
+	move_and_slide()
+
+func update_animation(direction: Vector2):
+	if direction != Vector2.ZERO:
+		animated_sprite.play(\"move\")
+		
+		if direction.x < 0:
+			animated_sprite.flip_h = true  # Face Left
+		elif direction.x > 0:
+			animated_sprite.flip_h = false # Face Right
+			
+	else:
+		animated_sprite.play(\"idle\")
+"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_757k1"]
 atlas = ExtResource("1_ainqp")
-region = Rect2(132, 73, 33, 73)
+region = Rect2(83, 77, 80, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_73joa"]
 atlas = ExtResource("1_ainqp")
@@ -261,10 +294,10 @@ animations = [{
 }]
 
 [node name="Attendant" type="CharacterBody2D"]
-motion_mode = 1
+script = SubResource("GDScript_ainqp")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n231r")
-animation = &"move"
+animation = &"standing"
 autoplay = "idle"
-frame_progress = 0.19845925
+frame_progress = 0.32992217
