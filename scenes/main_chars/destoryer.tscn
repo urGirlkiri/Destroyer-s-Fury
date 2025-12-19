@@ -1,6 +1,47 @@
-[gd_scene load_steps=8 format=3 uid="uid://db51sdag4n5ka"]
+[gd_scene load_steps=19 format=3 uid="uid://db51sdag4n5ka"]
 
 [ext_resource type="Texture2D" uid="uid://cemlj6ehvub7p" path="res://assets/sprites/destoryer.png" id="1_26om0"]
+[ext_resource type="Script" uid="uid://bjqmi52q66mkp" path="res://scripts/characters/destoryer.gd" id="1_076mu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_076mu"]
+atlas = ExtResource("1_26om0")
+region = Rect2(101, 0, 82, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_micp4"]
+atlas = ExtResource("1_26om0")
+region = Rect2(184, 0, 112, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_npsf0"]
+atlas = ExtResource("1_26om0")
+region = Rect2(291, 0, 97, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_njd6h"]
+atlas = ExtResource("1_26om0")
+region = Rect2(485, 0, 97, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tlisi"]
+atlas = ExtResource("1_26om0")
+region = Rect2(582, 0, 97, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gf4p7"]
+atlas = ExtResource("1_26om0")
+region = Rect2(97, 121, 97, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_baqb5"]
+atlas = ExtResource("1_26om0")
+region = Rect2(388, 121, 97, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3848u"]
+atlas = ExtResource("1_26om0")
+region = Rect2(291, 121, 97, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ku68k"]
+atlas = ExtResource("1_26om0")
+region = Rect2(194, 121, 97, 121)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wwgu"]
+atlas = ExtResource("1_26om0")
+region = Rect2(582, 121, 97, 121)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8xvg0"]
 atlas = ExtResource("1_26om0")
@@ -22,6 +63,57 @@ region = Rect2(485, 0, 97, 121)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_076mu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_micp4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_npsf0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njd6h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tlisi")
+}],
+"loop": true,
+"name": &"agitated",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_njd6h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tlisi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gf4p7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_baqb5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3848u")
+}],
+"loop": true,
+"name": &"awake",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ku68k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wwgu")
+}],
+"loop": true,
+"name": &"fury",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_8xvg0")
 }, {
 "duration": 1.0,
@@ -34,7 +126,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_mjcst")
 }],
 "loop": true,
-"name": &"default",
+"name": &"sleep",
 "speed": 5.0
 }]
 
@@ -43,12 +135,13 @@ radius = 67.0
 
 [node name="Destoryer" type="StaticBody2D" groups=["Destroyer"]]
 z_index = 1
+script = ExtResource("1_076mu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.7, 1.7)
 sprite_frames = SubResource("SpriteFrames_4u8x8")
-autoplay = "default"
-frame_progress = 0.1522397
+animation = &"awake"
+autoplay = "sleep"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, 5)

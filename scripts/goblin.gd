@@ -3,7 +3,6 @@ extends NoiseMaker
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 var zig_zag_strength = 2.0 
-var has_target = false
 var time_alive = 0.0
 
 func _ready():
@@ -15,8 +14,10 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	time_alive += delta
 	
-	var direction = get_direction_to_target()
+	var distance_to_target = global_position.distance_to(target.global_position)
 	
+	var direction = get_direction_to_target()
+		
 	var zig_zag = direction.orthogonal() * sin(time_alive * 10.0) * zig_zag_strength
 	
 	var final_velocity = (direction + zig_zag).normalized() * movement_speed
@@ -27,6 +28,11 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.flip_h = true
 	else:
 		animated_sprite.flip_h = false
+	
+	if distance_to_target <= 0:
+		animated_sprite.play('attack')
+		await animated_sprite.animation_finished
+		GameManager.current_noise_level += 15
 	
 func die():
 	linear_velocity = Vector2.ZERO

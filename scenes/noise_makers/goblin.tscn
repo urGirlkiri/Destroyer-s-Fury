@@ -323,16 +323,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b5ga2"]
 size = Vector2(40, 59)
 
-[node name="Goblin" instance=ExtResource("1_qwv5q")]
+[node name="Goblin" groups=["goblins", "noise_maker"] instance=ExtResource("1_qwv5q")]
 script = ExtResource("2_b5ga2")
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_qwv5q")
-animation = &"lookRight"
+animation = &"attack"
 autoplay = "idle"
-frame = 5
-frame_progress = 0.5125136
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." index="1"]
 position = Vector2(-1, 15)

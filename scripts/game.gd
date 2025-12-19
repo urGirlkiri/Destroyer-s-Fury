@@ -1,18 +1,52 @@
 extends Node2D
 
 @onready var nap_meter: ProgressBar = $GameInfoLayer/NapMeter
+@onready var lord: Node2D = $Destoryer 
 
-var nap_level = 5
+var nap_level = 50.0
+var is_agitated = false 
 
 func _physics_process(delta: float) -> void:
+
+	if is_agitated:
+		return
+
+	var current_noise = 0.0
+
+	for goblin in get_tree().get_nodes_in_group('goblins'):
+		var dist = goblin.global_position.distance_to(lord.global_position)
+		current_noise += 5000.0 / clamp(dist, 10.0, 2000.0)
 	
-	if (GameManager.current_noise_level <= 25):
-		nap_level += delta
+	GameManager.current_noise_level = current_noise
+
+	if current_noise <= 25:
+		nap_level += 10.0 * delta 
 	else:
-		nap_level -= delta
-		
+		nap_level -= 5.0 * delta 
+
+	nap_level = clamp(nap_level, 0, 100)
 	nap_meter.value = nap_level
 	
-#todo: implement the yummy shop with beerus yummy stuff when he sleep talks
+	if nap_level <= 0:
+		lord.play_anim("fury")   
+	elif nap_level <= 20:
+		lord.play_anim("awake")  
+	else:
+		lord.play_anim("sleep")  
 
-#todo: implement the item shop with time freeze , time rewind...abilities
+func _on_quiet_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("noise_maker"):
+		trigger_agitation()
+		nap_level -= 4
+
+func trigger_agitation():
+	if is_agitated or nap_level <= 0:
+		return
+		
+	is_agitated = true
+	
+	lord.play_anim("agitated")
+	
+	await get_tree().create_timer(1.0).timeout
+	
+	is_agitated = false

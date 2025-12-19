@@ -28,7 +28,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
-radius = 160.0125
+radius = 132.30646
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lbhrr")
@@ -105,31 +105,41 @@ scale = Vector2(1.5, 1.5)
 
 [node name="Goblin" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1115, 281)
+gravity_scale = 1.0
 
 [node name="Goblin2" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1105, 127)
+gravity_scale = 1.0
 
 [node name="Goblin3" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1005, 53)
+gravity_scale = 1.0
 
 [node name="Goblin4" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1105, 418)
+gravity_scale = 1.0
 
 [node name="Goblin5" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1082, 518)
+gravity_scale = 1.0
 
 [node name="Goblin6" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1059, 467)
-gravity_scale = 0.0
 
 [node name="Goblin7" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1031, 586)
+gravity_scale = 1.0
 
 [node name="Goblin8" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1078, 198)
+gravity_scale = 1.0
 
 [node name="Goblin9" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1078, 340)
+gravity_scale = 1.0
 
 [node name="Goblin10" parent="Goblins" instance=ExtResource("5_iywne")]
 position = Vector2(1031, 114)
+gravity_scale = 1.0
+
+[connection signal="body_entered" from="QuietArea" to="." method="_on_quiet_area_body_entered"]

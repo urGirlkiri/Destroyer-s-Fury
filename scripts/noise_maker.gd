@@ -16,7 +16,7 @@ func _process(_delta: float) -> void:
 		die()
 
 func get_direction_to_target() -> Vector2:
-	if target:
+	if target and is_instance_valid(target):
 		return (target.global_position - global_position).normalized()
 	return Vector2.ZERO
 
