@@ -18,7 +18,7 @@ func _ready() -> void:
 	
 	start_loading_animation()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var percent = 0.0
 	
 	if progress_bar.max_value > 0:

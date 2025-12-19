@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://dtkxfqikwcg8l"]
+[gd_scene load_steps=8 format=3 uid="uid://dtkxfqikwcg8l"]
 
+[ext_resource type="Script" uid="uid://wqvwnahwtqmt" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://2gedry0cgpqj" path="res://assets/images/cover.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://db51sdag4n5ka" path="res://scenes/Characters/destoryer.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://duv67hnn6mr8a" path="res://scenes/Characters/attendant.tscn" id="3_lnu2h"]
@@ -29,6 +30,7 @@ corner_radius_bottom_left = 10
 radius = 160.0125
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_lbhrr")
 
 [node name="BgLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -56,8 +58,33 @@ grow_horizontal = 2
 tooltip_text = "Nap Meter"
 theme_override_styles/background = SubResource("StyleBoxFlat_lnu2h")
 theme_override_styles/fill = SubResource("StyleBoxFlat_yqjtg")
-value = 82.0
+value = 10.0
 show_percentage = false
+
+[node name="Shops" type="Node" parent="."]
+
+[node name="ItemShop" type="Button" parent="Shops"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -94.0
+offset_top = -97.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "I"
+
+[node name="YummyShop" type="Button" parent="Shops"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -97.0
+offset_right = 94.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "Y"
 
 [node name="QuietArea" type="Area2D" parent="."]
 
