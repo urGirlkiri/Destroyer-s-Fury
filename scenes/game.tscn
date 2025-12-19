@@ -1,10 +1,29 @@
-[gd_scene load_steps=5 format=3 uid="uid://dtkxfqikwcg8l"]
+[gd_scene load_steps=7 format=3 uid="uid://dtkxfqikwcg8l"]
 
 [ext_resource type="Texture2D" uid="uid://2gedry0cgpqj" path="res://assets/images/cover.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://db51sdag4n5ka" path="res://scenes/Characters/destoryer.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://duv67hnn6mr8a" path="res://scenes/Characters/attendant.tscn" id="3_lnu2h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lnu2h"]
+bg_color = Color(0.22094977, 0.09375023, 0.48205042, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9372549, 0.4862745, 0.88235295, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.3254902, 0.10980392, 0.654902, 1)
+shadow_size = 9
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqjtg"]
-bg_color = Color(0.08540394, 0.10813906, 0.3698298, 0.63529414)
+bg_color = Color(0.079503976, 0.16447851, 0.30764148, 0.8862745)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
 radius = 118.20744
@@ -25,31 +44,19 @@ expand_mode = 1
 
 [node name="GameInfoLayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="GameInfoLayer"]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -96.0
-offset_right = 126.5
-offset_bottom = 49.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0.6378432, 0.6378432, 0.63784313, 1)
-theme_override_font_sizes/font_size = 28
-theme_override_styles/normal = SubResource("StyleBoxFlat_yqjtg")
-text = "NAP Meter"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ProgressBar" type="ProgressBar" parent="GameInfoLayer"]
+[node name="NapMeter" type="ProgressBar" parent="GameInfoLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -208.0
 offset_top = 53.0
 offset_right = 206.0
-offset_bottom = 107.0
+offset_bottom = 117.0
 grow_horizontal = 2
-value = 100.0
+tooltip_text = "Nap Meter"
+theme_override_styles/background = SubResource("StyleBoxFlat_lnu2h")
+theme_override_styles/fill = SubResource("StyleBoxFlat_yqjtg")
+value = 82.0
 show_percentage = false
 
 [node name="QuietArea" type="Area2D" parent="."]
@@ -61,3 +68,7 @@ shape = SubResource("CircleShape2D_yqjtg")
 [node name="Destoryer" parent="." instance=ExtResource("2_yqjtg")]
 modulate = Color(0.89926594, 0.8992556, 0.89925796, 1)
 position = Vector2(591, 315)
+
+[node name="Attendant" parent="." instance=ExtResource("3_lnu2h")]
+position = Vector2(587, 542)
+scale = Vector2(1.5, 1.5)
