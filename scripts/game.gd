@@ -79,6 +79,8 @@ func _physics_process(delta: float) -> void:
 			
 			if nap_level <= 35:
 				trigger_red_flash()
+			else:
+				reset_red_flash()
 		else:
 			lord.play_anim("sleep")  
 	

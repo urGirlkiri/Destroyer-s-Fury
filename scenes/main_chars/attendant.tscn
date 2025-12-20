@@ -265,7 +265,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2dgyn"]
-size = Vector2(75, 73)
+size = Vector2(31, 73)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dgyn"]
 radius = 60.00833
@@ -275,13 +275,11 @@ script = ExtResource("1_2dgyn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n231r")
-animation = &"physical"
+animation = &"idle"
 autoplay = "idle"
-frame = 3
-frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, -2)
+position = Vector2(22.5, -2)
 shape = SubResource("RectangleShape2D_2dgyn")
 
 [node name="StaffRadius" type="Area2D" parent="."]
