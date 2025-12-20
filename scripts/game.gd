@@ -13,6 +13,9 @@ extends Node2D
 @onready var spawn_path: Path2D = $SpawnPath
 @onready var spawn_location: PathFollow2D = $SpawnPath/SpawnLocation
 
+@onready var attendant: CharacterBody2D = $Attendant
+
+
 const GOBLIN = preload("uid://c6mwmqi5mhmck")
 
 var nap_level = 100.0
@@ -117,9 +120,13 @@ func trigger_game_over():
 	lord.play_anim("fury")    
 	
 	await get_tree().create_timer(3.0).timeout
-	game_over()
-
-func game_over():
+	
+	if attendant:
+		attendant.set_physics_process(false)
+		attendant.animated_sprite.stop()
+	
+	get_tree().call_group("noise_maker", "die")
+	
 	game_over_container.visible = true
 	score_label.text = str(GameManager.current_score)
 	game_over_score_label.text = str(GameManager.current_score)
