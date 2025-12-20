@@ -1,39 +1,7 @@
-[gd_scene load_steps=32 format=3 uid="uid://duv67hnn6mr8a"]
+[gd_scene load_steps=34 format=3 uid="uid://duv67hnn6mr8a"]
 
+[ext_resource type="Script" uid="uid://dyumjrfy0how7" path="res://scripts/characters/attendant.gd" id="1_2dgyn"]
 [ext_resource type="Texture2D" uid="uid://dywj6wc8wolqu" path="res://assets/sprites/whis.png" id="1_ainqp"]
-
-[sub_resource type="GDScript" id="GDScript_ainqp"]
-script/source = "extends CharacterBody2D
-
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
-
-const SPEED = 300.0
-
-func _physics_process(delta: float) -> void:
-
-	var direction := Input.get_vector(\"ui_left\", \"ui_right\", \"ui_up\", \"ui_down\")
-	
-	if direction:
-		velocity = direction * SPEED
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
-
-	update_animation(direction)
-
-	move_and_slide()
-
-func update_animation(direction: Vector2):
-	if direction != Vector2.ZERO:
-		animated_sprite.play(\"move\")
-		
-		if direction.x < 0:
-			animated_sprite.flip_h = true  # Face Left
-		elif direction.x > 0:
-			animated_sprite.flip_h = false # Face Right
-			
-	else:
-		animated_sprite.play(\"idle\")
-"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_757k1"]
 atlas = ExtResource("1_ainqp")
@@ -201,9 +169,9 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_harv3")
 }],
-"loop": true,
+"loop": false,
 "name": &"physical",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -286,6 +254,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_g1mdd")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_m6wm1")
 }],
 "loop": true,
@@ -293,11 +264,28 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2dgyn"]
+size = Vector2(75, 73)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2dgyn"]
+radius = 60.00833
+
 [node name="Attendant" type="CharacterBody2D"]
-script = SubResource("GDScript_ainqp")
+script = ExtResource("1_2dgyn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n231r")
-animation = &"standing"
+animation = &"physical"
 autoplay = "idle"
-frame_progress = 0.32992217
+frame = 3
+frame_progress = 1.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -2)
+shape = SubResource("RectangleShape2D_2dgyn")
+
+[node name="StaffRadius" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaffRadius"]
+shape = SubResource("CircleShape2D_2dgyn")

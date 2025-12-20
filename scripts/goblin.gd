@@ -1,6 +1,6 @@
 extends NoiseMaker
-
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+		 
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var zig_zag_strength = 2.0 
 var time_alive = 0.0
@@ -29,16 +29,20 @@ func _physics_process(delta: float) -> void:
 	else:
 		animated_sprite.flip_h = false
 	
-	if distance_to_target <= 0:
+	if distance_to_target <= 5:
 		animated_sprite.play('attack')
 		await animated_sprite.animation_finished
 		GameManager.current_noise_level += 15
 	
 func die():
+	collision_shape.set_deferred("disabled", true)
+	
 	linear_velocity = Vector2.ZERO
 	set_physics_process(false)
 	
 	animated_sprite.play("die")
 	await animated_sprite.animation_finished
-	
+	await get_tree().create_timer(1.0).timeout
+	# GameManager.current_score += score_bonus
+
 	queue_free()

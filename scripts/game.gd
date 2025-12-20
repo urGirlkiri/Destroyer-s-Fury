@@ -10,7 +10,6 @@ extends Node2D
 var nap_level = 100.0
 var is_agitated = false 
 var awake = false
-var score = 0
 
 var flash_tween: Tween
 
@@ -102,10 +101,10 @@ func trigger_red_flash():
 
 func game_over():
 	game_over_container.visible = true
-	game_over_score_label.text = str(score)
+	game_over_score_label.text = str(GameManager.current_score)
 
 func _on_game_retry() -> void:
 	get_tree().reload_current_scene()
 
 func update_score():
-	score_label.text = str(score)
+	score_label.text = str(GameManager.current_score)
