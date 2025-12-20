@@ -2,6 +2,7 @@
 .godot/
 /android/
 .import/
+.vscode/
 
 # Mono-specific ignores
 .mono/

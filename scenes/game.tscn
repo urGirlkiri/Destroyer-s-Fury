@@ -28,7 +28,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
-radius = 132.30646
+radius = 172.02615
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lbhrr")
@@ -61,6 +61,15 @@ theme_override_styles/background = SubResource("StyleBoxFlat_lnu2h")
 theme_override_styles/fill = SubResource("StyleBoxFlat_yqjtg")
 value = 10.0
 show_percentage = false
+
+[node name="FlashRect" type="ColorRect" parent="GameInfoLayer"]
+modulate = Color(1, 1, 1, 0.18431373)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0, 0, 1)
 
 [node name="Shops" type="Node" parent="."]
 
