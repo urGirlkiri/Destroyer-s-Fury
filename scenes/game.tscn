@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://2gedry0cgpqj" path="res://assets/images/cover.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://db51sdag4n5ka" path="res://scenes/main_chars/destoryer.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://duv67hnn6mr8a" path="res://scenes/main_chars/attendant.tscn" id="3_lnu2h"]
-[ext_resource type="PackedScene" uid="uid://c6mwmqi5mhmck" path="res://scenes/noise_makers/goblin.tscn" id="5_iywne"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lnu2h"]
 bg_color = Color(0.22094977, 0.09375023, 0.48205042, 1)
@@ -57,6 +56,12 @@ shadow_size = 7
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
 radius = 172.02615
+
+[sub_resource type="Curve2D" id="Curve2D_lbhrr"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1165, 139, 0, 0, 0, 0, 1169, 542, 0, 0, 0, 0, 586, 600, 0, 0, 0, 0, -27, 545, 0, 0, 0, 0, -41, 331, 0, 0, 0, 0, -36, 127, 0, 0, 0, 0, 1165, 136, 0, 0, 0, 0, 1160, 136, 0, 0, 0, 0, 1165, 139)
+}
+point_count = 9
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lbhrr")
@@ -214,16 +219,24 @@ text = "Y"
 position = Vector2(591, 322)
 shape = SubResource("CircleShape2D_yqjtg")
 
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="SpawnPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_lbhrr")
+
+[node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath"]
+position = Vector2(1165, 139)
+rotation = 1.5608711
+
 [node name="Destoryer" parent="." instance=ExtResource("2_yqjtg")]
 modulate = Color(0.89926594, 0.8992556, 0.89925796, 1)
 position = Vector2(591, 315)
 
 [node name="Attendant" parent="." instance=ExtResource("3_lnu2h")]
-position = Vector2(844, 382)
+position = Vector2(584, 566)
 scale = Vector2(1.5, 1.5)
-
-[node name="Goblin" parent="." instance=ExtResource("5_iywne")]
-position = Vector2(1068, 375)
 
 [connection signal="pressed" from="GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Button" to="." method="_on_game_retry"]
 [connection signal="body_entered" from="QuietArea" to="." method="_on_quiet_area_body_entered"]

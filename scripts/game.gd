@@ -2,10 +2,18 @@ extends Node2D
 
 @onready var nap_meter: ProgressBar = $GameInfoLayer/NapMeter
 @onready var lord: Node2D = $Destoryer 
+
 @onready var flash_rect: ColorRect = $GameInfoLayer/FlashRect
-@onready var game_over_container: PanelContainer = $GameInfoLayer/GameOver
 @onready var score_label: Label = $GameInfoLayer/Score
+
+@onready var game_over_container: PanelContainer = $GameInfoLayer/GameOver
 @onready var game_over_score_label: Label = $GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Score
+
+@onready var spawn_timer: Timer = $SpawnTimer
+@onready var spawn_path: Path2D = $SpawnPath
+@onready var spawn_location: PathFollow2D = $SpawnPath/SpawnLocation
+
+const GOBLIN = preload("uid://c6mwmqi5mhmck")
 
 var nap_level = 100.0
 var is_agitated = false 
@@ -13,12 +21,29 @@ var awake = false
 
 var flash_tween: Tween
 
+var difficulty_time = 0.0
+var spawn_rate = 4.0
+
 func _ready():
 	flash_rect.modulate.a = 0
 	game_over_container.visible = false
+	
+	spawn_timer.timeout.connect(_on_spawn_timer)
+	spawn_timer.wait_time = spawn_rate
+	spawn_timer.start()
+
+func _on_spawn_timer():
+	var gob = GOBLIN.instantiate()
+	
+	spawn_location.progress_ratio = randf()
+	
+	gob.global_position = spawn_location.global_position
+	
+	add_child(gob)
 
 func _physics_process(delta: float) -> void:
 	update_score()
+	increase_diff(delta)
 	
 	var current_noise = 0.0
 	
@@ -60,6 +85,16 @@ func _physics_process(delta: float) -> void:
 	else:
 		reset_red_flash()
 
+func update_score():
+	score_label.text = str(GameManager.current_score)
+
+func increase_diff(delta: float):
+	difficulty_time += delta
+	if difficulty_time > 10.0 and spawn_rate > 0.5:
+		difficulty_time = 0.0
+		spawn_rate -= 0.1 
+		spawn_timer.wait_time = spawn_rate
+
 func _on_quiet_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("noise_maker"):
 		trigger_agitation()
@@ -98,6 +133,7 @@ func trigger_red_flash():
 	
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.3, 1.0)
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.0, 1.0)
+	
 
 func game_over():
 	game_over_container.visible = true
@@ -105,6 +141,3 @@ func game_over():
 
 func _on_game_retry() -> void:
 	get_tree().reload_current_scene()
-
-func update_score():
-	score_label.text = str(GameManager.current_score)
