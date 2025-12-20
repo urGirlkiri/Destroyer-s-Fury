@@ -12,6 +12,7 @@ class_name NoiseMaker extends RigidBody2D
 var target: Node2D
 var is_annihilated = false
 var current_health: int
+var flash_tween: Tween
 
 func _ready():
 	current_health = health
@@ -37,13 +38,31 @@ func take_damage():
 	if is_annihilated:
 		return
 
+	flash_white()
 	current_health -= 1
-	#animated_sprite.play('damage')
+	animated_sprite.play('damage')
 	if current_health <= 0:
 		die()
 
+func flash_white():
+	if flash_tween:
+		flash_tween.kill()
+	
+	flash_tween = create_tween()
+	
+	var smaterial = animated_sprite.material as ShaderMaterial
+	
+	smaterial.set_shader_parameter("flash_modifier", 1.0)
+	
+	flash_tween.tween_method(
+		func(value): smaterial.set_shader_parameter("flash_modifier", value),
+		1.0, 
+		0.0,
+		0.6
+	)
 func die():
 	if is_annihilated:
 		return
 	is_annihilated = true
+	(animated_sprite.material as ShaderMaterial).set_shader_parameter("flash_modifier", 0.0)
 	queue_free()
