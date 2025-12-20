@@ -7,7 +7,7 @@ var time_alive = 0.0
 
 func _ready():
 	super() 
-	movement_speed = 250.0 
+	movement_speed = 120.0 
 	mass = 1.0
 	linear_damp = 1.0 
 
@@ -23,13 +23,13 @@ func _physics_process(delta: float) -> void:
 	var final_velocity = (direction + zig_zag).normalized() * movement_speed
 	
 	linear_velocity = final_velocity
-		
-	if linear_velocity.x < 0: 
-		animated_sprite.flip_h = true
-	else:
-		animated_sprite.flip_h = false
 	
-	if distance_to_target <= 5:
+	if linear_velocity.x < 0: 
+		animated_sprite.flip_h = false
+	else:
+		animated_sprite.flip_h = true
+	
+	if distance_to_target <= 103:
 		animated_sprite.play('attack')
 		await animated_sprite.animation_finished
 		GameManager.current_noise_level += 15
