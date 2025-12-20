@@ -7,20 +7,26 @@ class_name NoiseMaker extends RigidBody2D
 @export var health: int = 3
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var progress_bar: ProgressBar = $ProgressBar
 
 var target: Node2D
 var is_annihilated = false
+var current_health: int
 
 func _ready():
+	current_health = health
 	target = get_tree().get_first_node_in_group("Destroyer")
 	
 	linear_velocity = get_direction_to_target() * movement_speed
 	
 func _process(_delta: float) -> void:
-	if health <= 0 and not is_annihilated:
-		
+	var h_perc: float = 0.0
+	if health > 0:
+		h_perc = float(current_health) / health * 100.0
+	progress_bar.value = clamp(h_perc, 0, 100)
+	
+	if current_health <= 0:
 		die()
-		is_annihilated = true
 		
 func get_direction_to_target() -> Vector2:
 	if target and is_instance_valid(target):
@@ -28,10 +34,16 @@ func get_direction_to_target() -> Vector2:
 	return Vector2.ZERO
 
 func take_damage():
-	health -= 1
+	if is_annihilated:
+		return
+
+	current_health -= 1
 	#animated_sprite.play('damage')
-	if health <= 0:
+	if current_health <= 0:
 		die()
 
 func die():
+	if is_annihilated:
+		return
+	is_annihilated = true
 	queue_free()
