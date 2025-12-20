@@ -43,10 +43,11 @@ func _on_spawn_timer():
 	add_child(gob)
 
 func _physics_process(delta: float) -> void:
+	update_score()
+
 	if is_game_over or is_agitated:
 		return
 
-	update_score()
 	increase_diff(delta)
 	
 	var current_noise = 0.0
@@ -120,6 +121,7 @@ func trigger_game_over():
 
 func game_over():
 	game_over_container.visible = true
+	score_label.text = str(GameManager.current_score)
 	game_over_score_label.text = str(GameManager.current_score)
 
 func _on_game_retry() -> void:
