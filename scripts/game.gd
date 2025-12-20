@@ -7,6 +7,8 @@ extends Node2D
 
 var nap_level = 100.0
 var is_agitated = false 
+var awake = false
+
 var flash_tween: Tween
 
 func _ready():
@@ -14,9 +16,6 @@ func _ready():
 	game_over_container.visible = false
 
 func _physics_process(delta: float) -> void:
-
-	if is_agitated:
-		return
 
 	var current_noise = 0.0
 	for goblin in get_tree().get_nodes_in_group('goblins'):
@@ -33,18 +32,27 @@ func _physics_process(delta: float) -> void:
 	nap_level = clamp(nap_level, 0, 100)
 	nap_meter.value = nap_level
 	
+	if is_agitated:
+		return
+
 	if nap_level <= 0:
 		lord.play_anim("fury")    
 		await get_tree().create_timer(3.0).timeout
 		game_over()
 
-	elif nap_level <= 20:
-		lord.play_anim("awake")
-	else:
-		lord.play_anim("sleep")  
-
-	if nap_level <= 50 and nap_level > 0:
-		trigger_red_flash()
+	elif not awake:
+		if nap_level <= 20:
+			lord.play_anim("awake")
+			awake = true
+		elif nap_level > 0:
+			if nap_level <= 50:
+				trigger_agitation()
+			
+			if nap_level <= 35:
+				trigger_red_flash()
+		else:
+			lord.play_anim("sleep")  
+	
 	else:
 		reset_red_flash()
 
@@ -54,7 +62,7 @@ func _on_quiet_area_body_entered(body: Node2D) -> void:
 		nap_level -= 4
 
 func trigger_agitation():
-	if is_agitated or nap_level <= 0:
+	if is_agitated or nap_level == 0 and not awake:
 		return
 		
 	is_agitated = true
