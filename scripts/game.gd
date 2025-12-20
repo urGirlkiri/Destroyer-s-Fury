@@ -3,6 +3,7 @@ extends Node2D
 @onready var nap_meter: ProgressBar = $GameInfoLayer/NapMeter
 @onready var lord: Node2D = $Destoryer 
 @onready var flash_rect: ColorRect = $GameInfoLayer/FlashRect
+@onready var game_over_container: PanelContainer = $GameInfoLayer/GameOver
 
 var nap_level = 100.0
 var is_agitated = false 
@@ -10,6 +11,7 @@ var flash_tween: Tween
 
 func _ready():
 	flash_rect.modulate.a = 0
+	game_over_container.visible = false
 
 func _physics_process(delta: float) -> void:
 
@@ -33,6 +35,9 @@ func _physics_process(delta: float) -> void:
 	
 	if nap_level <= 0:
 		lord.play_anim("fury")    
+		await get_tree().create_timer(3.0).timeout
+		game_over()
+
 	elif nap_level <= 20:
 		lord.play_anim("awake")
 	else:
@@ -81,3 +86,9 @@ func trigger_red_flash():
 	
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.3, 1.0)
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.0, 1.0)
+
+func game_over():
+	game_over_container.visible = true
+
+func _on_game_retry() -> void:
+	get_tree().reload_current_scene()

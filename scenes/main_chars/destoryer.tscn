@@ -73,13 +73,10 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_njd6h")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tlisi")
 }],
 "loop": true,
 "name": &"agitated",
-"speed": 5.0
+"speed": 7.5
 }, {
 "frames": [{
 "duration": 1.0,
@@ -103,6 +100,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_3848u")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ku68k")
 }, {
 "duration": 1.0,
@@ -110,7 +110,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"fury",
-"speed": 5.0
+"speed": 1.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -140,8 +140,9 @@ script = ExtResource("1_076mu")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(1.7, 1.7)
 sprite_frames = SubResource("SpriteFrames_4u8x8")
-animation = &"awake"
+animation = &"agitated"
 autoplay = "sleep"
+frame_progress = 0.22193916
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(3, 5)
