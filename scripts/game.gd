@@ -4,10 +4,13 @@ extends Node2D
 @onready var lord: Node2D = $Destoryer 
 @onready var flash_rect: ColorRect = $GameInfoLayer/FlashRect
 @onready var game_over_container: PanelContainer = $GameInfoLayer/GameOver
+@onready var score_label: Label = $GameInfoLayer/Score
+@onready var game_over_score_label: Label = $GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Score
 
 var nap_level = 100.0
 var is_agitated = false 
 var awake = false
+var score = 0
 
 var flash_tween: Tween
 
@@ -16,8 +19,10 @@ func _ready():
 	game_over_container.visible = false
 
 func _physics_process(delta: float) -> void:
-
+	update_score()
+	
 	var current_noise = 0.0
+	
 	for goblin in get_tree().get_nodes_in_group('goblins'):
 		var dist = goblin.global_position.distance_to(lord.global_position)
 		current_noise += 5000.0 / clamp(dist, 10.0, 2000.0)
@@ -97,6 +102,10 @@ func trigger_red_flash():
 
 func game_over():
 	game_over_container.visible = true
+	game_over_score_label.text = str(score)
 
 func _on_game_retry() -> void:
 	get_tree().reload_current_scene()
+
+func update_score():
+	score_label.text = str(score)
