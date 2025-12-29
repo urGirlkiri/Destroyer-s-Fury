@@ -60,5 +60,5 @@ func check_collisions():
 		if is_instance_valid(body) and body is RigidBody2D and body.is_in_group("noise_maker"):
 			if "is_annihilated" in body and body.is_annihilated:
 				continue
-			body.take_damage()
+			body.take_damage(global_position)
 			GameManager.current_score += 2

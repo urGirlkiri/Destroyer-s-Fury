@@ -5,10 +5,11 @@ class_name NoiseMaker extends RigidBody2D
 @export var score_bonus: int = 5
 
 @export var health: int = 3
+@export var stun_time: float = 2.0
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var progress_bar: ProgressBar = $ProgressBar
-
+ 
 var target: Node2D
 var is_annihilated = false
 var current_health: int
@@ -34,15 +35,19 @@ func get_direction_to_target() -> Vector2:
 		return (target.global_position - global_position).normalized()
 	return Vector2.ZERO
 
-func take_damage():
+func take_damage(source_position: Vector2):
 	if is_annihilated:
 		return
 
 	flash_white()
+	take_blow(source_position)
 	current_health -= 1
 	animated_sprite.play('damage')
 	if current_health <= 0:
 		die()
+
+func take_blow(pos: Vector2):
+	pass
 
 func flash_white():
 	if flash_tween:
@@ -60,6 +65,7 @@ func flash_white():
 		0.0,
 		0.6
 	)
+
 func die():
 	if is_annihilated:
 		return

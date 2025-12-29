@@ -4,14 +4,20 @@ extends NoiseMaker
 
 var zig_zag_strength = 2.0 
 var time_alive = 0.0
+var is_hit = false
 
 func _ready():
 	super() 
 	movement_speed = 120.0 
 	mass = 1.0
 	linear_damp = 1.0 
+	stun_time = 0.2
 
 func _physics_process(delta: float) -> void:
+	
+	if is_hit:
+		return
+	
 	time_alive += delta
 	
 	var distance_to_target = global_position.distance_to(target.global_position)
@@ -33,6 +39,18 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.play('attack')
 		await animated_sprite.animation_finished
 		GameManager.current_noise_level += 15
+		
+func take_blow(pos: Vector2):
+	print("taking blow")
+	is_hit = true
+	
+	var knockback_direction = (global_position - pos).normalized()
+	var knockback_force = 600.0 
+	
+	apply_central_impulse(knockback_direction * knockback_force)
+	
+	await get_tree().create_timer(stun_time).timeout
+	is_hit = false
 	
 func die():
 	collision_shape.set_deferred("disabled", true)
