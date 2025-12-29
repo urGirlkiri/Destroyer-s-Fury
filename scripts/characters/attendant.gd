@@ -8,11 +8,12 @@ const SPEED = 400.0
 
 const BLAST = preload("uid://bmwqn6cc4xxcm")
 
+var blast_cooldown = 0.5
+var staff_damage = 1
+
 var is_attacking = false
 var is_blasting = false
 var can_fire = true
-
-var blast_cooldown = 0.5
 
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -25,14 +26,17 @@ func _physics_process(_delta: float) -> void:
 		is_blasting = true
 		velocity = Vector2.ZERO
 		fire_blast(direction)
-	elif is_attacking:
-		velocity = Vector2.ZERO
 	else:
-		
-		if direction:
-			velocity = direction * SPEED
+		is_blasting = false
+	
+		if is_attacking:
+			velocity = Vector2.ZERO
+
 		else:
-			velocity = velocity.move_toward(Vector2.ZERO, SPEED)
+			if direction:
+				velocity = direction * SPEED
+			else:
+				velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 
 		update_animation(direction)
 
@@ -71,7 +75,7 @@ func check_collisions():
 		if is_instance_valid(body) and body is RigidBody2D and body.is_in_group("noise_maker"):
 			if "is_annihilated" in body and body.is_annihilated:
 				continue
-			body.take_damage(global_position)
+			body.take_damage(global_position, staff_damage)
 			GameManager.current_score += 2
 
 func fire_blast(aim_direction: Vector2):
@@ -98,8 +102,9 @@ func fire_blast(aim_direction: Vector2):
 		flip = animated_sprite.flip_h
 
 	animated_sprite.flip_h = flip
-	animated_sprite.play(anim_name)
-	
+	if animated_sprite.animation != anim_name:
+		animated_sprite.play(anim_name)
+
 	if can_fire:
 		can_fire = false
 		
