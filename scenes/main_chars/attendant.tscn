@@ -1,15 +1,27 @@
-[gd_scene load_steps=34 format=3 uid="uid://duv67hnn6mr8a"]
+[gd_scene load_steps=32 format=3 uid="uid://duv67hnn6mr8a"]
 
 [ext_resource type="Script" uid="uid://dyumjrfy0how7" path="res://scripts/characters/attendant.gd" id="1_2dgyn"]
 [ext_resource type="Texture2D" uid="uid://dywj6wc8wolqu" path="res://assets/sprites/whis.png" id="1_ainqp"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_g1mdd"]
+atlas = ExtResource("1_ainqp")
+region = Rect2(511, 219, 69, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6p3r2"]
+atlas = ExtResource("1_ainqp")
+region = Rect2(585, 219, 80, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0nagn"]
+atlas = ExtResource("1_ainqp")
+region = Rect2(113, 219, 107, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jwwr"]
+atlas = ExtResource("1_ainqp")
+region = Rect2(220, 219, 110, 73)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_757k1"]
 atlas = ExtResource("1_ainqp")
 region = Rect2(83, 77, 80, 71)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_73joa"]
-atlas = ExtResource("1_ainqp")
-region = Rect2(430, 219, 86, 73)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ainqp"]
 atlas = ExtResource("1_ainqp")
@@ -50,14 +62,6 @@ region = Rect2(278, 146, 68, 73)
 [sub_resource type="AtlasTexture" id="AtlasTexture_harv3"]
 atlas = ExtResource("1_ainqp")
 region = Rect2(356, 146, 70, 73)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0nagn"]
-atlas = ExtResource("1_ainqp")
-region = Rect2(113, 219, 107, 73)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2jwwr"]
-atlas = ExtResource("1_ainqp")
-region = Rect2(220, 219, 110, 73)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vv525"]
 atlas = ExtResource("1_ainqp")
@@ -103,20 +107,30 @@ region = Rect2(87, 292, 80, 73)
 atlas = ExtResource("1_ainqp")
 region = Rect2(0, 292, 80, 73)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g1mdd"]
-atlas = ExtResource("1_ainqp")
-region = Rect2(511, 219, 69, 73)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6p3r2"]
-atlas = ExtResource("1_ainqp")
-region = Rect2(585, 219, 80, 73)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_m6wm1"]
-atlas = ExtResource("1_ainqp")
-region = Rect2(350, 219, 70, 73)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_n231r"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g1mdd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6p3r2")
+}],
+"loop": false,
+"name": &"bottom_corner_blast",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0nagn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jwwr")
+}],
+"loop": false,
+"name": &"horizontal_blast",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_757k1")
@@ -124,14 +138,6 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 0.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_73joa")
-}],
-"loop": true,
-"name": &"leftAttack",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -172,17 +178,6 @@ animations = [{
 "loop": false,
 "name": &"physical",
 "speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0nagn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2jwwr")
-}],
-"loop": true,
-"name": &"rightAttack",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -248,19 +243,8 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6p3r2")
 }],
-"loop": true,
-"name": &"topLeftAttack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g1mdd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_m6wm1")
-}],
-"loop": true,
-"name": &"topRightAttack",
+"loop": false,
+"name": &"top_corner_blast",
 "speed": 5.0
 }]
 
@@ -275,7 +259,7 @@ script = ExtResource("1_2dgyn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_n231r")
-animation = &"idle"
+animation = &"top_corner_blast"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -5,6 +5,7 @@ extends NoiseMaker
 var zig_zag_strength = 2.0 
 var time_alive = 0.0
 var is_hit = false
+var knockback_force = 600.0 
 
 func _ready():
 	super() 
@@ -40,12 +41,11 @@ func _physics_process(delta: float) -> void:
 		await animated_sprite.animation_finished
 		GameManager.current_noise_level += 15
 		
-func take_blow(pos: Vector2):
-	print("taking blow")
+func take_blow(pos: Vector2, damage: int):
 	is_hit = true
+	knockback_force *= damage
 	
 	var knockback_direction = (global_position - pos).normalized()
-	var knockback_force = 600.0 
 	
 	apply_central_impulse(knockback_direction * knockback_force)
 	

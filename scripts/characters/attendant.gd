@@ -6,16 +6,26 @@ const SPEED = 400.0
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var staff_radius: Area2D = $StaffRadius
 
+const BLAST = preload("uid://bmwqn6cc4xxcm")
+
 var is_attacking = false
+var is_blasting = false
+var can_fire = true
+
+var blast_cooldown = 0.5
 
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
-	if Input.is_action_just_pressed("ui_accept") and not is_attacking:
+	if Input.is_action_just_pressed("ui_accept") and not is_attacking and not is_blasting:
 		physical_attack(direction)
 		return
 		
-	if is_attacking:
+	if Input.is_action_pressed("blast_mode") and not is_attacking:
+		is_blasting = true
+		velocity = Vector2.ZERO
+		fire_blast(direction)
+	elif is_attacking:
 		velocity = Vector2.ZERO
 	else:
 		
@@ -29,6 +39,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func update_animation(direction: Vector2):
+	if is_attacking or is_blasting: return
 	if direction != Vector2.ZERO:
 		animated_sprite.play("move")
 		
@@ -62,3 +73,45 @@ func check_collisions():
 				continue
 			body.take_damage(global_position)
 			GameManager.current_score += 2
+
+func fire_blast(aim_direction: Vector2):
+
+	if aim_direction == Vector2.ZERO:
+		animated_sprite.play("standing") 
+		return
+
+	var anim_name = "horizontal_blast"
+	var flip = false
+	
+	if aim_direction.y < 0: 
+		anim_name = "top_corner_blast"
+	elif aim_direction.y > 0: 
+		anim_name = "bottom_corner_blast"
+	else:
+		anim_name = "horizontal_blast"
+		
+	if aim_direction.x < 0:
+		flip = true
+	elif aim_direction.x > 0:
+		flip = false
+	else:
+		flip = animated_sprite.flip_h
+
+	animated_sprite.flip_h = flip
+	animated_sprite.play(anim_name)
+	
+	if can_fire:
+		can_fire = false
+		
+		var blast = BLAST.instantiate()
+		
+		var offset = aim_direction * 50.0
+		blast.position = global_position + offset
+		blast.velocity = aim_direction.normalized()
+		
+		blast.rotation = aim_direction.angle()
+		
+		get_parent().add_child(blast)
+		
+		await get_tree().create_timer(blast_cooldown).timeout
+		can_fire = true

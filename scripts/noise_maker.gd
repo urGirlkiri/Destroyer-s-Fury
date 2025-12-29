@@ -35,18 +35,18 @@ func get_direction_to_target() -> Vector2:
 		return (target.global_position - global_position).normalized()
 	return Vector2.ZERO
 
-func take_damage(source_position: Vector2):
+func take_damage(source_position: Vector2, damage: int):
 	if is_annihilated:
 		return
 
 	flash_white()
-	take_blow(source_position)
-	current_health -= 1
+	take_blow(source_position, damage)
+	current_health -= 1 * damage
 	animated_sprite.play('damage')
 	if current_health <= 0:
 		die()
 
-func take_blow(pos: Vector2):
+func take_blow(pos: Vector2, damage: int):
 	pass
 
 func flash_white():

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmwqn6cc4xxcm"]
+
+[ext_resource type="Texture2D" uid="uid://dywj6wc8wolqu" path="res://assets/sprites/whis.png" id="1_bqesl"]
+[ext_resource type="Script" uid="uid://kncdpxvif7e" path="res://scripts/attacks/blast.gd" id="1_m8wnr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_m8wnr"]
+radius = 25.019993
+
+[node name="Blast" type="Area2D"]
+collision_mask = 3
+script = ExtResource("1_m8wnr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_bqesl")
+region_enabled = true
+region_rect = Rect2(382.5, 301, 63, 59)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_m8wnr")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-25, -25, 50, 50)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_screen_exited"]
