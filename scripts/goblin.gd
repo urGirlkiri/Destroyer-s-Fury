@@ -12,13 +12,15 @@ func _ready():
 	movement_speed = 120.0 
 	mass = 1.0
 	linear_damp = 1.0 
-	stun_time = 0.2
+	stun_time = 0.4
 
 func _physics_process(delta: float) -> void:
 	
 	if is_hit:
+		linear_velocity = Vector2.ZERO
 		return
 	
+	animated_sprite.play('idle')
 	time_alive += delta
 	
 	var distance_to_target = global_position.distance_to(target.global_position)
@@ -57,6 +59,7 @@ func take_blow(pos: Vector2, damage: int):
 func die():
 	if is_annihilated:
 		return
+		
 	is_annihilated = true
 	collision_shape.set_deferred("disabled", true)
 	
