@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dtkxfqikwcg8l"]
+[gd_scene load_steps=13 format=3 uid="uid://dtkxfqikwcg8l"]
 
 [ext_resource type="Script" uid="uid://wqvwnahwtqmt" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://2gedry0cgpqj" path="res://assets/images/cover.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://db51sdag4n5ka" path="res://scenes/main_chars/destoryer.tscn" id="2_yqjtg"]
+[ext_resource type="Texture2D" uid="uid://bhskcfmpdh7g1" path="res://assets/images/coins.png" id="3_iywne"]
 [ext_resource type="PackedScene" uid="uid://duv67hnn6mr8a" path="res://scenes/main_chars/attendant.tscn" id="3_lnu2h"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lnu2h"]
@@ -27,18 +28,16 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
-bg_color = Color(0.69803923, 0.8627451, 0.9764706, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.68235296, 0.49019608, 0.827451, 1)
+bg_color = Color(0.21960784, 0.09411765, 0.48235294, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
 corner_radius_top_left = 8
 corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
-shadow_color = Color(0.3019608, 0.15294118, 0.53333336, 1)
-shadow_size = 3
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iywne"]
 bg_color = Color(0.21960784, 0.09411765, 0.48235294, 0.3882353)
@@ -53,6 +52,18 @@ corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 shadow_color = Color(0.3137255, 0.10980392, 0.63529414, 1)
 shadow_size = 7
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbhrr"]
+bg_color = Color(0.050980393, 0.02745098, 0.19607843, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
 radius = 172.02615
@@ -84,10 +95,10 @@ expand_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -208.0
-offset_top = 53.0
-offset_right = 206.0
-offset_bottom = 117.0
+offset_left = -244.0
+offset_top = 63.0
+offset_right = 232.0
+offset_bottom = 109.0
 grow_horizontal = 2
 tooltip_text = "Nap Meter"
 theme_override_styles/background = SubResource("StyleBoxFlat_lnu2h")
@@ -95,30 +106,46 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_yqjtg")
 show_percentage = false
 
 [node name="Score" type="Label" parent="GameInfoLayer"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -218.0
-offset_top = 59.0
-offset_right = -20.313477
-offset_bottom = 121.0
-grow_horizontal = 0
+offset_left = 12.0
+offset_top = 56.0
+offset_right = 209.68652
+offset_bottom = 118.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_colors/font_color = Color(0.16565639, 0.16565642, 0.16565639, 1)
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_p57ef")
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Coins" type="Label" parent="GameInfoLayer"]
+offset_left = 934.0
+offset_top = 44.0
+offset_right = 1137.6865
+offset_bottom = 128.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_p57ef")
+text = "19995  "
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Coins2" type="Sprite2D" parent="GameInfoLayer"]
+modulate = Color(0.8558811, 0.841005, 0.9919148, 1)
+position = Vector2(966, 88)
+scale = Vector2(0.21018767, 0.21018761)
+texture = ExtResource("3_iywne")
+
 [node name="FlashRect" type="ColorRect" parent="GameInfoLayer"]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -14.0
-offset_bottom = -14.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = -2.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -126,7 +153,6 @@ size_flags_vertical = 3
 color = Color(1, 0, 0, 1)
 
 [node name="GameOver" type="PanelContainer" parent="GameInfoLayer"]
-visible = false
 modulate = Color(1, 1, 1, 0.84313726)
 anchors_preset = 8
 anchor_left = 0.5
@@ -189,27 +215,36 @@ text = "Try Again
 
 [node name="Shops" type="Node" parent="."]
 
-[node name="ItemShop" type="Button" parent="Shops"]
+[node name="PowerShop" type="Button" parent="Shops"]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -94.0
-offset_top = -97.0
+offset_left = -77.0
+offset_top = -81.0
+offset_right = -11.0
+offset_bottom = -12.893616
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
-text = "I"
+theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
+text = "P"
 
 [node name="YummyShop" type="Button" parent="Shops"]
-anchors_preset = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -97.0
-offset_right = 94.0
+offset_left = -1139.0
+offset_top = -80.0
+offset_right = -1073.0
+offset_bottom = -11.893616
+grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
 text = "Y"
 
 [node name="QuietArea" type="Area2D" parent="."]

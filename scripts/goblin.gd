@@ -43,6 +43,8 @@ func _physics_process(delta: float) -> void:
 		
 func take_blow(pos: Vector2, damage: int):
 	is_hit = true
+	GameManager.current_score += 3
+
 	knockback_force *= damage
 	
 	var knockback_direction = (global_position - pos).normalized()
