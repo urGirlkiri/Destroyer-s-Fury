@@ -55,6 +55,9 @@ func take_blow(pos: Vector2, damage: int):
 	is_hit = false
 	
 func die():
+	if is_annihilated:
+		return
+	is_annihilated = true
 	collision_shape.set_deferred("disabled", true)
 	
 	linear_velocity = Vector2.ZERO
@@ -62,7 +65,6 @@ func die():
 	
 	animated_sprite.play("die")
 	await animated_sprite.animation_finished
-	await get_tree().create_timer(1.0).timeout
-	# GameManager.current_score += score_bonus
 
+	call_deferred("spawn_coin")
 	queue_free()

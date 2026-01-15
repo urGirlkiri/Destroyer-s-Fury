@@ -14,7 +14,7 @@ extends Node2D
 @onready var spawn_location: PathFollow2D = $SpawnPath/SpawnLocation
 
 @onready var attendant: CharacterBody2D = $Attendant
-
+@onready var coins_label: Label = $GameInfoLayer/Coins/Label
 
 const GOBLIN = preload("uid://c6mwmqi5mhmck")
 
@@ -85,6 +85,7 @@ func _physics_process(delta: float) -> void:
 
 func update_score():
 	score_label.text = str(GameManager.current_score)
+	coins_label.text  = str(GameManager.current_coins) + "  "
 
 func increase_diff(delta: float):
 	difficulty_time += delta

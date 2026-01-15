@@ -1,10 +1,23 @@
-[gd_scene load_steps=13 format=3 uid="uid://dtkxfqikwcg8l"]
+[gd_scene load_steps=14 format=3 uid="uid://dtkxfqikwcg8l"]
 
 [ext_resource type="Script" uid="uid://wqvwnahwtqmt" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://2gedry0cgpqj" path="res://assets/images/cover.png" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://db51sdag4n5ka" path="res://scenes/main_chars/destoryer.tscn" id="2_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://bhskcfmpdh7g1" path="res://assets/images/coins.png" id="3_iywne"]
 [ext_resource type="PackedScene" uid="uid://duv67hnn6mr8a" path="res://scenes/main_chars/attendant.tscn" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://bjg2weoa40la2" path="res://scenes/coin.tscn" id="6_p57ef"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
+bg_color = Color(0.21960784, 0.09411765, 0.48235294, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lnu2h"]
 bg_color = Color(0.22094977, 0.09375023, 0.48205042, 1)
@@ -26,18 +39,6 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
-bg_color = Color(0.21960784, 0.09411765, 0.48235294, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iywne"]
 bg_color = Color(0.21960784, 0.09411765, 0.48235294, 0.3882353)
@@ -91,6 +92,19 @@ expand_mode = 1
 
 [node name="GameInfoLayer" type="CanvasLayer" parent="."]
 
+[node name="Score" type="Label" parent="GameInfoLayer"]
+offset_left = 12.0
+offset_top = 56.0
+offset_right = 209.68652
+offset_bottom = 118.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_p57ef")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="NapMeter" type="ProgressBar" parent="GameInfoLayer"]
 anchors_preset = 5
 anchor_left = 0.5
@@ -105,20 +119,9 @@ theme_override_styles/background = SubResource("StyleBoxFlat_lnu2h")
 theme_override_styles/fill = SubResource("StyleBoxFlat_yqjtg")
 show_percentage = false
 
-[node name="Score" type="Label" parent="GameInfoLayer"]
-offset_left = 12.0
-offset_top = 56.0
-offset_right = 209.68652
-offset_bottom = 118.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_p57ef")
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="Coins" type="Node" parent="GameInfoLayer"]
 
-[node name="Coins" type="Label" parent="GameInfoLayer"]
+[node name="Label" type="Label" parent="GameInfoLayer/Coins"]
 offset_left = 934.0
 offset_top = 44.0
 offset_right = 1137.6865
@@ -127,15 +130,18 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_p57ef")
-text = "19995  "
+text = "0  "
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Coins2" type="Sprite2D" parent="GameInfoLayer"]
+[node name="Sprite2D" type="Sprite2D" parent="GameInfoLayer/Coins"]
 modulate = Color(0.8558811, 0.841005, 0.9919148, 1)
 position = Vector2(966, 88)
 scale = Vector2(0.21018767, 0.21018761)
 texture = ExtResource("3_iywne")
+
+[node name="Coin" parent="GameInfoLayer/Coins" instance=ExtResource("6_p57ef")]
+position = Vector2(710, 507)
 
 [node name="FlashRect" type="ColorRect" parent="GameInfoLayer"]
 modulate = Color(1, 1, 1, 0)
@@ -153,6 +159,7 @@ size_flags_vertical = 3
 color = Color(1, 0, 0, 1)
 
 [node name="GameOver" type="PanelContainer" parent="GameInfoLayer"]
+visible = false
 modulate = Color(1, 1, 1, 0.84313726)
 anchors_preset = 8
 anchor_left = 0.5

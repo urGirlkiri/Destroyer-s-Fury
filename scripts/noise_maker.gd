@@ -1,5 +1,7 @@
 class_name NoiseMaker extends RigidBody2D
 
+const COIN = preload("uid://bjg2weoa40la2")
+
 @export var movement_speed: float = 100.0
 @export var noise_volume: float = 10.0
 @export var score_bonus: int = 5
@@ -71,4 +73,10 @@ func die():
 		return
 	is_annihilated = true
 	(animated_sprite.material as ShaderMaterial).set_shader_parameter("flash_modifier", 0.0)
+	call_deferred("spawn_coin")
 	queue_free()
+
+func spawn_coin():
+	var coin = COIN.instantiate()
+	coin.global_position = global_position 
+	get_tree().current_scene.add_child(coin)
