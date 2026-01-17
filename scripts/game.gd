@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var nap_meter: ProgressBar = $GameInfoLayer/NapMeter
-@onready var lord: Node2D = $Destoryer 
+@onready var lord: Node2D = $Target/Destoryer 
 
 @onready var flash_rect: ColorRect = $GameInfoLayer/FlashRect
 @onready var score_label: Label = $GameInfoLayer/Score

@@ -65,14 +65,14 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
-radius = 172.02615
-
 [sub_resource type="Curve2D" id="Curve2D_lbhrr"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 1165, 139, 0, 0, 0, 0, 1169, 542, 0, 0, 0, 0, 586, 600, 0, 0, 0, 0, -27, 545, 0, 0, 0, 0, -41, 331, 0, 0, 0, 0, -36, 127, 0, 0, 0, 0, 1165, 136, 0, 0, 0, 0, 1160, 136, 0, 0, 0, 0, 1165, 139)
 }
 point_count = 9
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yqjtg"]
+radius = 172.02615
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lbhrr")
@@ -92,9 +92,9 @@ expand_mode = 1
 [node name="GameInfoLayer" type="CanvasLayer" parent="."]
 
 [node name="Score" type="Label" parent="GameInfoLayer"]
-offset_left = 12.0
+offset_left = 20.0
 offset_top = 56.0
-offset_right = 209.68652
+offset_right = 217.68652
 offset_bottom = 118.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -108,9 +108,9 @@ vertical_alignment = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -244.0
+offset_left = -238.0
 offset_top = 63.0
-offset_right = 232.0
+offset_right = 238.0
 offset_bottom = 109.0
 grow_horizontal = 2
 tooltip_text = "Nap Meter"
@@ -118,13 +118,19 @@ theme_override_styles/background = SubResource("StyleBoxFlat_lnu2h")
 theme_override_styles/fill = SubResource("StyleBoxFlat_yqjtg")
 show_percentage = false
 
-[node name="Coins" type="Node" parent="GameInfoLayer"]
+[node name="Coins" type="Control" parent="GameInfoLayer"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
 
 [node name="Label" type="Label" parent="GameInfoLayer/Coins"]
-offset_left = 934.0
-offset_top = 44.0
-offset_right = 1137.6865
-offset_bottom = 128.0
+layout_mode = 0
+offset_left = -226.6156
+offset_top = 40.70938
+offset_right = -22.929077
+offset_bottom = 124.70938
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
@@ -135,7 +141,7 @@ vertical_alignment = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="GameInfoLayer/Coins"]
 modulate = Color(0.8558811, 0.841005, 0.9919148, 1)
-position = Vector2(966, 88)
+position = Vector2(-194.61554, 84.709366)
 scale = Vector2(0.21018767, 0.21018761)
 texture = ExtResource("3_iywne")
 
@@ -224,9 +230,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -77.0
+offset_left = -86.0
 offset_top = -81.0
-offset_right = -11.0
+offset_right = -20.0
 offset_bottom = -12.893616
 grow_horizontal = 0
 grow_vertical = 0
@@ -235,26 +241,17 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
 text = "P"
 
 [node name="YummyShop" type="Button" parent="Shops"]
-anchors_preset = 3
-anchor_left = 1.0
+anchors_preset = 2
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1139.0
+offset_left = 18.0
 offset_top = -80.0
-offset_right = -1073.0
+offset_right = 84.0
 offset_bottom = -11.893616
-grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
 text = "Y"
-
-[node name="QuietArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="QuietArea"]
-position = Vector2(591, 322)
-shape = SubResource("CircleShape2D_yqjtg")
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -267,13 +264,36 @@ curve = SubResource("Curve2D_lbhrr")
 position = Vector2(1165, 139)
 rotation = 1.5608711
 
-[node name="Destoryer" parent="." instance=ExtResource("2_yqjtg")]
-modulate = Color(0.89926594, 0.8992556, 0.89925796, 1)
-position = Vector2(591, 315)
-
 [node name="Attendant" parent="." instance=ExtResource("3_lnu2h")]
 position = Vector2(584, 566)
 scale = Vector2(1.5, 1.5)
 
+[node name="Target" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 394.0
+offset_top = 170.0
+offset_right = 781.0
+offset_bottom = 463.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="QuietArea" type="Area2D" parent="Target"]
+position = Vector2(-75, -20)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Target/QuietArea"]
+position = Vector2(244, 178)
+shape = SubResource("CircleShape2D_yqjtg")
+
+[node name="Destoryer" parent="Target" instance=ExtResource("2_yqjtg")]
+modulate = Color(0.89926594, 0.8992556, 0.89925796, 1)
+position = Vector2(174, 138)
+
 [connection signal="pressed" from="GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Button" to="." method="_on_game_retry"]
-[connection signal="body_entered" from="QuietArea" to="." method="_on_quiet_area_body_entered"]
+[connection signal="body_entered" from="Target/QuietArea" to="." method="_on_quiet_area_body_entered"]
