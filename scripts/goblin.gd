@@ -1,10 +1,14 @@
 extends NoiseMaker
-		 
+
+const PIXIE_DUST = preload("uid://85tsfux1tgjo")
+
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+
+var can_throw_dust = true
+var is_hit = false
 
 var zig_zag_strength = 2.0 
 var time_alive = 0.0
-var is_hit = false
 var knockback_force = 600.0 
 
 func _ready():
@@ -42,6 +46,13 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.play('attack')
 		await animated_sprite.animation_finished
 		GameManager.current_noise_level += 15
+	
+	var attendant = get_tree().get_first_node_in_group("player")
+	var dist_to_attendant = global_position.distance_to(attendant.global_position)
+	
+	if dist_to_attendant < 300 and can_throw_dust:
+		if randf() < 0.01: 
+			throw_pixie_dust()
 		
 func take_blow(pos: Vector2, damage: int):
 	is_hit = true
@@ -71,3 +82,24 @@ func die():
 
 	call_deferred("spawn_coin")
 	queue_free()
+
+func throw_pixie_dust():
+	can_throw_dust = false
+	
+	var dust = PIXIE_DUST.instantiate()
+	var player = get_tree().get_first_node_in_group("player")
+	var camera = get_viewport().get_camera_2d()
+	
+	if camera:
+		var tween = create_tween()
+		tween.tween_property(camera, "offset", Vector2(10, -10), 0.05)
+		tween.tween_property(camera, "offset", Vector2(-10, 10), 0.05)
+		tween.tween_property(camera, "offset", Vector2.ZERO, 0.05)
+	
+	dust.global_position = global_position
+	dust.velocity = (player.global_position - global_position).normalized()
+	
+	get_parent().add_child(dust)
+	
+	await get_tree().create_timer(5.0).timeout
+	can_throw_dust = true

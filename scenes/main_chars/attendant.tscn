@@ -268,7 +268,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="Attendant" type="CharacterBody2D"]
+[node name="Attendant" type="CharacterBody2D" groups=["player"]]
 collision_layer = 5
 script = ExtResource("1_2dgyn")
 
