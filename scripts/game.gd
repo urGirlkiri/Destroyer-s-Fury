@@ -134,7 +134,7 @@ func trigger_game_over():
 
 func _on_game_retry() -> void:
 	get_tree().reload_current_scene()
-	
+
 func reset_red_flash():
 	if flash_rect.modulate.a == 0:
 		if flash_tween: flash_tween.kill()

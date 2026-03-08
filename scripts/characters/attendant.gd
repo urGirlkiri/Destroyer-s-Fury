@@ -7,10 +7,10 @@ const SPEED = 400.0
 @onready var staff_radius: Area2D = $StaffRadius
 @onready var ammo_bar: ProgressBar = $AmmoBar
 @onready var weakness_timer: Timer = $WeaknessTimer
-
+@onready var effects_animated_2d: AnimatedSprite2D = $Effects
 
 const BLAST = preload("uid://bmwqn6cc4xxcm")
-const MAX_AMMO = 3
+const MAX_AMMO = 4
 const TIME_TO_HEAL = 10
 
 var blast_cooldown = 0.5
@@ -28,9 +28,15 @@ var is_reloading = false
 var is_attacking = false
 var is_blasting = false
 
-#func _ready() -> void:
-	#take_weakness()
-	#take_weakness()
+var original_ammo_bar_bg_style: StyleBoxFlat
+var ammo_bar_bg_style: StyleBoxFlat
+var damage_tween: Tween
+
+func _ready() -> void:
+	original_ammo_bar_bg_style = ammo_bar.get_theme_stylebox("background").duplicate() as StyleBoxFlat
+	ammo_bar_bg_style = original_ammo_bar_bg_style.duplicate() as StyleBoxFlat
+	
+	ammo_bar_bg_style.bg_color = Color.RED
 
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
@@ -39,7 +45,7 @@ func _physics_process(_delta: float) -> void:
 		physical_attack(direction)
 		return
 		
-	if Input.is_action_pressed("blast_mode") and not is_attacking:
+	if Input.is_action_pressed("blast_mode") and not is_attacking and not is_disabled:
 		is_blasting = true
 		velocity = Vector2.ZERO
 		fire_blast(direction)
@@ -110,9 +116,8 @@ func fire_blast(aim_direction: Vector2):
 				can_fire = false
 				await get_tree().create_timer(blast_cooldown).timeout
 				can_fire = true
-			return 
+			return
 			
-	
 	var anim_name = "horizontal_blast"
 	var flip = false
 	
@@ -161,8 +166,8 @@ func fire_blast(aim_direction: Vector2):
 func take_weakness():
 	weakened_count += 1
 	
-	if weakened_count > 3:
-		weakened_count = 3
+	if weakened_count > 4:
+		weakened_count = 4
 		
 	is_weakened = true
 	ammo_bar.visible = true
@@ -176,12 +181,28 @@ func take_weakness():
 	else:
 		is_disabled = true
 		
-	ammo_bar.max_value = max_ammo
-	current_ammo = clamp(current_ammo, 0, max_ammo)
-	ammo_bar.value = current_ammo
+	if damage_tween:
+		damage_tween.kill()
+		
+	damage_tween = create_tween()
+	damage_tween.tween_property(animated_sprite, "modulate", Color.RED, 0.15)
+	damage_tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.15)
 	
-	if current_ammo < max_ammo and not is_reloading:
-		reload_ammo()
+	effects_animated_2d.visible = true
+	effects_animated_2d.play("weakness")
+	await effects_animated_2d.animation_finished
+	effects_animated_2d.visible = false
+	
+	if not is_disabled:
+		ammo_bar.max_value = max_ammo
+		current_ammo = clamp(current_ammo, 0, max_ammo)
+		ammo_bar.value = current_ammo
+		
+		if current_ammo < max_ammo and not is_reloading:
+			reload_ammo()
+	else:
+		ammo_bar.add_theme_stylebox_override("background", ammo_bar_bg_style)
+		ammo_bar.value = 0
 
 	weakness_timer.start(TIME_TO_HEAL * weakened_count)
 
@@ -190,7 +211,7 @@ func reload_ammo():
 	
 	await get_tree().create_timer(2.0).timeout
 	
-	if is_weakened:
+	if is_weakened and not is_disabled:
 		current_ammo = clamp(current_ammo + 1, 0, max_ammo)
 		ammo_bar.value = current_ammo
 		
@@ -203,9 +224,11 @@ func reload_ammo():
 
 func _on_weakness_timer_timeout() -> void:
 	is_weakened = false
+	is_disabled = false
 	can_fire = true
 	weakened_count = 0
 	max_ammo = MAX_AMMO
 	current_ammo = MAX_AMMO
 	ammo_bar.visible = false
 	is_reloading = false
+	ammo_bar.add_theme_stylebox_override("background", original_ammo_bar_bg_style)
