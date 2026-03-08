@@ -15,11 +15,16 @@ run/main_scene="uid://cy3n8bsqtiltw"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/use_filter=false
 boot_splash/image="uid://3hdm8jbb7cyq"
-config/icon="res://icon.svg"
+config/icon="uid://3hdm8jbb7cyq"
 
 [autoload]
 
 GameManager="*res://scripts/game_manager.gd"
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [editor_plugins]
 

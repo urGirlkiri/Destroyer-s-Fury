@@ -93,9 +93,9 @@ expand_mode = 1
 
 [node name="Score" type="Label" parent="GameInfoLayer"]
 offset_left = 20.0
-offset_top = 56.0
+offset_top = 21.0
 offset_right = 217.68652
-offset_bottom = 118.0
+offset_bottom = 83.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
@@ -109,9 +109,9 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -238.0
-offset_top = 63.0
+offset_top = 28.0
 offset_right = 238.0
-offset_bottom = 109.0
+offset_bottom = 74.0
 grow_horizontal = 2
 tooltip_text = "Nap Meter"
 theme_override_styles/background = SubResource("StyleBoxFlat_lnu2h")
@@ -123,6 +123,8 @@ layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
+offset_top = -28.0
+offset_bottom = -28.0
 grow_horizontal = 0
 
 [node name="Label" type="Label" parent="GameInfoLayer/Coins"]
@@ -224,6 +226,19 @@ text = "Try Again
 
 [node name="Shops" type="Node" parent="."]
 
+[node name="YummyShop" type="Button" parent="Shops"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_top = -86.0
+offset_right = 88.0
+offset_bottom = -17.893616
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
+text = "Y"
+
 [node name="PowerShop" type="Button" parent="Shops"]
 anchors_preset = 3
 anchor_left = 1.0
@@ -231,27 +246,14 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -86.0
-offset_top = -81.0
+offset_top = -84.0
 offset_right = -20.0
-offset_bottom = -12.893616
+offset_bottom = -15.893616
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
 text = "P"
-
-[node name="YummyShop" type="Button" parent="Shops"]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 18.0
-offset_top = -80.0
-offset_right = 84.0
-offset_bottom = -11.893616
-grow_vertical = 0
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
-text = "Y"
 
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -275,9 +277,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 394.0
+offset_left = 419.0
 offset_top = 170.0
-offset_right = 781.0
+offset_right = 806.0
 offset_bottom = 463.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -294,6 +296,9 @@ shape = SubResource("CircleShape2D_yqjtg")
 [node name="Destoryer" parent="Target" instance=ExtResource("2_yqjtg")]
 modulate = Color(0.89926594, 0.8992556, 0.89925796, 1)
 position = Vector2(174, 138)
+
+[node name="Camera2D" type="Camera2D" parent="Target/Destoryer"]
+position = Vector2(-15, 16)
 
 [connection signal="pressed" from="GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Button" to="." method="_on_game_retry"]
 [connection signal="body_entered" from="Target/QuietArea" to="." method="_on_quiet_area_body_entered"]
