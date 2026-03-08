@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://duv67hnn6mr8a"]
+[gd_scene load_steps=34 format=3 uid="uid://duv67hnn6mr8a"]
 
 [ext_resource type="Script" uid="uid://dyumjrfy0how7" path="res://scripts/characters/attendant.gd" id="1_2dgyn"]
 [ext_resource type="Texture2D" uid="uid://dywj6wc8wolqu" path="res://assets/sprites/whis.png" id="1_ainqp"]
@@ -254,6 +254,20 @@ size = Vector2(71, 73)
 [sub_resource type="CircleShape2D" id="CircleShape2D_2dgyn"]
 radius = 60.00833
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2dgyn"]
+bg_color = Color(0.5294118, 0.80784315, 0.92156863, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ws4q4"]
+bg_color = Color(0, 0.7490196, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="Attendant" type="CharacterBody2D"]
 collision_layer = 5
 script = ExtResource("1_2dgyn")
@@ -273,3 +287,22 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaffRadius"]
 shape = SubResource("CircleShape2D_2dgyn")
+
+[node name="AmmoBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -18.0
+offset_top = 42.0
+offset_right = 22.962963
+offset_bottom = 47.821053
+theme_override_styles/background = SubResource("StyleBoxFlat_2dgyn")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ws4q4")
+max_value = 3.0
+step = 1.0
+value = 3.0
+show_percentage = false
+
+[node name="WeaknessTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[connection signal="timeout" from="WeaknessTimer" to="." method="_on_weakness_timer_timeout"]

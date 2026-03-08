@@ -5,20 +5,37 @@ const SPEED = 400.0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var staff_radius: Area2D = $StaffRadius
+@onready var ammo_bar: ProgressBar = $AmmoBar
+@onready var weakness_timer: Timer = $WeaknessTimer
+
 
 const BLAST = preload("uid://bmwqn6cc4xxcm")
+const MAX_AMMO = 3
+const TIME_TO_HEAL = 10
 
 var blast_cooldown = 0.5
 var staff_damage = 1
 
+var max_ammo = 3
+var current_ammo = 3
+var weakened_count = 0
+
+var can_fire = true
+
+var is_disabled = false
+var is_weakened = false
+var is_reloading = false
 var is_attacking = false
 var is_blasting = false
-var can_fire = true
+
+#func _ready() -> void:
+	#take_weakness()
+	#take_weakness()
 
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
-	if Input.is_action_just_pressed("ui_accept") and not is_attacking and not is_blasting:
+	if Input.is_action_just_pressed("attack") and not is_attacking and not is_blasting:
 		physical_attack(direction)
 		return
 		
@@ -48,7 +65,7 @@ func update_animation(direction: Vector2):
 		animated_sprite.play("move")
 		
 		if direction.x < 0:
-			animated_sprite.flip_h = true 
+			animated_sprite.flip_h = true
 		elif direction.x > 0:
 			animated_sprite.flip_h = false
 
@@ -59,7 +76,7 @@ func physical_attack(direction: Vector2):
 	is_attacking = true
 
 	if direction.x < 0:
-		animated_sprite.flip_h = true 
+		animated_sprite.flip_h = true
 	elif direction.x > 0:
 		animated_sprite.flip_h = false
 
@@ -81,15 +98,27 @@ func check_collisions():
 func fire_blast(aim_direction: Vector2):
 
 	if aim_direction == Vector2.ZERO:
-		animated_sprite.play("standing") 
+		animated_sprite.play("standing")
 		return
-
+		
+	if is_weakened:
+		if current_ammo <= 0:
+			if animated_sprite.animation != "idle":
+				animated_sprite.play("idle")
+							
+			if can_fire:
+				can_fire = false
+				await get_tree().create_timer(blast_cooldown).timeout
+				can_fire = true
+			return 
+			
+	
 	var anim_name = "horizontal_blast"
 	var flip = false
 	
-	if aim_direction.y < 0: 
+	if aim_direction.y < 0:
 		anim_name = "top_corner_blast"
-	elif aim_direction.y > 0: 
+	elif aim_direction.y > 0:
 		anim_name = "bottom_corner_blast"
 	else:
 		anim_name = "horizontal_blast"
@@ -118,5 +147,65 @@ func fire_blast(aim_direction: Vector2):
 		
 		get_parent().add_child(blast)
 		
+		if is_weakened:
+			current_ammo -= 1
+			ammo_bar.value = current_ammo
+			
+			if not is_reloading:
+				reload_ammo()
+		
 		await get_tree().create_timer(blast_cooldown).timeout
+			
 		can_fire = true
+
+func take_weakness():
+	weakened_count += 1
+	
+	if weakened_count > 3:
+		weakened_count = 3
+		
+	is_weakened = true
+	ammo_bar.visible = true
+	
+	if weakened_count == 1:
+		max_ammo = 3
+	elif weakened_count == 2:
+		max_ammo = 2
+	elif weakened_count == 3:
+		max_ammo = 1
+	else:
+		is_disabled = true
+		
+	ammo_bar.max_value = max_ammo
+	current_ammo = clamp(current_ammo, 0, max_ammo)
+	ammo_bar.value = current_ammo
+	
+	if current_ammo < max_ammo and not is_reloading:
+		reload_ammo()
+
+	weakness_timer.start(TIME_TO_HEAL * weakened_count)
+
+func reload_ammo():
+	is_reloading = true
+	
+	await get_tree().create_timer(2.0).timeout
+	
+	if is_weakened:
+		current_ammo = clamp(current_ammo + 1, 0, max_ammo)
+		ammo_bar.value = current_ammo
+		
+		if current_ammo < max_ammo:
+			reload_ammo()
+		else:
+			is_reloading = false
+	else:
+		is_reloading = false
+
+func _on_weakness_timer_timeout() -> void:
+	is_weakened = false
+	can_fire = true
+	weakened_count = 0
+	max_ammo = MAX_AMMO
+	current_ammo = MAX_AMMO
+	ammo_bar.visible = false
+	is_reloading = false
