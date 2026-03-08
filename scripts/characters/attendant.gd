@@ -9,6 +9,10 @@ const SPEED = 400.0
 @onready var weakness_timer: Timer = $WeaknessTimer
 @onready var effects_animated_2d: AnimatedSprite2D = $Effects
 
+@onready var timer_text: Label = $"../Timer/text"
+@onready var timer: CanvasLayer = $"../Timer"
+
+
 const BLAST = preload("uid://bmwqn6cc4xxcm")
 const MAX_AMMO = 4
 const TIME_TO_HEAL = 10
@@ -62,7 +66,10 @@ func _physics_process(_delta: float) -> void:
 				velocity = velocity.move_toward(Vector2.ZERO, SPEED)
 
 		update_animation(direction)
-
+	
+	if timer.visible and not weakness_timer.is_stopped():
+		timer_text.text = str(int(ceil(weakness_timer.time_left)))
+			
 	move_and_slide()
 
 func update_animation(direction: Vector2):
@@ -205,6 +212,7 @@ func take_weakness():
 		ammo_bar.value = 0
 
 	weakness_timer.start(TIME_TO_HEAL * weakened_count)
+	timer.visible = true
 
 func reload_ammo():
 	is_reloading = true
@@ -232,3 +240,4 @@ func _on_weakness_timer_timeout() -> void:
 	ammo_bar.visible = false
 	is_reloading = false
 	ammo_bar.add_theme_stylebox_override("background", original_ammo_bar_bg_style)
+	timer.visible = false

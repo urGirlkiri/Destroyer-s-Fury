@@ -399,6 +399,7 @@ wait_time = 10.0
 one_shot = true
 
 [node name="Effects" type="AnimatedSprite2D" parent="."]
+visible = false
 modulate = Color(1, 0.14901961, 0.34117648, 1)
 position = Vector2(5.0000043, -2.289164)
 scale = Vector2(0.92187494, 0.86634034)
