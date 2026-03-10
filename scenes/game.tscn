@@ -209,6 +209,7 @@ scale = Vector2(0.21018767, 0.21018761)
 texture = ExtResource("3_iywne")
 
 [node name="FlashRect" type="ColorRect" parent="GameInfoLayer"]
+visible = false
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -221,6 +222,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 1
 color = Color(1, 0, 0, 1)
 
 [node name="GameOver" type="PanelContainer" parent="GameInfoLayer"]
@@ -410,6 +412,7 @@ horizontal_scroll_mode = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Shops/YummyShop/Items"]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="Shops/YummyShop/Items/VBoxContainer"]
 layout_mode = 2
