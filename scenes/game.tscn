@@ -76,10 +76,10 @@ point_count = 9
 radius = 172.02615
 
 [node name="Game" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_lbhrr")
 
 [node name="Timer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="icon" type="Label" parent="Timer"]
 z_index = 1
@@ -93,13 +93,14 @@ text = "⏱ "
 
 [node name="text" type="Label" parent="Timer"]
 z_index = 1
-offset_left = 1014.0
+offset_left = 999.0
 offset_top = 187.0
-offset_right = 1116.0
-offset_bottom = 324.0
+offset_right = 1069.0
+offset_bottom = 236.0
 theme_override_colors/font_color = Color(0.74978, 0.74978, 0.74977994, 1)
 theme_override_font_sizes/font_size = 32
-text = "12"
+text = "1"
+horizontal_alignment = 1
 
 [node name="RecoveryDial" type="TextureProgressBar" parent="Timer"]
 modulate = Color(0.21960784, 0.09411765, 0.48235294, 1)
@@ -197,7 +198,6 @@ size_flags_vertical = 3
 color = Color(1, 0, 0, 1)
 
 [node name="GameOver" type="PanelContainer" parent="GameInfoLayer"]
-visible = false
 modulate = Color(1, 1, 1, 0.84313726)
 anchors_preset = 8
 anchor_left = 0.5
@@ -258,6 +258,68 @@ theme_override_font_sizes/font_size = 25
 text = "Try Again 
 "
 
+[node name="GamePause" type="PanelContainer" parent="GameInfoLayer"]
+process_mode = 3
+visible = false
+modulate = Color(1, 1, 1, 0.84313726)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -246.0
+offset_top = -171.0
+offset_right = 234.32208
+offset_bottom = 161.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iywne")
+
+[node name="MarginContainer" type="MarginContainer" parent="GameInfoLayer/GamePause"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameInfoLayer/GamePause/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="GamePause" type="Label" parent="GameInfoLayer/GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="GameInfoLayer/GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86898494, 0.8689849, 0.8689849, 1)
+theme_override_font_sizes/font_size = 28
+text = "Continue serving this  Galaxy"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="GameInfoLayer/GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Current Score"
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="GameInfoLayer/GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+theme_override_font_sizes/font_size = 28
+text = "0"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="GameInfoLayer/GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 25
+text = "Resume"
+
 [node name="Shops" type="Node" parent="."]
 
 [node name="YummyShop" type="Button" parent="Shops"]
@@ -289,20 +351,18 @@ theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
 text = "P"
 
-[node name="SpawnTimer" type="Timer" parent="."]
+[node name="Spawn" type="Node" parent="."]
+
+[node name="SpawnTimer" type="Timer" parent="Spawn"]
 wait_time = 2.0
 autostart = true
 
-[node name="SpawnPath" type="Path2D" parent="."]
+[node name="SpawnPath" type="Path2D" parent="Spawn"]
 curve = SubResource("Curve2D_lbhrr")
 
-[node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath"]
+[node name="SpawnLocation" type="PathFollow2D" parent="Spawn/SpawnPath"]
 position = Vector2(1165, 139)
 rotation = 1.5608711
-
-[node name="Attendant" parent="." instance=ExtResource("3_lnu2h")]
-position = Vector2(584, 566)
-scale = Vector2(1.5, 1.5)
 
 [node name="Target" type="Control" parent="."]
 layout_mode = 3
@@ -334,5 +394,10 @@ position = Vector2(174, 138)
 [node name="Camera2D" type="Camera2D" parent="Target/Destoryer"]
 position = Vector2(-15, 16)
 
+[node name="Attendant" parent="." instance=ExtResource("3_lnu2h")]
+position = Vector2(584, 566)
+scale = Vector2(1.5, 1.5)
+
 [connection signal="pressed" from="GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Button" to="." method="_on_game_retry"]
+[connection signal="pressed" from="GameInfoLayer/GamePause/MarginContainer/VBoxContainer/Button" to="." method="_on_resume_pressed"]
 [connection signal="body_entered" from="Target/QuietArea" to="." method="_on_quiet_area_body_entered"]

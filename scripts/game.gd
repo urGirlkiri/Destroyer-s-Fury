@@ -1,26 +1,30 @@
 extends Node2D
 
 @onready var nap_meter: ProgressBar = $GameInfoLayer/NapMeter
-@onready var lord: Node2D = $Target/Destoryer 
+@onready var lord: Node2D = $Target/Destoryer
 
 @onready var flash_rect: ColorRect = $GameInfoLayer/FlashRect
 @onready var score_label: Label = $GameInfoLayer/Score
 
 @onready var game_over_container: PanelContainer = $GameInfoLayer/GameOver
 @onready var game_over_score_label: Label = $GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Score
+@onready var game_pause_score_label: Label = $GameInfoLayer/GamePause/MarginContainer/VBoxContainer/Score
 
-@onready var spawn_timer: Timer = $SpawnTimer
-@onready var spawn_path: Path2D = $SpawnPath
-@onready var spawn_location: PathFollow2D = $SpawnPath/SpawnLocation
+@onready var spawn_timer: Timer = $Spawn/SpawnTimer
+@onready var spawn_path: Path2D = $Spawn/SpawnPath
+@onready var spawn_location: PathFollow2D = $Spawn/SpawnPath/SpawnLocation
 
 @onready var attendant: CharacterBody2D = $Attendant
 @onready var coins_label: Label = $GameInfoLayer/Coins/Label
 
+@onready var game_pause: PanelContainer = $GameInfoLayer/GamePause
+
 const GOBLIN = preload("uid://c6mwmqi5mhmck")
 
 var nap_level = 100.0
-var is_agitated = false 
-var is_game_over = false 
+var is_agitated = false
+var is_game_over = false
+var is_game_paused = false
 
 var flash_tween: Tween
 
@@ -54,16 +58,16 @@ func _physics_process(delta: float) -> void:
 	increase_diff(delta)
 	
 	var current_noise = 0.0
-	for goblin in get_tree().get_nodes_in_group('noise_maker'): 
+	for goblin in get_tree().get_nodes_in_group('noise_maker'):
 		var dist = goblin.global_position.distance_to(lord.global_position)
 		current_noise += 5000.0 / clamp(dist, 10.0, 2000.0)
 	
 	GameManager.current_noise_level = current_noise
 
 	if current_noise <= 25:
-		nap_level += 10.0 * delta 
+		nap_level += 10.0 * delta
 	else:
-		nap_level -= 5.0 * delta 
+		nap_level -= 5.0 * delta
 
 	nap_level = clamp(nap_level, 0, 100)
 	nap_meter.value = nap_level
@@ -83,6 +87,16 @@ func _physics_process(delta: float) -> void:
 	else:
 		reset_red_flash()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause"):
+		toggle_pause()
+
+func toggle_pause():
+	if is_game_over: return 
+	game_pause.visible = not get_tree().paused
+	game_pause_score_label.text = str(GameManager.current_score)
+
+
 func update_score():
 	score_label.text = str(GameManager.current_score)
 	coins_label.text  = str(GameManager.current_coins) + "  "
@@ -91,7 +105,7 @@ func increase_diff(delta: float):
 	difficulty_time += delta
 	if difficulty_time > 10.0 and spawn_rate > 0.5:
 		difficulty_time = 0.0
-		spawn_rate -= 0.1 
+		spawn_rate -= 0.1
 		spawn_timer.wait_time = spawn_rate
 
 func _on_quiet_area_body_entered(body: Node2D) -> void:
@@ -117,8 +131,8 @@ func trigger_game_over():
 		
 	is_game_over = true
 	
-	spawn_timer.stop() 
-	lord.play_anim("fury")    
+	spawn_timer.stop()
+	lord.play_anim("fury")
 	
 	await get_tree().create_timer(3.0).timeout
 	
@@ -152,3 +166,6 @@ func trigger_red_flash():
 	flash_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.3, 1.0)
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.0, 1.0)
+
+func _on_resume_pressed() -> void:
+	toggle_pause()
