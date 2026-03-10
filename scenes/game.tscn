@@ -393,6 +393,7 @@ text = "Y"
 
 [node name="YummyShop" type="Panel" parent="Shops"]
 process_mode = 3
+visible = false
 z_index = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -416,7 +417,7 @@ offset_bottom = 43.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.8646751, 0.86467516, 0.8646751, 1)
 theme_override_font_sizes/font_size = 22
-text = "Yummy Shop"
+text = "Yummy STuff"
 horizontal_alignment = 1
 uppercase = true
 
@@ -441,7 +442,8 @@ horizontal_scroll_mode = 0
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PowerShop" type="Button" parent="Shops"]
+[node name="PowerBtn" type="Button" parent="Shops"]
+z_index = 2
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -456,6 +458,57 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
 text = "P"
+
+[node name="PowerShop" type="Panel" parent="Shops"]
+process_mode = 3
+visible = false
+z_index = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 859.0
+offset_top = -390.98148
+offset_right = 1117.0
+offset_bottom = -39.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_u5sy4")
+
+[node name="Label" type="Label" parent="Shops/PowerShop"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 16.0
+offset_right = 64.0
+offset_bottom = 43.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.8646751, 0.86467516, 0.8646751, 1)
+theme_override_font_sizes/font_size = 22
+text = "PowerUPs"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Items" type="ScrollContainer" parent="Shops/PowerShop"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.5
+offset_top = -294.0
+offset_right = 118.5
+offset_bottom = -9.955536
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_u5sy4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_gee14")
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shops/PowerShop/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Spawn" type="Node" parent="."]
 
@@ -507,4 +560,5 @@ scale = Vector2(1.5, 1.5)
 [connection signal="pressed" from="GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Button" to="." method="_on_game_retry"]
 [connection signal="pressed" from="GameInfoLayer/GamePause/MarginContainer/VBoxContainer/Button" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Shops/YummyBtn" to="." method="_on_yummy_btn_pressed"]
+[connection signal="pressed" from="Shops/PowerBtn" to="." method="_on_power_btn_pressed"]
 [connection signal="body_entered" from="Target/QuietArea" to="." method="_on_quiet_area_body_entered"]
