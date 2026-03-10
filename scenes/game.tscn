@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dtkxfqikwcg8l"]
+[gd_scene load_steps=17 format=3 uid="uid://dtkxfqikwcg8l"]
 
 [ext_resource type="Script" uid="uid://d1pn8y7vilpdr" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://2gedry0cgpqj" path="res://assets/images/cover.png" id="1_uwrxv"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://db51sdag4n5ka" path="res://scenes/main_chars/destoryer.tscn" id="2_yqjtg"]
 [ext_resource type="Texture2D" uid="uid://bhskcfmpdh7g1" path="res://assets/images/coins.png" id="3_iywne"]
 [ext_resource type="PackedScene" uid="uid://duv67hnn6mr8a" path="res://scenes/main_chars/attendant.tscn" id="3_lnu2h"]
+[ext_resource type="Texture2D" uid="uid://can81cmhb3s0m" path="res://assets/images/Food/16_burger_dish.png" id="5_u5sy4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
 bg_color = Color(0.21960784, 0.09411765, 0.48235294, 1)
@@ -55,6 +56,30 @@ shadow_color = Color(0.3137255, 0.10980392, 0.63529414, 1)
 shadow_size = 7
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbhrr"]
+bg_color = Color(0.050980393, 0.02745098, 0.19607843, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u5sy4"]
+bg_color = Color(0.21960784, 0.09411765, 0.48235294, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gee14"]
 bg_color = Color(0.050980393, 0.02745098, 0.19607843, 1)
 border_width_left = 2
 border_width_top = 2
@@ -199,6 +224,7 @@ size_flags_vertical = 3
 color = Color(1, 0, 0, 1)
 
 [node name="GameOver" type="PanelContainer" parent="GameInfoLayer"]
+visible = false
 modulate = Color(1, 1, 1, 0.84313726)
 anchors_preset = 8
 anchor_left = 0.5
@@ -322,8 +348,10 @@ theme_override_font_sizes/font_size = 25
 text = "Resume"
 
 [node name="Shops" type="Node" parent="."]
+process_mode = 3
 
-[node name="YummyShop" type="Button" parent="Shops"]
+[node name="YummyBtn" type="Button" parent="Shops"]
+z_index = 2
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -335,6 +363,152 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 32
 theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
 text = "Y"
+
+[node name="YummyShop" type="Panel" parent="Shops"]
+z_index = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 37.0
+offset_top = -390.98148
+offset_right = 295.0
+offset_bottom = -39.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_u5sy4")
+
+[node name="Label" type="Label" parent="Shops/YummyShop"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 16.0
+offset_right = 64.0
+offset_bottom = 43.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.8646751, 0.86467516, 0.8646751, 1)
+theme_override_font_sizes/font_size = 22
+text = "Yummy Shop"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Items" type="ScrollContainer" parent="Shops/YummyShop"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.5
+offset_top = -294.0
+offset_right = 118.5
+offset_bottom = -9.955536
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_gee14")
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shops/YummyShop/Items"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Shops/YummyShop/Items/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="TextureRect" type="TextureRect" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_u5sy4")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Burger"
+
+[node name="Description" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8175213, 0.8175213, 0.81752115, 1)
+text = "Slow Awakening"
+
+[node name="Price" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8352941, 0.69411767, 0.23921569, 1)
+text = "— 50 Coins"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Shops/YummyShop/Items/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="TextureRect" type="TextureRect" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_u5sy4")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Burger"
+
+[node name="Description" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8175213, 0.8175213, 0.81752115, 1)
+text = "Slow Awakening"
+
+[node name="Price" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer2/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8352941, 0.69411767, 0.23921569, 1)
+text = "— 50 Coins"
+
+[node name="MarginContainer3" type="MarginContainer" parent="Shops/YummyShop/Items/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="TextureRect" type="TextureRect" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer3/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("5_u5sy4")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer3/HBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Burger"
+
+[node name="Description" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8175213, 0.8175213, 0.81752115, 1)
+text = "Slow Awakening"
+
+[node name="Price" type="Label" parent="Shops/YummyShop/Items/VBoxContainer/MarginContainer3/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8352941, 0.69411767, 0.23921569, 1)
+text = "— 50 Coins"
 
 [node name="PowerShop" type="Button" parent="Shops"]
 anchors_preset = 3

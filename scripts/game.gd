@@ -8,7 +8,9 @@ extends Node2D
 
 @onready var game_over_container: PanelContainer = $GameInfoLayer/GameOver
 @onready var game_over_score_label: Label = $GameInfoLayer/GameOver/MarginContainer/VBoxContainer/Score
+
 @onready var game_pause_score_label: Label = $GameInfoLayer/GamePause/MarginContainer/VBoxContainer/Score
+@onready var game_pause: PanelContainer = $GameInfoLayer/GamePause
 
 @onready var spawn_timer: Timer = $Spawn/SpawnTimer
 @onready var spawn_path: Path2D = $Spawn/SpawnPath
@@ -17,18 +19,16 @@ extends Node2D
 @onready var attendant: CharacterBody2D = $Attendant
 @onready var coins_label: Label = $GameInfoLayer/Coins/Label
 
-@onready var game_pause: PanelContainer = $GameInfoLayer/GamePause
-
 const GOBLIN = preload("uid://c6mwmqi5mhmck")
-
-var nap_level = 100.0
-var is_agitated = false
-var is_game_over = false
 
 var flash_tween: Tween
 
+var nap_level = 100.0
 var difficulty_time = 0.0
 var spawn_rate = 4.0
+
+var is_agitated = false
+var is_game_over = false
 
 func _ready():
 	flash_rect.modulate.a = 0

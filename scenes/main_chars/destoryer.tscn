@@ -134,6 +134,7 @@ animations = [{
 radius = 67.0
 
 [node name="Destoryer" type="StaticBody2D" groups=["Destroyer"]]
+process_mode = 1
 z_index = 1
 script = ExtResource("1_076mu")
 
