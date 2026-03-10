@@ -19,7 +19,11 @@ extends Node2D
 @onready var attendant: CharacterBody2D = $Attendant
 @onready var coins_label: Label = $GameInfoLayer/Coins/Label
 
+@onready var yummy_shop: Panel = $Shops/YummyShop
+@onready var yummy_shop_list: VBoxContainer = $Shops/YummyShop/Items/VBoxContainer
+
 const GOBLIN = preload("uid://c6mwmqi5mhmck")
+const SHOP_ITEM = preload("uid://cegs1nif11y3e")
 
 var flash_tween: Tween
 
@@ -29,6 +33,7 @@ var spawn_rate = 4.0
 
 var is_agitated = false
 var is_game_over = false
+var is_shop_open = false
 
 func _ready():
 	flash_rect.modulate.a = 0
@@ -37,6 +42,11 @@ func _ready():
 	spawn_timer.timeout.connect(_on_spawn_timer)
 	spawn_timer.wait_time = spawn_rate
 	spawn_timer.start()
+	
+	for item_data in GameManager.yummy_stuff:
+		var new_item = SHOP_ITEM.instantiate()
+		yummy_shop_list.add_child(new_item)
+		new_item.setup(item_data)
 
 func _on_spawn_timer():
 	if is_game_over or get_tree().paused:
@@ -89,6 +99,9 @@ func _physics_process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		toggle_pause()
+	
+	if event.is_action_pressed("yummy"):
+		toggle_yummy_shop()
 
 func update_score():
 	score_label.text = str(GameManager.current_score)
@@ -165,7 +178,7 @@ func toggle_pause():
 	
 	var pause_state = not get_tree().paused
 	
-	get_tree().paused = pause_state    
+	get_tree().paused = pause_state
 	game_pause.visible = pause_state
 	
 	if pause_state:
@@ -173,3 +186,15 @@ func toggle_pause():
 
 func _on_resume_pressed() -> void:
 	toggle_pause()
+
+func toggle_yummy_shop():
+	if get_tree().paused and not  is_shop_open:
+		pass
+	else:
+		toggle_pause()
+		
+	is_shop_open = !is_shop_open
+	yummy_shop.visible = is_shop_open
+	
+func _on_yummy_btn_pressed() -> void:
+	toggle_yummy_shop()

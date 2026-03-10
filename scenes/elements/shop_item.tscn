@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://cegs1nif11y3e"]
+
+[ext_resource type="Texture2D" uid="uid://can81cmhb3s0m" path="res://assets/images/Food/16_burger_dish.png" id="1_cbx2b"]
+[ext_resource type="Script" uid="uid://c3ow4uugowr04" path="res://scenes/elements/shop_item.gd" id="1_k7tbn"]
+
+[node name="ShopItem" type="PanelContainer"]
+offset_right = 226.0
+offset_bottom = 95.0
+mouse_filter = 1
+script = ExtResource("1_k7tbn")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 7
+
+[node name="Image" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("1_cbx2b")
+expand_mode = 3
+
+[node name="Details" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MarginContainer/HBoxContainer/Details"]
+layout_mode = 2
+text = "Burger"
+
+[node name="Description" type="Label" parent="MarginContainer/HBoxContainer/Details"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8175213, 0.8175213, 0.81752115, 1)
+text = "Slow Awakening"
+
+[node name="Price" type="Label" parent="MarginContainer/HBoxContainer/Details"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8352941, 0.69411767, 0.23921569, 1)
+text = "— 50 Coins"
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+mouse_filter = 2
+
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
+[connection signal="gui_input" from="." to="." method="_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
