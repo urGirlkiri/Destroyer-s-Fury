@@ -323,7 +323,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b5ga2"]
 size = Vector2(40, 59)
 
-[node name="Goblin" groups=["goblins", "noise_maker"] instance=ExtResource("1_qwv5q")]
+[node name="Goblin" groups=["goblins"] instance=ExtResource("1_qwv5q")]
 script = ExtResource("2_b5ga2")
 
 [node name="AnimatedSprite2D" parent="." index="0"]

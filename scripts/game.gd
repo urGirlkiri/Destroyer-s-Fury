@@ -24,7 +24,6 @@ const GOBLIN = preload("uid://c6mwmqi5mhmck")
 var nap_level = 100.0
 var is_agitated = false
 var is_game_over = false
-var is_game_paused = false
 
 var flash_tween: Tween
 
@@ -40,7 +39,7 @@ func _ready():
 	spawn_timer.start()
 
 func _on_spawn_timer():
-	if is_game_over:
+	if is_game_over or get_tree().paused:
 		spawn_timer.stop()
 		return
 
@@ -52,7 +51,7 @@ func _on_spawn_timer():
 func _physics_process(delta: float) -> void:
 	update_score()
 
-	if is_game_over or is_agitated:
+	if is_game_over or is_agitated or get_tree().paused:
 		return
 
 	increase_diff(delta)
@@ -90,12 +89,6 @@ func _physics_process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		toggle_pause()
-
-func toggle_pause():
-	if is_game_over: return 
-	game_pause.visible = not get_tree().paused
-	game_pause_score_label.text = str(GameManager.current_score)
-
 
 func update_score():
 	score_label.text = str(GameManager.current_score)
@@ -166,6 +159,17 @@ func trigger_red_flash():
 	flash_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.3, 1.0)
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.0, 1.0)
+
+func toggle_pause():
+	if is_game_over: return
+	
+	var pause_state = not get_tree().paused
+	
+	get_tree().paused = pause_state    
+	game_pause.visible = pause_state
+	
+	if pause_state:
+		game_pause_score_label.text = str(GameManager.current_score)
 
 func _on_resume_pressed() -> void:
 	toggle_pause()
