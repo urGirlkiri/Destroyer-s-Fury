@@ -30,24 +30,24 @@ extends Node
 
 @export var powerups = [
 	{
-		"id": "pudding",
-		"name": "Pudding",
-		"desc": "Slow Awakening",
+		"id": "healing",
+		"name": "Potion",
+		"desc": "Restore Energy",
 		"price": 50,
-		"icon": "res://assets/images/Food/76_pudding_dish.png"
+		"icon": "res://assets/images/Powerups/potion.png"
 	},
 	{
-		"id": "cake",
-		"name": "Strawberry Cake",
-		"desc": "Deep Sleep",
+		"id": "portal",
+		"name": "Teleport",
+		"desc": "Teleport away from danger",
 		"price": 75,
-		"icon": "res://assets/images/Food/91_strawberrycake_dish.png"
+		"icon": "res://assets/images/Powerups/portal.png"
 	},
 	{
-		"id": "ramen",
-		"name": "Ramen",
-		"desc": "Big Nap",
+		"id": "tim",
+		"name": "Time Freeze",
+		"desc": "Stop Time 3s",
 		"price": 120,
-		"icon": "res://assets/images/Food/87_ramen.png" 
+		"icon": "res://assets/images/Powerups/time.png" 
 	}
 ]
