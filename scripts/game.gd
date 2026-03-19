@@ -4,13 +4,20 @@ extends Node2D
 
 @onready var attendant: CharacterBody2D = $Attendant
 
+var aura_tween: Tween
+
 var is_agitated = false
 var is_game_over = false
+
+var shake_intensity = 0.0
 
 func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
 
 func _physics_process(delta: float) -> void:
+	
+	trigger_screen_shake()
+	
 	if is_game_over or is_agitated or get_tree().paused:
 		return
 	
@@ -33,7 +40,7 @@ func _physics_process(delta: float) -> void:
 	elif GameManager.nap_level <= 20:
 		lord.play_anim("awake")
 	else:
-		lord.play_anim("sleep")	
+		lord.play_anim("sleep")
 
 func _on_apply_item_effect(id: String):
 	match id:
@@ -77,12 +84,37 @@ func trigger_game_over():
 	GameManager.game_over_triggered.emit()
 	
 	lord.play_anim("fury")
+	shake_intensity = 15.0
+	trigger_aura_flare()
 	
 	await get_tree().create_timer(3.0).timeout
 	
+	shake_intensity = 0.0
+	var camera = get_viewport().get_camera_2d()
+	if camera: camera.offset = Vector2.ZERO
+
+	if aura_tween: aura_tween.kill()
+	lord.modulate = Color.WHITE
+		
 	if attendant:
 		attendant.set_physics_process(false)
 		attendant.animated_sprite.stop()
 	
 	get_tree().call_group("noise_maker", "die")
 	
+func trigger_screen_shake():
+	if shake_intensity > 0:
+		var camera = get_viewport().get_camera_2d()
+		if camera:
+			camera.offset = Vector2(
+				randf_range(-shake_intensity, shake_intensity),
+				randf_range(-shake_intensity, shake_intensity)
+			)
+
+func trigger_aura_flare():
+	if aura_tween: aura_tween.kill()
+	
+	aura_tween = create_tween().set_loops()
+	
+	aura_tween.tween_property(lord, "modulate", Color(2.5, 0.5, 3.0, 1.0), 0.1)
+	aura_tween.tween_property(lord, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.1)
