@@ -1,6 +1,7 @@
 extends NoiseMaker
 
 const PIXIE_DUST = preload("uid://85tsfux1tgjo")
+const DEATH_PARTICLES = preload("uid://dxquw87lc1ihn")
 
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
@@ -71,13 +72,17 @@ func die():
 	if is_annihilated:
 		return
 		
+	var boom = DEATH_PARTICLES.instantiate()
+	
 	is_annihilated = true
 	collision_shape.set_deferred("disabled", true)
 	
 	linear_velocity = Vector2.ZERO
+	boom.global_position = global_position
 	set_physics_process(false)
 	
 	animated_sprite.play("die")
+	get_tree().current_scene.add_child(boom)
 	await animated_sprite.animation_finished
 
 	call_deferred("spawn_coin")
