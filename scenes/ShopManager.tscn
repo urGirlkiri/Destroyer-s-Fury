@@ -200,3 +200,6 @@ horizontal_scroll_mode = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="PowerShop/Items"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[connection signal="pressed" from="YummyBtn" to="." method="_on_yummy_btn_pressed"]
+[connection signal="pressed" from="PowerBtn" to="." method="_on_power_btn_pressed"]
