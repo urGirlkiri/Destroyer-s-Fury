@@ -249,3 +249,6 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 25
 text = "Resume"
+
+[connection signal="pressed" from="GameOver/MarginContainer/VBoxContainer/Button" to="." method="_on_game_retry"]
+[connection signal="pressed" from="GamePause/MarginContainer/VBoxContainer/Button" to="." method="_on_resume_pressed"]

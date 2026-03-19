@@ -21,6 +21,7 @@ func _ready() -> void:
 	flash_rect.modulate.a = 0
 	game_over_container.visible = false
 	GameManager.game_over_triggered.connect(_on_game_over)
+	GameManager.pause_game.connect(toggle_pause)
 
 func _process(delta: float) -> void:
 	update_score()

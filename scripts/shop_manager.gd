@@ -46,11 +46,16 @@ func _on_game_over():
 func toggle_yummy_shop():
 	if is_game_over: return
 	
+	if not get_tree().paused:
+		GameManager.pause_game.emit()
 	yummy_shop.visible = not yummy_shop.visible
 	power_shop.visible = false
 	
 func toggle_power_shop():
 	if is_game_over: return
+	
+	if not get_tree().paused:
+		GameManager.pause_game.emit()
 	
 	power_shop.visible = not power_shop.visible
 	yummy_shop.visible = false
