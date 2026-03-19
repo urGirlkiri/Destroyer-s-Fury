@@ -15,43 +15,22 @@ extends Node2D
 @onready var attendant: CharacterBody2D = $Attendant
 @onready var coins_label: Label = $GameInfoLayer/Coins/Label
 
-@onready var yummy_shop: Panel = $Shops/YummyShop
-@onready var yummy_shop_list: VBoxContainer = $Shops/YummyShop/Items/VBoxContainer
-
-@onready var power_shop: Panel = $Shops/PowerShop
-@onready var power_shop_list: VBoxContainer = $Shops/PowerShop/Items/VBoxContainer
-
 const GOBLIN = preload("uid://c6mwmqi5mhmck")
 const SHOP_ITEM = preload("uid://cegs1nif11y3e")
 
 var flash_tween: Tween
 
-var nap_level = 100.0
-
 var is_agitated = false
+var is_game_over = false
 
 func _ready():
 	flash_rect.modulate.a = 0
 	game_over_container.visible = false
-	
-	for item_data in GameManager.yummy_stuff:
-		var new_item = SHOP_ITEM.instantiate()
-		yummy_shop_list.add_child(new_item)
-		new_item.setup(item_data)
-		new_item.item_clicked.connect(_on_shop_item_clicked)
-		
-	for item_data in GameManager.powerups:
-		var new_item = SHOP_ITEM.instantiate()
-		power_shop_list.add_child(new_item)
-		new_item.setup(item_data)
-		new_item.item_clicked.connect(_on_shop_item_clicked)
-
-
 
 func _physics_process(delta: float) -> void:
 	update_score()
 
-	if GameManager.is_game_over or is_agitated or get_tree().paused:
+	if is_game_over or is_agitated or get_tree().paused:
 		return
 	
 	var current_noise = 0.0
@@ -62,35 +41,29 @@ func _physics_process(delta: float) -> void:
 	GameManager.current_noise_level = current_noise
 
 	if current_noise <= 25:
-		nap_level += 10.0 * delta
+		GameManager.nap_level += 10.0 * delta
 	else:
-		nap_level -= 5.0 * delta
+		GameManager.nap_level -= 5.0 * delta
 
-	nap_level = clamp(nap_level, 0, 100)
-	nap_meter.value = nap_level
+	GameManager.nap_level = clamp(GameManager.nap_level, 0, 100)
+	nap_meter.value = GameManager.nap_level
 	
-	if nap_level <= 0:
+	if GameManager.nap_level <= 0:
 		trigger_game_over()
-	elif nap_level <= 20:
+	elif GameManager.nap_level <= 20:
 		lord.play_anim("awake")
 	else:
 		lord.play_anim("sleep")
 
-	if nap_level <= 35 and nap_level > 0:
+	if GameManager.nap_level <= 35 and GameManager.nap_level > 0:
 		trigger_red_flash()
 	else:
 		reset_red_flash()
-
+	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"):
 		toggle_pause()
-	
-	if event.is_action_pressed("yummy"):
-		toggle_yummy_shop()
 
-	if event.is_action_pressed("powerup"):
-		toggle_power_shop()
-		
 func update_score():
 	score_label.text = str(GameManager.current_score)
 	coins_label.text  = str(GameManager.current_coins) + "  "
@@ -98,10 +71,10 @@ func update_score():
 func _on_quiet_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("noise_maker"):
 		trigger_agitation()
-		nap_level -= 4
+		GameManager.nap_level -= 4
 
 func trigger_agitation():
-	if is_agitated or GameManager.is_game_over:
+	if is_agitated or is_game_over:
 		return
 		
 	is_agitated = true
@@ -109,14 +82,15 @@ func trigger_agitation():
 	
 	await get_tree().create_timer(1.0).timeout
 	
-	if not GameManager.is_game_over:
+	if not is_game_over:
 		is_agitated = false
 
 func trigger_game_over():
-	if GameManager.is_game_over:
+	if is_game_over:
 		return
 		
-	GameManager.is_game_over = true
+	is_game_over = true
+	GameManager.game_over_triggered.emit()
 	
 	lord.play_anim("fury")
 	
@@ -154,7 +128,7 @@ func trigger_red_flash():
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.0, 1.0)
 
 func toggle_pause():
-	if GameManager.is_game_over: return
+	if is_game_over: return
 	
 	var pause_state = not get_tree().paused
 	
@@ -162,72 +136,11 @@ func toggle_pause():
 	game_pause.visible = pause_state
 	
 	if not pause_state:
-		yummy_shop.visible = false
-		power_shop.visible = false
+		pass
 	else:
 		game_pause_score_label.text = str(GameManager.current_score)
+		
+	GameManager.game_paused.emit(pause_state)
 
 func _on_resume_pressed() -> void:
 	toggle_pause()
-
-func toggle_yummy_shop():
-	if GameManager.is_game_over: return
-	
-	if not get_tree().paused:
-		get_tree().paused = true
-		game_pause.visible = true
-		game_pause_score_label.text = str(GameManager.current_score)
-		
-	yummy_shop.visible = not yummy_shop.visible
-	power_shop.visible = false
-	
-func toggle_power_shop():
-	if GameManager.is_game_over: return
-	
-	if not get_tree().paused:
-		get_tree().paused = true
-		game_pause.visible = true
-		game_pause_score_label.text = str(GameManager.current_score)
-		
-	power_shop.visible = not power_shop.visible
-	yummy_shop.visible = false
-
-func _on_yummy_btn_pressed() -> void:
-	toggle_yummy_shop()
-
-func _on_power_btn_pressed() -> void:
-	toggle_power_shop()
-
-func _on_shop_item_clicked(id: String, price: int):
-	if GameManager.current_coins >= price:
-		GameManager.current_coins -= price
-		update_score()
-		apply_item_effect(id)
-	else:
-		print("Not enough coins!")
-
-func apply_item_effect(id: String):
-	print("Applying item effect: ", id)
-	
-	match id:
-		"pudding":
-			nap_level += 20.0
-		"cake":
-			nap_level += 40.0
-		"ramen":
-			nap_level = 100.0
-			
-		"healing":
-			if attendant:
-				attendant.max_ammo += 1
-				attendant.current_ammo = attendant.max_ammo
-		"portal":
-			print("TODO: Implement Teleport")
-		"time":
-			print("TODO: Implement Time Freeze")
-			
-		_:
-			print("Unknown item bought: ", id)
-			
-	nap_level = clamp(nap_level, 0, 100)
-	nap_meter.value = nap_level

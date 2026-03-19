@@ -15,20 +15,17 @@ func _ready() -> void:
 	spawn_timer.timeout.connect(_on_spawn_timer)
 	spawn_timer.wait_time = spawn_rate
 	spawn_timer.start()
+	GameManager.game_over_triggered.connect(_on_game_over)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	increase_diff(delta)
-	if GameManager.is_game_over:
-		if is_game_over:
-			pass
-		else:
-			spawn_timer.stop()
-
-		is_game_over = true
+		
+func _on_game_over():
+	spawn_timer.stop()
+	is_game_over = true
 	
 func _on_spawn_timer():
-	if GameManager.is_game_over or get_tree().paused:
+	if is_game_over or get_tree().paused:
 		spawn_timer.stop()
 		return
 

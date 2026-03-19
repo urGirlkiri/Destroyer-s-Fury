@@ -1,0 +1,202 @@
+[gd_scene load_steps=9 format=3 uid="uid://bio21g8yaq4vu"]
+
+[ext_resource type="Script" uid="uid://bn6bm4s5ovg5u" path="res://scripts/shop_manager.gd" id="1_5hijt"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbhrr"]
+bg_color = Color(0.050980393, 0.02745098, 0.19607843, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u5sy4"]
+bg_color = Color(0.21960784, 0.09411765, 0.48235294, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0tnpc"]
+bg_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vtaks"]
+bg_color = Color(0.2901961, 0.22352941, 0.39215687, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvpfn"]
+bg_color = Color(0.2901961, 0.22352941, 0.39215687, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="Theme" id="Theme_u5sy4"]
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_0tnpc")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_vtaks")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_kvpfn")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gee14"]
+bg_color = Color(0.050980393, 0.02745098, 0.19607843, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="ShopManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_5hijt")
+
+[node name="YummyBtn" type="Button" parent="."]
+z_index = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_top = -86.0
+offset_right = 88.0
+offset_bottom = -17.893616
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
+text = "Y"
+
+[node name="YummyShop" type="Panel" parent="."]
+process_mode = 3
+visible = false
+z_index = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 37.0
+offset_top = -390.98148
+offset_right = 295.0
+offset_bottom = -39.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_u5sy4")
+
+[node name="Label" type="Label" parent="YummyShop"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 16.0
+offset_right = 64.0
+offset_bottom = 43.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.8646751, 0.86467516, 0.8646751, 1)
+theme_override_font_sizes/font_size = 22
+text = "Yummy STuff"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Items" type="ScrollContainer" parent="YummyShop"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.5
+offset_top = -294.0
+offset_right = 118.5
+offset_bottom = -9.955536
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_u5sy4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_gee14")
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="YummyShop/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PowerBtn" type="Button" parent="."]
+z_index = 2
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -86.0
+offset_top = -84.0
+offset_right = -20.0
+offset_bottom = -15.893616
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_lbhrr")
+text = "P"
+
+[node name="PowerShop" type="Panel" parent="."]
+process_mode = 3
+visible = false
+z_index = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 859.0
+offset_top = -390.98148
+offset_right = 1117.0
+offset_bottom = -39.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_u5sy4")
+
+[node name="Label" type="Label" parent="PowerShop"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -64.0
+offset_top = 16.0
+offset_right = 64.0
+offset_bottom = 43.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.8646751, 0.86467516, 0.8646751, 1)
+theme_override_font_sizes/font_size = 22
+text = "PowerUPs"
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Items" type="ScrollContainer" parent="PowerShop"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -118.5
+offset_top = -294.0
+offset_right = 118.5
+offset_bottom = -9.955536
+grow_horizontal = 2
+grow_vertical = 0
+theme = SubResource("Theme_u5sy4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_gee14")
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PowerShop/Items"]
+layout_mode = 2
+size_flags_horizontal = 3

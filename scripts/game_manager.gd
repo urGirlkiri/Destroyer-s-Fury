@@ -1,10 +1,13 @@
 extends Node
 
+signal game_paused(is_paused: bool)
+signal game_over_triggered
+
 @export var current_noise_level := 0
 @export var current_score := 0
 @export var current_coins := 0
 
-@export var is_game_over = false
+@export var nap_level = 100.0
 
 @export var yummy_stuff = [
 	{
