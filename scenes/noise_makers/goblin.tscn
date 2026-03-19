@@ -349,3 +349,4 @@ stream = ExtResource("4_bv6dy")
 
 [node name="DamageSound" type="AudioStreamPlayer2D" parent="." index="4"]
 stream = ExtResource("5_nqasi")
+volume_db = -6.0
