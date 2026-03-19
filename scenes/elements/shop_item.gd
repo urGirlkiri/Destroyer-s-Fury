@@ -55,3 +55,5 @@ func _gui_input(event: InputEvent) -> void:
 			
 			if is_hovered:
 				emit_signal("item_clicked", item_id, item_price)
+				
+	accept_event()

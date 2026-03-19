@@ -50,11 +50,13 @@ func _ready():
 		var new_item = SHOP_ITEM.instantiate()
 		yummy_shop_list.add_child(new_item)
 		new_item.setup(item_data)
+		new_item.item_clicked.connect(_on_shop_item_clicked)
 		
 	for item_data in GameManager.powerups:
 		var new_item = SHOP_ITEM.instantiate()
 		power_shop_list.add_child(new_item)
 		new_item.setup(item_data)
+		new_item.item_clicked.connect(_on_shop_item_clicked)
 
 func _on_spawn_timer():
 	if is_game_over or get_tree().paused:
@@ -89,13 +91,10 @@ func _physics_process(delta: float) -> void:
 	nap_level = clamp(nap_level, 0, 100)
 	nap_meter.value = nap_level
 	
-	
 	if nap_level <= 0:
 		trigger_game_over()
-
 	elif nap_level <= 20:
 		lord.play_anim("awake")
-		
 	else:
 		lord.play_anim("sleep")
 
@@ -185,12 +184,16 @@ func trigger_red_flash():
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.0, 1.0)
 
 func toggle_pause():
-	if is_game_over or is_shop_open: return
+	if is_game_over: return
 	
 	var pause_state = not get_tree().paused
-	
 	get_tree().paused = pause_state
 	game_pause.visible = pause_state
+	
+	if not pause_state:
+		is_shop_open = false
+		yummy_shop.visible = false
+		power_shop.visible = false
 	
 	if pause_state:
 		game_pause_score_label.text = str(GameManager.current_score)
@@ -199,7 +202,7 @@ func _on_resume_pressed() -> void:
 	toggle_pause()
 
 func toggle_shop():
-	if get_tree().paused and not  is_shop_open:
+	if get_tree().paused and not is_shop_open:
 		pass
 	else:
 		toggle_pause()
@@ -208,12 +211,10 @@ func toggle_shop():
 
 func toggle_yummy_shop():
 	toggle_shop()
-	
 	yummy_shop.visible = is_shop_open
 	
 func toggle_power_shop():
 	toggle_shop()
-	
 	power_shop.visible = is_shop_open
 	
 func _on_yummy_btn_pressed() -> void:
@@ -221,3 +222,38 @@ func _on_yummy_btn_pressed() -> void:
 
 func _on_power_btn_pressed() -> void:
 	toggle_power_shop()
+
+
+func _on_shop_item_clicked(id: String, price: int):
+	if GameManager.current_coins >= price:
+		GameManager.current_coins -= price
+		update_score()
+		apply_item_effect(id)
+	else:
+		print("Not enough coins!")
+
+func apply_item_effect(id: String):
+	print("Applying item effect: ", id)
+	
+	match id:
+		"pudding":
+			nap_level += 20.0
+		"cake":
+			nap_level += 40.0
+		"ramen":
+			nap_level = 100.0
+			
+		"healing":
+			if attendant:
+				attendant.max_ammo += 1
+				attendant.current_ammo = attendant.max_ammo
+		"portal":
+			print("TODO: Implement Teleport")
+		"time":
+			print("TODO: Implement Time Freeze")
+			
+		_:
+			print("Unknown item bought: ", id)
+			
+	nap_level = clamp(nap_level, 0, 100)
+	nap_meter.value = nap_level

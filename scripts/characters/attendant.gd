@@ -241,3 +241,21 @@ func _on_weakness_timer_timeout() -> void:
 	is_reloading = false
 	ammo_bar.add_theme_stylebox_override("background", original_ammo_bar_bg_style)
 	timer.visible = false
+
+func heal():
+	if not is_weakened:
+		return
+		
+	weakness_timer.stop()
+	
+	is_weakened = false
+	is_disabled = false
+	can_fire = true
+	weakened_count = 0
+	max_ammo = MAX_AMMO
+	current_ammo = MAX_AMMO
+	is_reloading = false
+	
+	ammo_bar.visible = false
+	timer.visible = false
+	ammo_bar.add_theme_stylebox_override("background", original_ammo_bar_bg_style)

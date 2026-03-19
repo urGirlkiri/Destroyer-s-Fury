@@ -44,7 +44,7 @@ extends Node
 		"icon": "res://assets/images/Powerups/portal.png"
 	},
 	{
-		"id": "tim",
+		"id": "time",
 		"name": "Time Freeze",
 		"desc": "Stop Time 3s",
 		"price": 120,
