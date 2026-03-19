@@ -1,0 +1,251 @@
+[gd_scene load_steps=7 format=3 uid="uid://fad33mvuu4gw"]
+
+[ext_resource type="Script" uid="uid://c5bdu3prnki4p" path="res://scripts/hud.gd" id="1_fls4u"]
+[ext_resource type="Texture2D" uid="uid://bhskcfmpdh7g1" path="res://assets/images/coins.png" id="2_1etfg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
+bg_color = Color(0.21960784, 0.09411765, 0.48235294, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.45882353, 0.3647059, 0.53333336, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lnu2h"]
+bg_color = Color(0.22094977, 0.09375023, 0.48205042, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9372549, 0.4862745, 0.88235295, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.3254902, 0.10980392, 0.654902, 1)
+shadow_size = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqjtg"]
+bg_color = Color(0.079503976, 0.16447851, 0.30764148, 0.8862745)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iywne"]
+bg_color = Color(0.21960784, 0.09411765, 0.48235294, 0.3882353)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8627451, 0.4392157, 0.85490197, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0.3137255, 0.10980392, 0.63529414, 1)
+shadow_size = 7
+
+[node name="GameInfoLayer" type="CanvasLayer"]
+script = ExtResource("1_fls4u")
+
+[node name="Score" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 21.0
+offset_right = 217.68652
+offset_bottom = 83.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_p57ef")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NapMeter" type="ProgressBar" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -238.0
+offset_top = 28.0
+offset_right = 238.0
+offset_bottom = 74.0
+grow_horizontal = 2
+tooltip_text = "Nap Meter"
+theme_override_styles/background = SubResource("StyleBoxFlat_lnu2h")
+theme_override_styles/fill = SubResource("StyleBoxFlat_yqjtg")
+show_percentage = false
+
+[node name="Coins" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = -28.0
+offset_bottom = -28.0
+grow_horizontal = 0
+
+[node name="Label" type="Label" parent="Coins"]
+layout_mode = 0
+offset_left = -226.6156
+offset_top = 40.70938
+offset_right = -22.929077
+offset_bottom = 124.70938
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_p57ef")
+text = "0  "
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins"]
+modulate = Color(0.8558811, 0.841005, 0.9919148, 1)
+position = Vector2(-194.61554, 84.709366)
+scale = Vector2(0.21018767, 0.21018761)
+texture = ExtResource("2_1etfg")
+
+[node name="FlashRect" type="ColorRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+color = Color(1, 0, 0, 1)
+
+[node name="GameOver" type="PanelContainer" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.84313726)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -246.0
+offset_top = -171.0
+offset_right = 234.32208
+offset_bottom = 161.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iywne")
+
+[node name="MarginContainer" type="MarginContainer" parent="GameOver"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GameOver/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="GameOver" type="Label" parent="GameOver/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="GameOver/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86898494, 0.8689849, 0.8689849, 1)
+theme_override_font_sizes/font_size = 28
+text = "You've failed this Galaxy"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="GameOver/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Score"
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="GameOver/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+theme_override_font_sizes/font_size = 28
+text = "300"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="GameOver/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 25
+text = "Try Again 
+"
+
+[node name="GamePause" type="PanelContainer" parent="."]
+process_mode = 3
+visible = false
+modulate = Color(1, 1, 1, 0.84313726)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -246.0
+offset_top = -171.0
+offset_right = 234.32208
+offset_bottom = 161.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iywne")
+
+[node name="MarginContainer" type="MarginContainer" parent="GamePause"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="GamePause/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="GamePause" type="Label" parent="GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86898494, 0.8689849, 0.8689849, 1)
+theme_override_font_sizes/font_size = 28
+text = "Continue serving this  Galaxy"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Current Score"
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8431839, 0.8431839, 0.84318376, 1)
+theme_override_font_sizes/font_size = 28
+text = "0"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="GamePause/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 25
+text = "Resume"
