@@ -3,6 +3,7 @@ extends Node
 signal game_paused(is_paused: bool)
 signal game_over_triggered
 signal apply_item_effect(id: String)
+signal failed_purchase()
 
 @export var current_noise_level := 0
 @export var current_score := 0

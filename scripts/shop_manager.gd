@@ -66,25 +66,4 @@ func _on_shop_item_clicked(id: String, price: int):
 		GameManager.current_coins -= price
 		GameManager.apply_item_effect.emit(id)
 	else:
-		print("Not enough coins!")
-
-func apply_item_effect(id: String):
-	print("Applying item effect: ", id)
-	
-	match id:
-		"pudding":
-			GameManager.nap_level += 20.0
-		"cake":
-			GameManager.nap_level += 40.0
-		"ramen":
-			GameManager.nap_level = 100.0
-		"healing":
-			pass
-		"portal":
-			print("TODO: Implement Teleport")
-		"time":
-			print("TODO: Implement Time Freeze")
-		_:
-			print("Unknown item bought: ", id)
-			
-	GameManager.nap_level = clamp(GameManager.nap_level, 0, 100)
+		GameManager.failed_purchase.emit()
