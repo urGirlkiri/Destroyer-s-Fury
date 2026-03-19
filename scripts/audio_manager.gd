@@ -36,5 +36,5 @@ func play_sound(sound_name: String):
 func play_music(track_name: String):
 	if sounds.has(track_name):
 		music.stream = sounds[track_name]
-		music.volume_db = 1.0 
+		music.volume_db = 12.0 
 		music.play()
