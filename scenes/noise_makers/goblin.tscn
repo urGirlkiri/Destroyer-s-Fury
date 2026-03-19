@@ -1,8 +1,10 @@
-[gd_scene load_steps=46 format=3 uid="uid://c6mwmqi5mhmck"]
+[gd_scene load_steps=48 format=3 uid="uid://c6mwmqi5mhmck"]
 
 [ext_resource type="PackedScene" uid="uid://hnwqn3dquc5n" path="res://scenes/noise_makers/noise_maker.tscn" id="1_qwv5q"]
 [ext_resource type="Script" uid="uid://b07nlfkb3d5l1" path="res://scripts/goblin.gd" id="2_b5ga2"]
 [ext_resource type="Texture2D" uid="uid://bgl7ackgqtkqv" path="res://assets/sprites/goblin.png" id="2_r2jbm"]
+[ext_resource type="AudioStream" uid="uid://beg3qo0xsqasd" path="res://assets/audio/scream.mp3" id="4_bv6dy"]
+[ext_resource type="AudioStream" uid="uid://bwvigo5e0u7du" path="res://assets/audio/pain.mp3" id="5_nqasi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xwgt5"]
 atlas = ExtResource("2_r2jbm")
@@ -341,3 +343,9 @@ offset_left = -27.0
 offset_top = -21.0
 offset_right = 29.296295
 offset_bottom = -13.0
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." index="3"]
+stream = ExtResource("4_bv6dy")
+
+[node name="DamageSound" type="AudioStreamPlayer2D" parent="." index="4"]
+stream = ExtResource("5_nqasi")

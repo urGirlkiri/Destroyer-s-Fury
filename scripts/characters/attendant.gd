@@ -12,8 +12,12 @@ const SPEED = 400.0
 @onready var timer_text: Label = $"../Timer/text"
 @onready var timer: CanvasLayer = $"../Timer"
 
+@onready var swing_sound: AudioStreamPlayer2D = $SwingSound
+@onready var blast_sound: AudioStreamPlayer2D = $BlastSound
 
 const BLAST = preload("uid://bmwqn6cc4xxcm")
+
+
 const MAX_AMMO = 4
 const TIME_TO_HEAL = 10
 
@@ -87,6 +91,7 @@ func update_animation(direction: Vector2):
 
 func physical_attack(direction: Vector2):
 	is_attacking = true
+	swing_sound.play()
 
 	if direction.x < 0:
 		animated_sprite.flip_h = true
@@ -158,6 +163,7 @@ func fire_blast(aim_direction: Vector2):
 		blast.rotation = aim_direction.angle()
 		
 		get_parent().add_child(blast)
+		blast_sound.play()
 		
 		if is_weakened:
 			current_ammo -= 1

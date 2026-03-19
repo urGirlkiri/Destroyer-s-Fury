@@ -5,6 +5,10 @@ const DEATH_PARTICLES = preload("uid://dxquw87lc1ihn")
 
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
+@onready var death_sound: AudioStreamPlayer2D = $DeathSound
+@onready var damage_sound: AudioStreamPlayer2D = $DamageSound
+
+
 var can_throw_dust = true
 var is_hit = false
 
@@ -57,6 +61,7 @@ func _physics_process(delta: float) -> void:
 		
 func take_blow(pos: Vector2, damage: int):
 	is_hit = true
+	damage_sound.play()
 	GameManager.current_score += 3
 
 	knockback_force *= damage
@@ -82,6 +87,7 @@ func die():
 	set_physics_process(false)
 	
 	animated_sprite.play("die")
+	death_sound.play()
 	get_tree().current_scene.add_child(boom)
 	await animated_sprite.animation_finished
 
