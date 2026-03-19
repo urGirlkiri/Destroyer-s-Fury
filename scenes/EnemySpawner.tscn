@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmubvgxhd2ct7"]
+
+[ext_resource type="Script" uid="uid://bs2ymu26w58iu" path="res://scripts/enemy_spawner.gd" id="1_wimyj"]
+
+[sub_resource type="Curve2D" id="Curve2D_lbhrr"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 1165, 139, 0, 0, 0, 0, 1169, 542, 0, 0, 0, 0, 586, 600, 0, 0, 0, 0, -27, 545, 0, 0, 0, 0, -41, 331, 0, 0, 0, 0, -36, 127, 0, 0, 0, 0, 1165, 136, 0, 0, 0, 0, 1160, 136, 0, 0, 0, 0, 1165, 139)
+}
+point_count = 9
+
+[node name="Spawn" type="Node"]
+script = ExtResource("1_wimyj")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="SpawnPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_lbhrr")
+
+[node name="SpawnLocation" type="PathFollow2D" parent="SpawnPath"]
+position = Vector2(1165, 139)
+rotation = 1.5608711

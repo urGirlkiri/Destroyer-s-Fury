@@ -4,6 +4,8 @@ extends Node
 @export var current_score := 0
 @export var current_coins := 0
 
+@export var is_game_over = false
+
 @export var yummy_stuff = [
 	{
 		"id": "pudding",

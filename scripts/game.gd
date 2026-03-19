@@ -12,10 +12,6 @@ extends Node2D
 @onready var game_pause_score_label: Label = $GameInfoLayer/GamePause/MarginContainer/VBoxContainer/Score
 @onready var game_pause: PanelContainer = $GameInfoLayer/GamePause
 
-@onready var spawn_timer: Timer = $Spawn/SpawnTimer
-@onready var spawn_path: Path2D = $Spawn/SpawnPath
-@onready var spawn_location: PathFollow2D = $Spawn/SpawnPath/SpawnLocation
-
 @onready var attendant: CharacterBody2D = $Attendant
 @onready var coins_label: Label = $GameInfoLayer/Coins/Label
 
@@ -31,19 +27,12 @@ const SHOP_ITEM = preload("uid://cegs1nif11y3e")
 var flash_tween: Tween
 
 var nap_level = 100.0
-var difficulty_time = 0.0
-var spawn_rate = 4.0
 
 var is_agitated = false
-var is_game_over = false
 
 func _ready():
 	flash_rect.modulate.a = 0
 	game_over_container.visible = false
-	
-	spawn_timer.timeout.connect(_on_spawn_timer)
-	spawn_timer.wait_time = spawn_rate
-	spawn_timer.start()
 	
 	for item_data in GameManager.yummy_stuff:
 		var new_item = SHOP_ITEM.instantiate()
@@ -57,23 +46,13 @@ func _ready():
 		new_item.setup(item_data)
 		new_item.item_clicked.connect(_on_shop_item_clicked)
 
-func _on_spawn_timer():
-	if is_game_over or get_tree().paused:
-		spawn_timer.stop()
-		return
 
-	var gob = GOBLIN.instantiate()
-	spawn_location.progress_ratio = randf()
-	gob.global_position = spawn_location.global_position
-	add_child(gob)
 
 func _physics_process(delta: float) -> void:
 	update_score()
 
-	if is_game_over or is_agitated or get_tree().paused:
+	if GameManager.is_game_over or is_agitated or get_tree().paused:
 		return
-
-	increase_diff(delta)
 	
 	var current_noise = 0.0
 	for goblin in get_tree().get_nodes_in_group('noise_maker'):
@@ -116,20 +95,13 @@ func update_score():
 	score_label.text = str(GameManager.current_score)
 	coins_label.text  = str(GameManager.current_coins) + "  "
 
-func increase_diff(delta: float):
-	difficulty_time += delta
-	if difficulty_time > 10.0 and spawn_rate > 0.5:
-		difficulty_time = 0.0
-		spawn_rate -= 0.1
-		spawn_timer.wait_time = spawn_rate
-
 func _on_quiet_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("noise_maker"):
 		trigger_agitation()
 		nap_level -= 4
 
 func trigger_agitation():
-	if is_agitated or is_game_over:
+	if is_agitated or GameManager.is_game_over:
 		return
 		
 	is_agitated = true
@@ -137,16 +109,15 @@ func trigger_agitation():
 	
 	await get_tree().create_timer(1.0).timeout
 	
-	if not is_game_over:
+	if not GameManager.is_game_over:
 		is_agitated = false
 
 func trigger_game_over():
-	if is_game_over:
+	if GameManager.is_game_over:
 		return
 		
-	is_game_over = true
+	GameManager.is_game_over = true
 	
-	spawn_timer.stop()
 	lord.play_anim("fury")
 	
 	await get_tree().create_timer(3.0).timeout
@@ -183,7 +154,7 @@ func trigger_red_flash():
 	flash_tween.tween_property(flash_rect, "modulate:a", 0.0, 1.0)
 
 func toggle_pause():
-	if is_game_over: return
+	if GameManager.is_game_over: return
 	
 	var pause_state = not get_tree().paused
 	
@@ -200,7 +171,7 @@ func _on_resume_pressed() -> void:
 	toggle_pause()
 
 func toggle_yummy_shop():
-	if is_game_over: return
+	if GameManager.is_game_over: return
 	
 	if not get_tree().paused:
 		get_tree().paused = true
@@ -211,7 +182,7 @@ func toggle_yummy_shop():
 	power_shop.visible = false
 	
 func toggle_power_shop():
-	if is_game_over: return
+	if GameManager.is_game_over: return
 	
 	if not get_tree().paused:
 		get_tree().paused = true
