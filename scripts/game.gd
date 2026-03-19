@@ -36,7 +36,6 @@ var spawn_rate = 4.0
 
 var is_agitated = false
 var is_game_over = false
-var is_shop_open = false
 
 func _ready():
 	flash_rect.modulate.a = 0
@@ -187,42 +186,46 @@ func toggle_pause():
 	if is_game_over: return
 	
 	var pause_state = not get_tree().paused
+	
 	get_tree().paused = pause_state
 	game_pause.visible = pause_state
 	
 	if not pause_state:
-		is_shop_open = false
 		yummy_shop.visible = false
 		power_shop.visible = false
-	
-	if pause_state:
+	else:
 		game_pause_score_label.text = str(GameManager.current_score)
 
 func _on_resume_pressed() -> void:
 	toggle_pause()
 
-func toggle_shop():
-	if get_tree().paused and not is_shop_open:
-		pass
-	else:
-		toggle_pause()
-		
-	is_shop_open = !is_shop_open
-
 func toggle_yummy_shop():
-	toggle_shop()
-	yummy_shop.visible = is_shop_open
+	if is_game_over: return
+	
+	if not get_tree().paused:
+		get_tree().paused = true
+		game_pause.visible = true
+		game_pause_score_label.text = str(GameManager.current_score)
+		
+	yummy_shop.visible = not yummy_shop.visible
+	power_shop.visible = false
 	
 func toggle_power_shop():
-	toggle_shop()
-	power_shop.visible = is_shop_open
+	if is_game_over: return
 	
+	if not get_tree().paused:
+		get_tree().paused = true
+		game_pause.visible = true
+		game_pause_score_label.text = str(GameManager.current_score)
+		
+	power_shop.visible = not power_shop.visible
+	yummy_shop.visible = false
+
 func _on_yummy_btn_pressed() -> void:
 	toggle_yummy_shop()
 
 func _on_power_btn_pressed() -> void:
 	toggle_power_shop()
-
 
 func _on_shop_item_clicked(id: String, price: int):
 	if GameManager.current_coins >= price:
