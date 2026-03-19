@@ -64,7 +64,7 @@ func _on_power_btn_pressed() -> void:
 func _on_shop_item_clicked(id: String, price: int):
 	if GameManager.current_coins >= price:
 		GameManager.current_coins -= price
-		apply_item_effect(id)
+		GameManager.apply_item_effect.emit(id)
 	else:
 		print("Not enough coins!")
 

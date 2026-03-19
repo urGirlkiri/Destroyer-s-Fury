@@ -7,6 +7,9 @@ extends Node2D
 var is_agitated = false
 var is_game_over = false
 
+func _ready() -> void:
+	GameManager.apply_item_effect.connect(_on_apply_item_effect)
+
 func _physics_process(delta: float) -> void:
 	if is_game_over or is_agitated or get_tree().paused:
 		return
@@ -31,6 +34,23 @@ func _physics_process(delta: float) -> void:
 		lord.play_anim("awake")
 	else:
 		lord.play_anim("sleep")	
+
+func _on_apply_item_effect(id: String):
+	match id:
+		"pudding":
+			GameManager.nap_level += 20.0
+		"cake":
+			GameManager.nap_level += 40.0
+		"ramen":
+			GameManager.nap_level = 100.0
+		"healing":
+			if attendant: attendant.heal()
+		"portal":
+			print("TODO: Implement Teleport")
+		"time":
+			print("TODO: Implement Time Freeze")
+			
+	GameManager.nap_level = clamp(GameManager.nap_level, 0, 100)
 
 func _on_quiet_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("noise_maker"):
