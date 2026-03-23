@@ -296,5 +296,22 @@ size_flags_horizontal = 4
 text = "[ Press Any Key to Continue ]"
 horizontal_alignment = 1
 
+[node name="WaveOverlay" type="PanelContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="WaveOverlay"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Wave 1"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="WaveOverlay"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.5019608)
+
 [connection signal="pressed" from="GameOver/MarginContainer/VBoxContainer/Button" to="." method="_on_game_retry"]
 [connection signal="pressed" from="GamePause/MarginContainer/VBoxContainer/Button" to="." method="_on_resume_pressed"]

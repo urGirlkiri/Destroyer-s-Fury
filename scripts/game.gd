@@ -20,12 +20,18 @@ func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
 	GameManager.game_paused.connect(_on_game_paused)
 	
-	await get_tree().create_timer(.1).timeout
+	await get_tree().create_timer(.4).timeout
 	GameManager.trigger_tutorial.emit(
 	"welcome",
 	"Protect the Sleeping Destroyer!\nKeep him asleep at all costs.",
 	""
-)
+	)
+	
+	while get_tree().paused:
+		await get_tree().process_frame
+		
+	await get_tree().create_timer(.2).timeout
+	GameManager.wave_changed.emit(1)
 
 func _physics_process(delta: float) -> void:
 	

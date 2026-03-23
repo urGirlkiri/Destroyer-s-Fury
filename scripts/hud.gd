@@ -14,8 +14,13 @@ extends CanvasLayer
 
 @onready var flash_rect: ColorRect = $FlashRect
 
+@onready var wave_overlay: PanelContainer = $WaveOverlay
+@onready var wave_rect: ColorRect = $WaveOverlay/ColorRect
+@onready var wave_label: Label = $WaveOverlay/Label
+
 var flash_tween: Tween
 var buff_tween: Tween
+var wave_tween: Tween
 
 var original_nap_style: StyleBoxFlat
 var custom_nap_style: StyleBoxFlat
@@ -25,6 +30,7 @@ var is_game_over = false
 func _ready() -> void:
 	flash_rect.modulate.a = 0
 	game_over_container.visible = false
+	wave_overlay.visible = false
 	
 	original_nap_style = nap_meter.get_theme_stylebox("fill").duplicate() 
 	custom_nap_style = original_nap_style.duplicate() 
@@ -33,6 +39,7 @@ func _ready() -> void:
 	GameManager.game_over_triggered.connect(_on_game_over)
 	GameManager.pause_game.connect(toggle_pause)
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
+	GameManager.wave_changed.connect(_on_wave_changed)
 
 func _process(delta: float) -> void:
 	update_score()
@@ -56,6 +63,33 @@ func _on_apply_item_effect(id: String):
 		
 	if duration > 0:
 		activate_buff_ui(duration, buff_color)
+
+func _on_wave_changed(wave_num: int):
+	wave_label.text = "- WAVE " + str(wave_num) + " -"
+	wave_overlay.visible = true
+
+	wave_label.modulate.a = 0.0
+	wave_rect.color.a = 0.0
+	
+	if wave_tween: wave_tween.kill()
+	wave_tween = create_tween()
+	
+	wave_tween.tween_property(wave_rect, "color:a", 0.5, 0.5)
+	wave_tween.parallel().tween_property(wave_label, "modulate:a", 1.0, 0.5)
+	
+	for i in range(3):
+		wave_tween.tween_property(wave_label, "modulate:a", 0.2, 0.25)
+		wave_tween.tween_property(wave_label, "modulate:a", 1.0, 0.25)
+		
+	wave_tween.tween_interval(1.0)
+	
+	wave_tween.tween_property(wave_label, "modulate:a", 0.0, 0.5)
+	wave_tween.parallel().tween_property(wave_rect, "color:a", 0.0, 0.5)
+	
+	wave_tween.tween_callback(func():
+		wave_label.visible = false
+		wave_rect.visible = false
+	)
 
 func activate_buff_ui(duration: float, color: Color):
 	custom_nap_style.bg_color = color

@@ -55,7 +55,7 @@ func _physics_process(delta: float) -> void:
 	var attendant = get_tree().get_first_node_in_group("player")
 	var dist_to_attendant = global_position.distance_to(attendant.global_position)
 	
-	if dist_to_attendant < 300 and can_throw_dust:
+	if dist_to_attendant < 300 and can_throw_dust and GameManager.current_wave >= 3:
 		if randf() < 0.01: 
 			throw_pixie_dust()
 		
