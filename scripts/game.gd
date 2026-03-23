@@ -41,6 +41,12 @@ func _physics_process(delta: float) -> void:
 		lord.play_anim("awake")
 	else:
 		lord.play_anim("sleep")
+		
+	if GameManager.current_coins >= 50:
+		GameManager.trigger_tutorial.emit(
+			"shop",
+			"You have enough coins!\nPress 'Y' to open the Yummy Shop \nand buy food to keep the Destroyer asleep!"
+		)
 
 func _on_apply_item_effect(id: String):
 	match id:

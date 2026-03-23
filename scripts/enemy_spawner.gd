@@ -33,6 +33,11 @@ func _on_spawn_timer():
 	spawn_location.progress_ratio = randf()
 	gob.global_position = spawn_location.global_position
 	add_child(gob)
+	
+	GameManager.trigger_tutorial.emit(
+		"first_goblin",
+		"Goblin Approaching!\n\nPress 'S' to fire a Blast.\n"
+	)
 
 func increase_diff(delta: float):
 	difficulty_time += delta

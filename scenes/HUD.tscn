@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://fad33mvuu4gw"]
+[gd_scene load_steps=8 format=3 uid="uid://fad33mvuu4gw"]
 
 [ext_resource type="Script" uid="uid://c5bdu3prnki4p" path="res://scripts/hud.gd" id="1_fls4u"]
 [ext_resource type="Texture2D" uid="uid://bhskcfmpdh7g1" path="res://assets/images/coins.png" id="2_1etfg"]
+[ext_resource type="Script" uid="uid://bq463mpiw5nt" path="res://scripts/tutorial_overlay.gd" id="3_1etfg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p57ef"]
 bg_color = Color(0.21960784, 0.09411765, 0.48235294, 1)
@@ -249,6 +250,38 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 25
 text = "Resume"
+
+[node name="TutorialOverlay" type="PanelContainer" parent="."]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_1etfg")
+
+[node name="ColorRect" type="ColorRect" parent="TutorialOverlay"]
+layout_mode = 2
+color = Color(0, 0, 0, 0.19607843)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TutorialOverlay"]
+layout_mode = 2
+alignment = 1
+
+[node name="Message" type="Label" parent="TutorialOverlay/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_colors/font_color = Color(0.65834045, 0.6583398, 0.65834004, 1)
+theme_override_font_sizes/font_size = 32
+text = "Press S to Attack"
+horizontal_alignment = 1
+
+[node name="Continue" type="Label" parent="TutorialOverlay/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "[ Press Any Key to Continue ]"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="GameOver/MarginContainer/VBoxContainer/Button" to="." method="_on_game_retry"]
 [connection signal="pressed" from="GamePause/MarginContainer/VBoxContainer/Button" to="." method="_on_resume_pressed"]
