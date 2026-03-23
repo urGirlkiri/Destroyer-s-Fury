@@ -7,6 +7,7 @@ extends Node2D
 var aura_tween: Tween
 var eat_tween: Tween
 
+
 var is_agitated = false
 var is_game_over = false
 
@@ -15,6 +16,7 @@ var nap_drain_multiplier = 1.0
 var food_buff_timer = 0.0
 
 var pending_visuals = []
+var pending_time_freeze = false 
 
 func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
@@ -74,16 +76,21 @@ func _physics_process(delta: float) -> void:
 		)
 
 func _on_game_paused(is_paused: bool):
-	if not is_paused and pending_visuals.size() > 0:
-		for juice in pending_visuals:
-			var target = juice.get("target", lord)
-			
-			if target == lord:
-				trigger_eat_glow()
+	if not is_paused:
+		if pending_visuals.size() > 0:
+			for juice in pending_visuals:
+				var target = juice.get("target", lord)
 				
-			spawn_floating_text(juice["text"], juice["color"], target)
+				if target == lord:
+					trigger_eat_glow()
+					
+				spawn_floating_text(juice["text"], juice["color"], target)
+				
+			pending_visuals.clear()
 			
-		pending_visuals.clear()
+		if pending_time_freeze:
+			pending_time_freeze = false
+			trigger_time_freeze()
 		
 func _on_apply_item_effect(id: String):
 	match id:
@@ -111,7 +118,12 @@ func _on_apply_item_effect(id: String):
 		"portal":
 			print("TODO: Implement Teleport")
 		"time":
-			print("TODO: Implement Time Freeze")
+			queue_visual_juice("TIME FREEZE!", Color.AQUA, attendant)
+			
+			if get_tree().paused:
+				pending_time_freeze = true
+			else:
+				trigger_time_freeze() 
 			
 	GameManager.nap_level = clamp(GameManager.nap_level, 0, 100)
 	
@@ -190,6 +202,22 @@ func queue_visual_juice(text: String, color: Color, target: Node2D = lord):
 			trigger_eat_glow() 
 			
 		spawn_floating_text(text, color, target)
+
+func trigger_time_freeze():
+	var goblins = get_tree().get_nodes_in_group('noise_maker')
+	for goblin in goblins:
+		if is_instance_valid(goblin):
+			goblin.process_mode = Node.PROCESS_MODE_DISABLED
+			if goblin.has_node("AnimatedSprite2D"):
+				goblin.get_node("AnimatedSprite2D").modulate = Color(0.5, 0.8, 1.0)
+			
+	await get_tree().create_timer(GameManager.TIME_TO_FREEZE, false).timeout
+			
+	for goblin in goblins:
+		if is_instance_valid(goblin):
+			goblin.process_mode = Node.PROCESS_MODE_INHERIT
+			if goblin.has_node("AnimatedSprite2D"):
+				goblin.get_node("AnimatedSprite2D").modulate = Color.WHITE
 		
 func spawn_floating_text(text: String, color: Color, target: Node2D = lord):
 	var float_label = Label.new()

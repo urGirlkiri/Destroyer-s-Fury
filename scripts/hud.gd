@@ -26,6 +26,7 @@ var original_nap_style: StyleBoxFlat
 var custom_nap_style: StyleBoxFlat
 
 var is_game_over = false
+var pending_buffs = []
 
 func _ready() -> void:
 	flash_rect.modulate.a = 0
@@ -60,9 +61,15 @@ func _on_apply_item_effect(id: String):
 	elif id == "cake":
 		duration = 8.0
 		buff_color = Color.ORANGE 
+	elif id == "time":
+		duration = GameManager.TIME_TO_FREEZE
+		buff_color = Color.AQUA
 		
 	if duration > 0:
-		activate_buff_ui(duration, buff_color)
+		if get_tree().paused:
+			pending_buffs.append({"duration": duration, "color": buff_color})
+		else:
+			activate_buff_ui(duration, buff_color)
 
 func _on_wave_changed(wave_num: int):
 	wave_label.text = "- WAVE " + str(wave_num) + " -"
@@ -155,7 +162,11 @@ func toggle_pause():
 	game_pause.visible = pause_state
 	
 	if not pause_state:
-		pass
+		# --- NEW: Game is unpaused! Fire the buff bar! ---
+		if pending_buffs.size() > 0:
+			for buff in pending_buffs:
+				activate_buff_ui(buff["duration"], buff["color"])
+			pending_buffs.clear()
 	else:
 		game_pause_score_label.text = str(GameManager.current_score)
 		
