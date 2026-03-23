@@ -5,6 +5,7 @@ extends Node2D
 @onready var attendant: CharacterBody2D = $Attendant
 
 var aura_tween: Tween
+var eat_tween: Tween
 
 var is_agitated = false
 var is_game_over = false
@@ -12,6 +13,8 @@ var is_game_over = false
 var shake_intensity = 0.0
 var nap_drain_multiplier = 1.0
 var food_buff_timer = 0.0
+
+var pending_visuals = []
 
 func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
@@ -32,7 +35,7 @@ func _physics_process(delta: float) -> void:
 	if food_buff_timer > 0:
 		food_buff_timer -= delta
 		if food_buff_timer <= 0:
-			nap_drain_multiplier = 1.0 # Reset drain back to normal!
+			nap_drain_multiplier = 1.0
 			
 	var current_noise = 0.0
 	for goblin in get_tree().get_nodes_in_group('noise_maker'):
@@ -66,28 +69,38 @@ func _on_apply_item_effect(id: String):
 	match id:
 		"pudding":
 			GameManager.nap_level += 20.0
-			# Slow Awakening: Drains at half speed for 15 seconds
 			nap_drain_multiplier = 0.5
 			food_buff_timer = 15.0
 			
+			trigger_eat_glow()
+			spawn_floating_text("+20 Nap!", Color.GREEN)
+			
 		"cake":
 			GameManager.nap_level += 40.0
-			# Deep Sleep: Total immunity to noise for 8 seconds
 			nap_drain_multiplier = 0.0
 			food_buff_timer = 8.0
+			
+			trigger_eat_glow()
+			spawn_floating_text("+40 Nap (Immune!)", Color.ORANGE)
 			
 		"ramen":
 			GameManager.nap_level = 100.0
 			
+			trigger_eat_glow()
+			spawn_floating_text("MAX NAP!", Color.GOLD)
+			
 		"healing":
-			if attendant: attendant.heal()
+			if attendant:
+				attendant.heal()
+				spawn_floating_text("+Blasting Restored", Color.CYAN)
+				
 		"portal":
 			print("TODO: Implement Teleport")
 		"time":
 			print("TODO: Implement Time Freeze")
 			
 	GameManager.nap_level = clamp(GameManager.nap_level, 0, 100)
-
+	
 func _on_quiet_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("noise_maker"):
 		trigger_agitation()
@@ -147,3 +160,33 @@ func trigger_aura_flare():
 	
 	aura_tween.tween_property(lord, "modulate", Color(2.5, 0.5, 3.0, 1.0), 0.1)
 	aura_tween.tween_property(lord, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.1)
+
+func trigger_eat_glow():
+	if eat_tween: eat_tween.kill()
+	eat_tween = create_tween()
+	
+	eat_tween.tween_property(lord, "modulate", Color(1.8, 1.2, 0.2, 1.0), 0.15)
+	eat_tween.tween_property(lord, "modulate", Color.WHITE, 0.3)
+
+func queue_visual_juice(text: String, color: Color):
+	if get_tree().paused:
+		pending_visuals.append({"text": text, "color": color})
+	else:
+		trigger_eat_glow()
+		spawn_floating_text(text, color)
+		
+func spawn_floating_text(text: String, color: Color):
+	var float_label = Label.new()
+	float_label.text = text
+	float_label.modulate = color
+	float_label.scale = Vector2(1.5, 1.5)
+	
+	float_label.global_position = lord.global_position + Vector2(-30, -50)
+	add_child(float_label)
+	
+	var float_tween = create_tween()
+	
+	float_tween.tween_property(float_label, "global_position:y", float_label.global_position.y - 80, 1.2)
+	float_tween.parallel().tween_property(float_label, "modulate:a", 0.0, 1.2)
+	
+	float_tween.tween_callback(float_label.queue_free)
