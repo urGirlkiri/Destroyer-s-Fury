@@ -1,10 +1,11 @@
-[gd_scene load_steps=50 format=3 uid="uid://duv67hnn6mr8a"]
+[gd_scene load_steps=51 format=3 uid="uid://duv67hnn6mr8a"]
 
 [ext_resource type="Script" uid="uid://dyumjrfy0how7" path="res://scripts/characters/attendant.gd" id="1_2dgyn"]
 [ext_resource type="Texture2D" uid="uid://dywj6wc8wolqu" path="res://assets/sprites/whis.png" id="1_ainqp"]
 [ext_resource type="Texture2D" uid="uid://c6jd2k7a7rftj" path="res://assets/sprites/pixy sheet.png" id="3_ws4q4"]
 [ext_resource type="AudioStream" uid="uid://2qsbd5uirtdy" path="res://assets/audio/whoosh.mp3" id="4_8v6im"]
 [ext_resource type="AudioStream" uid="uid://dwr2vgouwn7d2" path="res://assets/audio/charge.wav" id="5_hdpja"]
+[ext_resource type="AudioStream" uid="uid://cyt5g7wxrgqlb" path="res://assets/audio/teleport.wav" id="6_r67eh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g1mdd"]
 atlas = ExtResource("1_ainqp")
@@ -418,6 +419,10 @@ volume_db = -10.0
 
 [node name="BlastSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_hdpja")
+volume_db = -3.0
+
+[node name="TeleportSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_r67eh")
 volume_db = -3.0
 
 [connection signal="body_entered" from="StaffRadius" to="." method="_on_staff_radius_body_entered"]

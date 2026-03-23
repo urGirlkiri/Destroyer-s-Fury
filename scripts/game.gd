@@ -17,6 +17,7 @@ var food_buff_timer = 0.0
 
 var pending_visuals = []
 var pending_time_freeze = false 
+var pending_teleport = false
 
 func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
@@ -91,6 +92,10 @@ func _on_game_paused(is_paused: bool):
 		if pending_time_freeze:
 			pending_time_freeze = false
 			trigger_time_freeze()
+			
+		if pending_teleport:
+			pending_teleport = false
+			attendant.activate_teleport_mode()
 		
 func _on_apply_item_effect(id: String):
 	match id:
@@ -116,7 +121,12 @@ func _on_apply_item_effect(id: String):
 				queue_visual_juice("+ Blasting Restored", Color.CYAN, attendant) 
 				
 		"portal":
-			print("TODO: Implement Teleport")
+			queue_visual_juice("TELEPORT READY!", Color.PURPLE, attendant)
+			
+			if get_tree().paused:
+				pending_teleport = true
+			else:
+				attendant.activate_teleport_mode()
 		"time":
 			queue_visual_juice("TIME FREEZE!", Color.AQUA, attendant)
 			

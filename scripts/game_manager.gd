@@ -15,7 +15,7 @@ const TIME_TO_FREEZE = 10
 @export var current_noise_level := 0
 @export var current_wave := 1
 @export var current_score := 0
-@export var current_coins := 1000
+@export var current_coins := 0
 
 @export var nap_level = 100.0
 

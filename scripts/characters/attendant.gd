@@ -14,8 +14,10 @@ const SPEED = 400.0
 
 @onready var swing_sound: AudioStreamPlayer2D = $SwingSound
 @onready var blast_sound: AudioStreamPlayer2D = $BlastSound
+@onready var teleport_sound: AudioStreamPlayer2D = $TeleportSound
 
 const BLAST = preload("uid://bmwqn6cc4xxcm")
+const TARGET_CURSOR = preload("res://assets/images/crosshair.png") 
 
 const MAX_AMMO = 4
 const TIME_TO_HEAL = 10
@@ -34,6 +36,7 @@ var is_weakened = false
 var is_reloading = false
 var is_attacking = false
 var is_blasting = false
+var is_targeting_teleport = false 
 
 var original_ammo_bar_bg_style: StyleBoxFlat
 var ammo_bar_bg_style: StyleBoxFlat
@@ -48,7 +51,7 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	var direction := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 
-	if Input.is_action_just_pressed("attack") and not is_attacking and not is_blasting:
+	if Input.is_action_just_pressed("attack") and not is_attacking and not is_blasting and not is_targeting_teleport:
 		physical_attack(direction)
 		return
 		
@@ -280,3 +283,36 @@ func _on_staff_radius_body_entered(body: Node2D) -> void:
 			"Goblin Closing In!\n\nPress 'A' to Bash it with your staff.",
 			"A" 
 		)
+
+func activate_teleport_mode():
+	is_targeting_teleport = true
+	
+	Input.set_custom_mouse_cursor(TARGET_CURSOR, Input.CURSOR_ARROW, Vector2(16, 16))
+
+func _unhandled_input(event: InputEvent) -> void:
+	if is_targeting_teleport and event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			is_targeting_teleport = false
+			
+			Input.set_custom_mouse_cursor(null)
+			
+			execute_teleport(get_global_mouse_position())
+			get_viewport().set_input_as_handled()
+
+func execute_teleport(target_pos: Vector2):
+	is_disabled = true
+	velocity = Vector2.ZERO
+	
+	var tween = create_tween()
+	teleport_sound.play()
+	tween.tween_property(self, "scale", Vector2.ZERO, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	
+	await tween.finished
+	
+	global_position = target_pos
+	
+	tween = create_tween()
+	tween.tween_property(self, "scale", Vector2(1.0, 1.0), 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	
+	await tween.finished
+	is_disabled = false
