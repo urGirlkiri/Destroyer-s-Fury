@@ -1,13 +1,17 @@
 extends Node
 
-@onready var sfx: AudioStreamPlayer2D = $SFX
+@onready var sfx: AudioStreamPlayer = $SFX
 @onready var music: AudioStreamPlayer2D = $Music
 
 var sounds = {
 	"purchase": preload("res://assets/audio/cha-ching.mp3"), # Replace with your actual file paths
 	"error": preload("res://assets/audio/error.mp3"),
 	"game_over": preload("res://assets/audio/game-over.mp3"),
-	"bg_music": preload("res://assets/audio/epic-cover.mp3")
+	"bg_music": preload("res://assets/audio/epic-cover.mp3"),
+	
+	"chew_soft": preload("res://assets/audio/chewing.mp3"), 
+	"slurp": preload("res://assets/audio/slurp.mp3"),
+	"yummy": preload("res://assets/audio/yummy.mp3")
 }
 
 func _ready() -> void:	
@@ -17,8 +21,14 @@ func _ready() -> void:
 	
 	play_music("bg_music")
 
-func _on_item_bought(_id: String):
-	play_sound("purchase")
+func _on_item_bought(id: String):
+	for item in GameManager.yummy_stuff:
+		if (item["id"] == id):
+			if(item["sfx"]):
+				play_sound(item["sfx"])
+			else:
+				play_sound("purchase")
+			break
 
 func _on_game_over():
 	play_sound("game_over")

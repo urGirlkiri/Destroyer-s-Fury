@@ -9,7 +9,7 @@ signal trigger_tutorial(tutorial_id: String, message: String, required_key: Stri
 
 @export var current_noise_level := 0
 @export var current_score := 0
-@export var current_coins := 0
+@export var current_coins := 1000
 
 @export var nap_level = 100.0
 
@@ -19,21 +19,25 @@ signal trigger_tutorial(tutorial_id: String, message: String, required_key: Stri
 		"name": "Pudding",
 		"desc": "Slow Awakening",
 		"price": 50,
-		"icon": "res://assets/images/Food/76_pudding_dish.png"
+		"icon": "res://assets/images/Food/76_pudding_dish.png",
+		"sfx": "yummy",
 	},
 	{
 		"id": "cake",
 		"name": "Strawberry Cake",
 		"desc": "Deep Sleep",
 		"price": 75,
-		"icon": "res://assets/images/Food/91_strawberrycake_dish.png"
+		"icon": "res://assets/images/Food/91_strawberrycake_dish.png",
+		"sfx": "chew_soft",
 	},
 	{
 		"id": "ramen",
 		"name": "Ramen",
 		"desc": "Big Nap",
 		"price": 120,
-		"icon": "res://assets/images/Food/87_ramen.png" 
+		"icon": "res://assets/images/Food/87_ramen.png",
+		"sfx": "slurp",
+		"quote": "YUMMY! *slurp*"
 	}
 ]
 
