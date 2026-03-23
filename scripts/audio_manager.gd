@@ -11,7 +11,9 @@ var sounds = {
 	
 	"chew_soft": preload("res://assets/audio/chewing.mp3"), 
 	"slurp": preload("res://assets/audio/slurp.mp3"),
-	"yummy": preload("res://assets/audio/yummy.mp3")
+	"yummy": preload("res://assets/audio/yummy.mp3"),
+	
+	"powerup": preload("res://assets/audio/powerup.mp3"),
 }
 
 func _ready() -> void:	
@@ -22,11 +24,16 @@ func _ready() -> void:
 	play_music("bg_music")
 
 func _on_item_bought(id: String):
-	for item in GameManager.yummy_stuff:
+	print("in bought")
+	for item in GameManager.yummy_stuff + GameManager.powerups:
+		print('lloking up')
 		if (item["id"] == id):
-			if(item["sfx"]):
+			print("found")
+			if item.has("sfx"):
+				print("playing sfx")
 				play_sound(item["sfx"])
 			else:
+				print("chas ching")
 				play_sound("purchase")
 			break
 

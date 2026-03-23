@@ -47,7 +47,8 @@ signal trigger_tutorial(tutorial_id: String, message: String, required_key: Stri
 		"name": "Potion",
 		"desc": "Restore Energy",
 		"price": 50,
-		"icon": "res://assets/images/Powerups/potion.png"
+		"icon": "res://assets/images/Powerups/potion.png",
+		"sfx": "powerup"
 	},
 	{
 		"id": "portal",
