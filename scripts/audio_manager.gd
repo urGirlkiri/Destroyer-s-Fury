@@ -24,16 +24,11 @@ func _ready() -> void:
 	play_music("bg_music")
 
 func _on_item_bought(id: String):
-	print("in bought")
 	for item in GameManager.yummy_stuff + GameManager.powerups:
-		print('lloking up')
 		if (item["id"] == id):
-			print("found")
 			if item.has("sfx"):
-				print("playing sfx")
 				play_sound(item["sfx"])
 			else:
-				print("chas ching")
 				play_sound("purchase")
 			break
 

@@ -10,6 +10,8 @@ var is_agitated = false
 var is_game_over = false
 
 var shake_intensity = 0.0
+var nap_drain_multiplier = 1.0
+var food_buff_timer = 0.0
 
 func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
@@ -27,6 +29,11 @@ func _physics_process(delta: float) -> void:
 	if is_game_over or is_agitated or get_tree().paused:
 		return
 	
+	if food_buff_timer > 0:
+		food_buff_timer -= delta
+		if food_buff_timer <= 0:
+			nap_drain_multiplier = 1.0 # Reset drain back to normal!
+			
 	var current_noise = 0.0
 	for goblin in get_tree().get_nodes_in_group('noise_maker'):
 		var dist = goblin.global_position.distance_to(lord.global_position)
@@ -37,7 +44,7 @@ func _physics_process(delta: float) -> void:
 	if current_noise <= 25:
 		GameManager.nap_level += 10.0 * delta
 	else:
-		GameManager.nap_level -= 5.0 * delta
+		GameManager.nap_level -= (5.0 * nap_drain_multiplier) * delta
 
 	GameManager.nap_level = clamp(GameManager.nap_level, 0, 100)
 	
@@ -59,10 +66,19 @@ func _on_apply_item_effect(id: String):
 	match id:
 		"pudding":
 			GameManager.nap_level += 20.0
+			# Slow Awakening: Drains at half speed for 15 seconds
+			nap_drain_multiplier = 0.5
+			food_buff_timer = 15.0
+			
 		"cake":
 			GameManager.nap_level += 40.0
+			# Deep Sleep: Total immunity to noise for 8 seconds
+			nap_drain_multiplier = 0.0
+			food_buff_timer = 8.0
+			
 		"ramen":
 			GameManager.nap_level = 100.0
+			
 		"healing":
 			if attendant: attendant.heal()
 		"portal":
