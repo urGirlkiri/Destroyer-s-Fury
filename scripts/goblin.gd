@@ -16,6 +16,8 @@ var zig_zag_strength = 2.0
 var time_alive = 0.0
 var knockback_force = 600.0 
 
+var is_frozen = false
+
 func _ready():
 	super() 
 	movement_speed = 120.0 
@@ -24,6 +26,11 @@ func _ready():
 	stun_time = 0.4
 
 func _physics_process(delta: float) -> void:
+	
+	if is_frozen:
+		linear_velocity = Vector2.ZERO
+		animated_sprite.pause() 
+		return
 	
 	if is_hit:
 		linear_velocity = Vector2.ZERO

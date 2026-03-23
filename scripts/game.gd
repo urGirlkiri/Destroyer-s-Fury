@@ -204,20 +204,26 @@ func queue_visual_juice(text: String, color: Color, target: Node2D = lord):
 		spawn_floating_text(text, color, target)
 
 func trigger_time_freeze():
+	GameManager.is_time_frozen = true
+	
 	var goblins = get_tree().get_nodes_in_group('noise_maker')
 	for goblin in goblins:
 		if is_instance_valid(goblin):
-			goblin.process_mode = Node.PROCESS_MODE_DISABLED
+			goblin.is_frozen = true
 			if goblin.has_node("AnimatedSprite2D"):
 				goblin.get_node("AnimatedSprite2D").modulate = Color(0.5, 0.8, 1.0)
 			
 	await get_tree().create_timer(GameManager.TIME_TO_FREEZE, false).timeout
 			
+	GameManager.is_time_frozen = false
+	
+	goblins = get_tree().get_nodes_in_group('noise_maker')
 	for goblin in goblins:
 		if is_instance_valid(goblin):
-			goblin.process_mode = Node.PROCESS_MODE_INHERIT
+			goblin.is_frozen = false
 			if goblin.has_node("AnimatedSprite2D"):
 				goblin.get_node("AnimatedSprite2D").modulate = Color.WHITE
+				goblin.get_node("AnimatedSprite2D").play() # Unpause the animation
 		
 func spawn_floating_text(text: String, color: Color, target: Node2D = lord):
 	var float_label = Label.new()

@@ -8,6 +8,8 @@ signal pause_game()
 signal trigger_tutorial(tutorial_id: String, message: String, required_key: String)
 signal wave_changed(new_wave: int)
 
+var is_time_frozen = false
+
 const TIME_TO_FREEZE = 10
 
 @export var current_noise_level := 0
