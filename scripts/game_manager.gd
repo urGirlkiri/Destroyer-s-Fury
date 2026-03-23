@@ -10,7 +10,7 @@ signal wave_changed(new_wave: int)
 
 var is_time_frozen = false
 
-const TIME_TO_FREEZE = 10
+const TIME_TO_FREEZE = 6
 
 @export var current_noise_level := 0
 @export var current_wave := 1
@@ -24,7 +24,7 @@ const TIME_TO_FREEZE = 10
 		"id": "pudding",
 		"name": "Pudding",
 		"desc": "Slow Awakening",
-		"price": 50,
+		"price": 30,
 		"icon": "res://assets/images/Food/76_pudding_dish.png",
 		"sfx": "yummy",
 	},
@@ -32,7 +32,7 @@ const TIME_TO_FREEZE = 10
 		"id": "cake",
 		"name": "Strawberry Cake",
 		"desc": "Deep Sleep",
-		"price": 75,
+		"price": 60,
 		"icon": "res://assets/images/Food/91_strawberrycake_dish.png",
 		"sfx": "chew_soft",
 	},
@@ -40,7 +40,7 @@ const TIME_TO_FREEZE = 10
 		"id": "ramen",
 		"name": "Ramen",
 		"desc": "Big Nap",
-		"price": 120,
+		"price": 100,
 		"icon": "res://assets/images/Food/87_ramen.png",
 		"sfx": "slurp",
 		"quote": "YUMMY! *slurp*"
@@ -52,7 +52,7 @@ const TIME_TO_FREEZE = 10
 		"id": "healing",
 		"name": "Potion",
 		"desc": "Restore Energy",
-		"price": 50,
+		"price": 25,
 		"icon": "res://assets/images/Powerups/potion.png",
 		"sfx": "powerup"
 	},
@@ -60,14 +60,14 @@ const TIME_TO_FREEZE = 10
 		"id": "portal",
 		"name": "Teleport",
 		"desc": "Teleport away from danger",
-		"price": 75,
+		"price": 40,
 		"icon": "res://assets/images/Powerups/portal.png"
 	},
 	{
 		"id": "time",
 		"name": "Time Freeze",
-		"desc": "Stop Time 3s",
-		"price": 120,
+		"desc": "Stop Time 6s",
+		"price": 80,
 		"icon": "res://assets/images/Powerups/time.png" 
 	}
 ]
@@ -77,5 +77,18 @@ const TIME_TO_FREEZE = 10
 	"first_goblin": false,
 	"close_goblin": false,
 	"pixie_dust": false,
-	"shop": false
+	"shop": false,
+	"cheat": false,
+	"teleport" : false
 }
+
+#Cheat Code
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_C:
+		current_coins += 1000
+		GameManager.trigger_tutorial.emit(
+		"cheat",
+		"CHEAT ACTIVATED: +1000 Coins!",
+		""
+		)

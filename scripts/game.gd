@@ -96,6 +96,12 @@ func _on_game_paused(is_paused: bool):
 		if pending_teleport:
 			pending_teleport = false
 			attendant.activate_teleport_mode()
+			
+			GameManager.trigger_tutorial.emit(
+				"teleport",
+				"Move Cursor To The Location And Click To Teleport",
+				""
+			)
 		
 func _on_apply_item_effect(id: String):
 	match id:
