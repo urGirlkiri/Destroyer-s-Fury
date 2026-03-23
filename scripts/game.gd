@@ -70,8 +70,12 @@ func _physics_process(delta: float) -> void:
 func _on_game_paused(is_paused: bool):
 	if not is_paused and pending_visuals.size() > 0:
 		for juice in pending_visuals:
-			trigger_eat_glow()
-			spawn_floating_text(juice["text"], juice["color"])
+			var target = juice.get("target", lord)
+			
+			if target == lord:
+				trigger_eat_glow()
+				
+			spawn_floating_text(juice["text"], juice["color"], target)
 			
 		pending_visuals.clear()
 		
@@ -96,7 +100,7 @@ func _on_apply_item_effect(id: String):
 		"healing":
 			if attendant:
 				attendant.heal()
-				queue_visual_juice("+ Ammo Restored", Color.CYAN) # <--- UPDATED
+				queue_visual_juice("+ Blasting Restored", Color.CYAN, attendant) 
 				
 		"portal":
 			print("TODO: Implement Teleport")
@@ -172,14 +176,16 @@ func trigger_eat_glow():
 	eat_tween.tween_property(lord, "modulate", Color(1.8, 1.2, 0.2, 1.0), 0.15)
 	eat_tween.tween_property(lord, "modulate", Color.WHITE, 0.3)
 
-func queue_visual_juice(text: String, color: Color):
+func queue_visual_juice(text: String, color: Color, target: Node2D = lord):
 	if get_tree().paused:
-		pending_visuals.append({"text": text, "color": color})
+		pending_visuals.append({"text": text, "color": color, "target": target})
 	else:
-		trigger_eat_glow()
-		spawn_floating_text(text, color)
+		if target == lord:
+			trigger_eat_glow() 
+			
+		spawn_floating_text(text, color, target)
 		
-func spawn_floating_text(text: String, color: Color):
+func spawn_floating_text(text: String, color: Color, target: Node2D = lord):
 	var float_label = Label.new()
 	float_label.text = text
 	float_label.modulate = color
@@ -188,12 +194,10 @@ func spawn_floating_text(text: String, color: Color):
 	var random_x = randf_range(-60, 0)
 	var random_y = randf_range(-70, -30)
 
-	float_label.global_position = lord.global_position + Vector2(random_x, random_y)
+	float_label.global_position = target.global_position + Vector2(random_x, random_y)
 	add_child(float_label)
 
 	var float_tween = create_tween()
-	
 	float_tween.tween_property(float_label, "global_position:y", float_label.global_position.y - 80, 1.2)
 	float_tween.parallel().tween_property(float_label, "modulate:a", 0.0, 1.2)
-	
 	float_tween.tween_callback(float_label.queue_free)

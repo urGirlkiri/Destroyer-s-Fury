@@ -39,7 +39,7 @@ func _on_spawn_timer():
 	
 	GameManager.trigger_tutorial.emit(
 		"first_goblin",
-		"Goblin Approaching!\n\nPress 'S' to fire a Blast.\n",
+		"Goblin Approaching!\n\nPress 'S' + Arrow to fire a Blast In Its Direction.\n",
 		"S"
 	)
 

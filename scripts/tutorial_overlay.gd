@@ -40,7 +40,7 @@ func _on_trigger_tutorial(tutorial_id: String, message: String, required_key: St
 	var fade_tween = create_tween()
 	fade_tween.tween_property(self, "modulate:a", 1.0, 0.3)
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not visible or not event.is_pressed() or event.is_echo():
 		return
 		
@@ -54,6 +54,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			should_dismiss = true
 			
 	if should_dismiss:
+		get_viewport().set_input_as_handled()
 		expected_key = "WAITING" 
 
 		var fade_out_tween = create_tween()
@@ -63,4 +64,3 @@ func _unhandled_input(event: InputEvent) -> void:
 
 		visible = false
 		get_tree().paused = false
-		get_viewport().set_input_as_handled()
