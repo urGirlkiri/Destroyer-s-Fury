@@ -6,9 +6,9 @@ extends Node
 
 const GOBLIN = preload("uid://c6mwmqi5mhmck")
 
-var spawn_rate = 4.0
+var spawn_rate = 6.0
 var wave_timer = 0.0
-const TIME_BETWEEN_WAVES = 30.0 # Change wave every 30 seconds
+const TIME_BETWEEN_WAVES = 30.0 
 
 var is_game_over = false
 

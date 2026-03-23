@@ -17,7 +17,6 @@ const SPEED = 400.0
 
 const BLAST = preload("uid://bmwqn6cc4xxcm")
 
-
 const MAX_AMMO = 4
 const TIME_TO_HEAL = 10
 

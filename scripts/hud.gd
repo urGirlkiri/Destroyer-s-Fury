@@ -74,20 +74,20 @@ func _on_wave_changed(wave_num: int):
 	if wave_tween: wave_tween.kill()
 	wave_tween = create_tween()
 	
-	wave_tween.tween_property(wave_rect, "color:a", 0.5, 0.5)
-	wave_tween.parallel().tween_property(wave_label, "modulate:a", 1.0, 0.5)
+	wave_tween.tween_property(wave_rect, "color:a", 0.25, 0.25)
+	wave_tween.parallel().tween_property(wave_label, "modulate:a", 1.0, 0.25)
 	
-	for i in range(3):
+	for i in range(2):
 		wave_tween.tween_property(wave_label, "modulate:a", 0.2, 0.25)
 		wave_tween.tween_property(wave_label, "modulate:a", 1.0, 0.25)
 		
 	wave_tween.tween_interval(1.0)
 	
-	wave_tween.tween_property(wave_label, "modulate:a", 0.0, 0.5)
-	wave_tween.parallel().tween_property(wave_rect, "color:a", 0.0, 0.5)
+	wave_tween.tween_property(wave_label, "modulate:a", 0.0, 0.25)
+	wave_tween.parallel().tween_property(wave_rect, "color:a", 0.0, 0.25)
 	
 	wave_tween.tween_callback(func():
-		wave_label.visible = false
+		wave_overlay.visible = false
 		wave_rect.visible = false
 	)
 
