@@ -18,6 +18,8 @@ var pending_visuals = []
 
 func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
+	GameManager.game_paused.connect(_on_game_paused)
+	
 	await get_tree().create_timer(.1).timeout
 	GameManager.trigger_tutorial.emit(
 	"welcome",
@@ -65,34 +67,36 @@ func _physics_process(delta: float) -> void:
 			"Y"
 		)
 
+func _on_game_paused(is_paused: bool):
+	if not is_paused and pending_visuals.size() > 0:
+		for juice in pending_visuals:
+			trigger_eat_glow()
+			spawn_floating_text(juice["text"], juice["color"])
+			
+		pending_visuals.clear()
+		
 func _on_apply_item_effect(id: String):
 	match id:
 		"pudding":
 			GameManager.nap_level += 20.0
 			nap_drain_multiplier = 0.5
 			food_buff_timer = 15.0
-			
-			trigger_eat_glow()
-			spawn_floating_text("+20 Nap!", Color.GREEN)
+			queue_visual_juice("+20 Nap!", Color.GREEN) 
 			
 		"cake":
 			GameManager.nap_level += 40.0
 			nap_drain_multiplier = 0.0
 			food_buff_timer = 8.0
-			
-			trigger_eat_glow()
-			spawn_floating_text("+40 Nap (Immune!)", Color.ORANGE)
+			queue_visual_juice("+40 Nap (Immune!)", Color.ORANGE) 
 			
 		"ramen":
 			GameManager.nap_level = 100.0
-			
-			trigger_eat_glow()
-			spawn_floating_text("MAX NAP!", Color.GOLD)
+			queue_visual_juice("MAX NAP!", Color.GOLD) 
 			
 		"healing":
 			if attendant:
 				attendant.heal()
-				spawn_floating_text("+Blasting Restored", Color.CYAN)
+				queue_visual_juice("+ Ammo Restored", Color.CYAN) # <--- UPDATED
 				
 		"portal":
 			print("TODO: Implement Teleport")
@@ -181,9 +185,12 @@ func spawn_floating_text(text: String, color: Color):
 	float_label.modulate = color
 	float_label.scale = Vector2(1.5, 1.5)
 	
-	float_label.global_position = lord.global_position + Vector2(-30, -50)
+	var random_x = randf_range(-60, 0)
+	var random_y = randf_range(-70, -30)
+
+	float_label.global_position = lord.global_position + Vector2(random_x, random_y)
 	add_child(float_label)
-	
+
 	var float_tween = create_tween()
 	
 	float_tween.tween_property(float_label, "global_position:y", float_label.global_position.y - 80, 1.2)
