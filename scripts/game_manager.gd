@@ -9,7 +9,7 @@ signal trigger_tutorial(tutorial_id: String, message: String, required_key: Stri
 
 @export var current_noise_level := 0
 @export var current_score := 0
-@export var current_coins := 49
+@export var current_coins := 0
 
 @export var nap_level = 100.0
 

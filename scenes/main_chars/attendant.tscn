@@ -420,4 +420,5 @@ volume_db = -10.0
 stream = ExtResource("5_hdpja")
 volume_db = -3.0
 
+[connection signal="body_entered" from="StaffRadius" to="." method="_on_staff_radius_body_entered"]
 [connection signal="timeout" from="WeaknessTimer" to="." method="_on_weakness_timer_timeout"]

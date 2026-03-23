@@ -206,6 +206,13 @@ func take_weakness():
 	await effects_animated_2d.animation_finished
 	effects_animated_2d.visible = false
 	
+	GameManager.trigger_tutorial.emit(
+			"pixie_dust",
+			"You've Been Hit By Pixie Dust!\n\nPress 'P' to Buy Healing Potion.",
+			"P" 
+		)
+
+	
 	if not is_disabled:
 		ammo_bar.max_value = max_ammo
 		current_ammo = clamp(current_ammo, 0, max_ammo)
@@ -265,3 +272,12 @@ func heal():
 	ammo_bar.visible = false
 	timer.visible = false
 	ammo_bar.add_theme_stylebox_override("background", original_ammo_bar_bg_style)
+
+
+func _on_staff_radius_body_entered(body: Node2D) -> void:
+	if body.is_in_group("noise_maker"):
+		GameManager.trigger_tutorial.emit(
+			"close_goblin",
+			"Goblin Closing In!\n\nPress 'A' to Bash it with your staff.",
+			"A" 
+		)

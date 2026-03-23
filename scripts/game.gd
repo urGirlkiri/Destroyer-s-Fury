@@ -13,7 +13,7 @@ var shake_intensity = 0.0
 
 func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
-	await get_tree().create_timer(.5).timeout
+	await get_tree().create_timer(.1).timeout
 	GameManager.trigger_tutorial.emit(
 	"welcome",
 	"Protect the Sleeping Destroyer!\nKeep him asleep at all costs.",
@@ -51,7 +51,8 @@ func _physics_process(delta: float) -> void:
 	if GameManager.current_coins >= 50:
 		GameManager.trigger_tutorial.emit(
 			"shop",
-			"You have enough coins!\nPress 'Y' to open the Yummy Shop \nand buy food to keep the Destroyer asleep!"
+			"You have enough coins!\nPress 'Y' to open the Yummy Shop \nand buy food to keep the Destroyer asleep!",
+			"Y"
 		)
 
 func _on_apply_item_effect(id: String):

@@ -25,8 +25,11 @@ func _on_game_over():
 	is_game_over = true
 	
 func _on_spawn_timer():
-	if is_game_over or get_tree().paused:
+	if is_game_over:
 		spawn_timer.stop()
+		return
+		
+	if get_tree().paused:
 		return
 
 	var gob = GOBLIN.instantiate()
