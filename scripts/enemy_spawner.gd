@@ -36,7 +36,8 @@ func _on_spawn_timer():
 	
 	GameManager.trigger_tutorial.emit(
 		"first_goblin",
-		"Goblin Approaching!\n\nPress 'S' to fire a Blast.\n"
+		"Goblin Approaching!\n\nPress 'S' to fire a Blast.\n",
+		"S"
 	)
 
 func increase_diff(delta: float):

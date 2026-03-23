@@ -5,7 +5,7 @@ signal game_over_triggered
 signal apply_item_effect(id: String)
 signal failed_purchase()
 signal pause_game()
-signal trigger_tutorial(tutorial_id: String, message: String)
+signal trigger_tutorial(tutorial_id: String, message: String, required_key: String)
 
 @export var current_noise_level := 0
 @export var current_score := 0
@@ -62,6 +62,7 @@ signal trigger_tutorial(tutorial_id: String, message: String)
 ]
 
 @export var seen_tutorials = {
+	"welcome": false,
 	"first_goblin": false,
 	"close_goblin": false,
 	"pixie_dust": false,

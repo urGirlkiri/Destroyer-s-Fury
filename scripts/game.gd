@@ -13,6 +13,12 @@ var shake_intensity = 0.0
 
 func _ready() -> void:
 	GameManager.apply_item_effect.connect(_on_apply_item_effect)
+	await get_tree().create_timer(.5).timeout
+	GameManager.trigger_tutorial.emit(
+	"welcome",
+	"Protect the Sleeping Destroyer!\nKeep him asleep at all costs.",
+	""
+)
 
 func _physics_process(delta: float) -> void:
 	
