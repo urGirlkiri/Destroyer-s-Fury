@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dtkxfqikwcg8l"]
+[gd_scene load_steps=11 format=3 uid="uid://dtkxfqikwcg8l"]
 
 [ext_resource type="Script" uid="uid://d1pn8y7vilpdr" path="res://scripts/game.gd" id="1_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://2gedry0cgpqj" path="res://assets/images/cover.png" id="1_uwrxv"]
+[ext_resource type="Texture2D" uid="uid://hstgbj2ejpx3" path="res://assets/images/timer.png" id="2_0tnpc"]
 [ext_resource type="Texture2D" uid="uid://wcyf3penhnj2" path="res://assets/images/circle.png" id="2_p57ef"]
 [ext_resource type="PackedScene" uid="uid://db51sdag4n5ka" path="res://scenes/main_chars/destoryer.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://duv67hnn6mr8a" path="res://scenes/main_chars/attendant.tscn" id="3_lnu2h"]
@@ -19,15 +20,12 @@ script = ExtResource("1_lbhrr")
 [node name="Timer" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="icon" type="Label" parent="Timer"]
+[node name="Icon" type="Sprite2D" parent="Timer"]
+modulate = Color(0.6872149, 0.68721503, 0.6872149, 1)
 z_index = 1
-offset_left = 1008.0
-offset_top = 126.0
-offset_right = 1110.0
-offset_bottom = 263.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 50
-text = "⏱ "
+position = Vector2(1033, 160)
+scale = Vector2(0.546875, 0.546875)
+texture = ExtResource("2_0tnpc")
 
 [node name="text" type="Label" parent="Timer"]
 z_index = 1
