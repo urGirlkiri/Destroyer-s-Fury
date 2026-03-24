@@ -65,6 +65,12 @@ func _physics_process(delta: float) -> void:
 		trigger_game_over()
 	elif GameManager.nap_level <= 20:
 		lord.play_anim("awake")
+	elif GameManager.nap_level <= 40:
+		GameManager.trigger_tutorial.emit(
+			"nap_warning",
+			"The Destroyer is Waking Up!\nKeep the noise down, or buy food to keep him asleep.",
+			"Y"
+		)
 	else:
 		lord.play_anim("sleep")
 		

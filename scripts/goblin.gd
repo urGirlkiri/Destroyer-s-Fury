@@ -98,6 +98,12 @@ func die():
 	get_tree().current_scene.add_child(boom)
 	await animated_sprite.animation_finished
 
+	GameManager.trigger_tutorial.emit(
+		"first_kill",
+		"You killed a goblin! Pick up the coin it dropped.",
+		""
+	)
+	
 	call_deferred("spawn_coin")
 	queue_free()
 

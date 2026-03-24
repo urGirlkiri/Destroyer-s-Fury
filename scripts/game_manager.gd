@@ -85,7 +85,9 @@ const TIME_TO_FREEZE = 6
 	"pixie_dust": false,
 	"shop": false,
 	"cheat": false,
-	"teleport": false
+	"teleport": false,
+	"nap_warning": false,
+	"first_kill": false
 }
 
 #Cheat Code
