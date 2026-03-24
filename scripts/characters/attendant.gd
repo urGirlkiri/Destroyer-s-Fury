@@ -37,6 +37,7 @@ var is_reloading = false
 var is_attacking = false
 var is_blasting = false
 var is_targeting_teleport = false 
+var has_speed_boost = false
 
 var original_ammo_bar_bg_style: StyleBoxFlat
 var ammo_bar_bg_style: StyleBoxFlat
@@ -157,6 +158,9 @@ func fire_blast(aim_direction: Vector2):
 		can_fire = false
 		
 		var blast = BLAST.instantiate()
+		
+		if has_speed_boost:
+			blast.speed *= 1.25
 		
 		var offset = aim_direction * 50.0
 		blast.position = global_position + offset
@@ -318,4 +322,5 @@ func execute_teleport(target_pos: Vector2):
 	is_disabled = false
 
 func activate_speed_boost():
-	speed *= 1.5
+	speed *= 1.25
+	has_speed_boost = true
