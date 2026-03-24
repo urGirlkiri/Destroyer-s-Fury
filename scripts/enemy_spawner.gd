@@ -6,9 +6,9 @@ extends Node
 
 const GOBLIN = preload("uid://c6mwmqi5mhmck")
 
-var spawn_rate = 6.0
+var spawn_rate = 4.0
 var wave_timer = 0.0
-const TIME_BETWEEN_WAVES = 30.0 
+const TIME_BETWEEN_WAVES = 20.0 
 
 var is_game_over = false
 
@@ -53,7 +53,7 @@ func increase_diff(delta: float):
 		
 		GameManager.wave_changed.emit(GameManager.current_wave)
 		
-		spawn_rate = max(0.8, spawn_rate - 0.5)
+		spawn_rate = max(0.5, spawn_rate - 0.25)
 		spawn_timer.wait_time = spawn_rate
 		
 		print("Starting Wave: ", GameManager.current_wave, " | New Spawn Rate: ", spawn_rate)
