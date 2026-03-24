@@ -68,8 +68,14 @@ const TIME_TO_FREEZE = 6
 		"name": "Time Freeze",
 		"desc": "Stop Time 6s",
 		"price": 80,
-		"icon": "res://assets/images/Powerups/time.png" 
-	}
+		"icon": "res://assets/images/Powerups/time.png"
+	},
+	{
+		"id": "speed",
+		"name": "Speed",
+		"desc": "Increase Your Speed",
+		"price": 20,
+		"icon": "res://assets/images/Powerups/bean.png"}
 ]
 
 @export var seen_tutorials = {
@@ -79,7 +85,7 @@ const TIME_TO_FREEZE = 6
 	"pixie_dust": false,
 	"shop": false,
 	"cheat": false,
-	"teleport" : false
+	"teleport": false
 }
 
 #Cheat Code

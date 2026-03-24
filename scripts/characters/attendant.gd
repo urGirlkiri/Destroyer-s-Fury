@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 400.0
+var speed = 400.0
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -67,9 +67,9 @@ func _physics_process(_delta: float) -> void:
 
 		else:
 			if direction:
-				velocity = direction * SPEED
+				velocity = direction * speed
 			else:
-				velocity = velocity.move_toward(Vector2.ZERO, SPEED)
+				velocity = velocity.move_toward(Vector2.ZERO, speed)
 
 		update_animation(direction)
 	
@@ -316,3 +316,6 @@ func execute_teleport(target_pos: Vector2):
 	
 	await tween.finished
 	is_disabled = false
+
+func activate_speed_boost():
+	speed *= 1.5

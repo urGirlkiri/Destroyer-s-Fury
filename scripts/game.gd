@@ -7,7 +7,6 @@ extends Node2D
 var aura_tween: Tween
 var eat_tween: Tween
 
-
 var is_agitated = false
 var is_game_over = false
 
@@ -140,7 +139,10 @@ func _on_apply_item_effect(id: String):
 				pending_time_freeze = true
 			else:
 				trigger_time_freeze() 
-			
+		"speed":
+			if attendant:
+				attendant.activate_speed_boost()
+				queue_visual_juice("SPEED UP!", Color.GREEN, attendant)
 	GameManager.nap_level = clamp(GameManager.nap_level, 0, 100)
 	
 func _on_quiet_area_body_entered(body: Node2D) -> void:
